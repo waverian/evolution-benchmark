@@ -1,2 +1,2 @@
 # lfk-mp-benchmark
-Livermore Fortran loops for multicore processors
+Livermore loops for multicore processors
