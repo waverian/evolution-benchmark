@@ -25,8 +25,8 @@
 #define LFKX_PLATFORM_H
 
 #ifdef MSVC
-#include <sysinfoapi.h>
 #include <windows.h>
+#include <sysinfoapi.h>
 
 static double thread_clock() { return GetTickCount() / (double)1e3; }
 #else
