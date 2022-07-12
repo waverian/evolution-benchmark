@@ -32,7 +32,7 @@ typedef struct lfk_thread_handler_t {
 
 lfk_thread_handler_p lfk_thread_init(lfk_thread_routine routine,
                                      lfk_thread_args args) {
-  lfk_thread_handler_p handler = malloc(sizeof(thread_handler_t));
+  lfk_thread_handler_p handler = calloc(1, sizeof(thread_handler_t));
   handler->pthread_handler = 0;
   pthread_create(&handler->pthread_handler, NULL, routine, args);
   return handler;

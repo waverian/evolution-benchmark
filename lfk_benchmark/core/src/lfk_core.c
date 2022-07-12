@@ -354,25 +354,25 @@ void *BENCHMARK_INCLUDE_OPTIMIZATION(void *benchmark_args_as_void) {
       (benchmark_core_args_t *)benchmark_args_as_void;
   benchmark_core_progress_callback_handler_t *callback_handler =
       &benchmark_args->callback_handler;
-  double pass_time, least, lmult, wt;
+  double pass_time, least, lmult; /*wt;*/
   long i, k, loop_passes;
   long mul[3] = {1, 2, 8};
-  double weight[3] = {1.0, 2.0, 1.0};
+  /* double weight[3] = {1.0, 2.0, 1.0};*/
   long which;
-  double maximum[4];
-  double minimum[4];
-  double average[4];
-  double harmonic[4];
-  double geometric[4];
-  long xspan[4];
+  /*  double maximum[4];
+    double minimum[4];
+    double average[4];
+    double harmonic[4];
+    double geometric[4];
+    long xspan[4];*/
 
-  struct Arrays *as1 = (struct Arrays *)malloc(sizeof(struct Arrays));
+  struct Arrays *as1 = (struct Arrays *)calloc(1, sizeof(struct Arrays));
 
   struct Parameters *as2 =
-      (struct Parameters *)malloc(sizeof(struct Parameters));
+      (struct Parameters *)calloc(1, sizeof(struct Parameters));
 
   struct RunParameters *as3 =
-      (struct RunParameters *)malloc(sizeof(struct RunParameters));
+      (struct RunParameters *)calloc(1, sizeof(struct RunParameters));
 
   runSecs = benchmark_args->execution_time;
   reliability = FALSE;
@@ -441,7 +441,6 @@ void *BENCHMARK_INCLUDE_OPTIMIZATION(void *benchmark_args_as_void) {
      ************************************************************************/
 
     do
-
     /* Run a number of times with increased number of loops
  or until the time for each loop is at least 0.001 seconds */
 
@@ -504,18 +503,18 @@ void *BENCHMARK_INCLUDE_OPTIMIZATION(void *benchmark_args_as_void) {
      ************************************************************************/
 
     kernels(as1, as2, as3, callback_handler);
-
+    /*
     maximum[section] = 0.0;
     minimum[section] = Mflops[section][1];
     average[section] = 0.0;
     harmonic[section] = 0.0;
     geometric[section] = 0.0;
     xspan[section] = 0;
-
+    */
     /************************************************************************
      *                        Calculate averages etc.                       *
      ************************************************************************/
-
+    /*
     for (k = 1; k <= 24; k++) {
       average[section] = average[section] + Mflops[section][k];
       harmonic[section] = harmonic[section] + 1 / Mflops[section][k];
@@ -532,24 +531,37 @@ void *BENCHMARK_INCLUDE_OPTIMIZATION(void *benchmark_args_as_void) {
     harmonic[section] = 24.0 / harmonic[section];
     geometric[section] = exp(geometric[section] / 24.0);
     xspan[section] = xspan[section] / 24;
+     */
+  }
+
+  /************************************************************************
+   *   Waverian: Calculate MFlops average per kernel                      *
+   ************************************************************************/
+
+  for (k = 1; k <= 24; k++) {
+    Mflops[0][k] = (Mflops[0][k] + Mflops[1][k] + Mflops[2][k]) / 3;
   }
 
   /************************************************************************
    *    End of executing the kernels three times at different Do Spans    *
    ************************************************************************/
 
-  maximum[3] = 0.0;
-  minimum[3] = Mflops[0][1];
-  average[3] = 0.0;
-  harmonic[3] = 0.0;
-  geometric[3] = 0.0;
-  xspan[3] = 0;
-  wt = 0.0;
+  /* maximum[0] = 0.0;
+   minimum[0] = Mflops[0][1];
+   average[0] = 0.0;
+   harmonic[0] = 0.0;
+   geometric[0] = 0.0;
+   xspan[3] = 0;
+   wt = 0.0;*/
+
+  /************************************************************************
+   *   Waverian: Calculate weighted averages for all Do Spans and display *
+   ************************************************************************/
 
   /************************************************************************
    *     Calculate weighted averages for all Do Spans and display         *
    ************************************************************************/
-
+  /*
   for (section = 0; section < 3; section++) {
     for (k = 1; k <= 24; k++) {
       average[3] = average[3] + weight[section] * Mflops[section][k];
@@ -570,7 +582,7 @@ void *BENCHMARK_INCLUDE_OPTIMIZATION(void *benchmark_args_as_void) {
   geometric[3] = exp(geometric[3] / (24.0 * wt));
   xspan[3] = (long)((double)xspan[3] / (24.0 * wt));
 
-  /*
+
       if (reliability) {
           if (!compareFail) {
               if (nsRes) {
@@ -592,11 +604,6 @@ void *BENCHMARK_INCLUDE_OPTIMIZATION(void *benchmark_args_as_void) {
     benchmark_args->results.kernel_results[which - 1] = Mflops[0][which];
   }
 
-  benchmark_args->results.maximum = maximum[3];
-  benchmark_args->results.average = average[3];
-  benchmark_args->results.geometric = geometric[3];
-  benchmark_args->results.harmonic = harmonic[3];
-  benchmark_args->results.minimum = minimum[3];
 
   if (!reliability) {
     checkOut(as2, as3, which);

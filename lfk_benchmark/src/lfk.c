@@ -23,7 +23,7 @@
 
 #include "string.h"
 #include "time.h"
-#include <memory.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -146,10 +146,10 @@ static void benchmark_kernel_runner(benchmark_handler_t handler,
                                    : benchmark_core_nonoptimized;
 
   benchmark_core_args_t **thread_results =
-      malloc(sizeof(benchmark_core_args_t *) * handler->core_count);
+      calloc(handler->core_count, sizeof(benchmark_core_args_t *));
 
   lfk_thread_handler_p *thread_pool =
-      malloc(sizeof(lfk_thread_handler_p) * handler->core_count);
+      calloc(handler->core_count, sizeof(lfk_thread_handler_p));
 
   for (thread_idx = 0; thread_idx < handler->core_count; ++thread_idx) {
     thread_results[thread_idx] = calloc(1, sizeof(benchmark_core_args_t));
@@ -174,14 +174,29 @@ static void benchmark_kernel_runner(benchmark_handler_t handler,
       result_p->kernel_results[i] +=
           thread_results[thread_idx]->results.kernel_results[i];
     }
-    result_p->maximum += thread_results[thread_idx]->results.maximum;
-    result_p->average += thread_results[thread_idx]->results.average;
-    result_p->geometric += thread_results[thread_idx]->results.geometric;
-    result_p->harmonic += thread_results[thread_idx]->results.harmonic;
-    result_p->minimum += thread_results[thread_idx]->results.minimum;
-
     free(thread_results[thread_idx]);
   }
+  result_p->maximum = 0.0;
+  result_p->average = 0.0;
+  result_p->geometric = 0.0;
+  result_p->harmonic = 0.0;
+  result_p->minimum = result_p->kernel_results[0];
+
+  for (i = 0; i < 24; i++) {
+    result_p->average += result_p->kernel_results[i];
+    result_p->harmonic += 1 / result_p->kernel_results[i];
+    result_p->geometric += log(result_p->kernel_results[i]);
+    if (result_p->kernel_results[i] < result_p->minimum) {
+      result_p->minimum = result_p->kernel_results[i];
+    }
+    if (result_p->kernel_results[i] > result_p->maximum) {
+      result_p->maximum = result_p->kernel_results[i];
+    }
+  }
+
+  result_p->average = result_p->average / 24.0;
+  result_p->harmonic = 24.0 / result_p->harmonic;
+  result_p->geometric = exp(result_p->geometric / 24.0);
 }
 
 void benchmark_run(benchmark_handler_t handler) {

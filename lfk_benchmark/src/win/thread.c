@@ -40,7 +40,7 @@ static unsigned long _routine_wrapper(void *handler_as_void) {
 
 lfk_thread_handler_p lfk_thread_init(lfk_thread_routine routine,
                                      lfk_thread_args args) {
-  lfk_thread_handler_p handler = malloc(sizeof(thread_handler_t));
+  lfk_thread_handler_p handler = calloc(1, sizeof(thread_handler_t));
   handler->routine = routine;
   handler->args = args;
 
