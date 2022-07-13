@@ -26,11 +26,22 @@ match [original benchmark](http://www.netlib.org/benchmark/livermorec) results.
 
 -- Fancy HTML and Plaintext format report.
 
-## How to build
+## How to build:
 
-```sh
- mkdir build && cmake . -B build && cmake --build build # benchmark generated under subpath `build/lfk_console/lfk-console`
-```
+1. Makefile based:
+    ```sh
+    make lfk_console
+    # Executable located in ./build_dir/lfk_console
+    ```
+2. Cmake based:
+    ```sh
+    ./tools/build.sh
+    # Executable located in ./build_local/
+    ```
+3. Cmake based (for windows hosts):
+    ```sh
+    ./tools/generate_release_win.sh # There might be missing packages. Follow the instructions.
+    ```
 
 ## How to run:
 
