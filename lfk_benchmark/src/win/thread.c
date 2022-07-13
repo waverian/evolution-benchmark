@@ -32,7 +32,7 @@ typedef struct lfk_thread_handler_t {
   lfk_thread_args args;
 } thread_handler_t;
 
-static unsigned long _routine_wrapper(void *handler_as_void) {
+static DWORD WINAPI _routine_wrapper(LPVOID handler_as_void) {
   lfk_thread_handler_p handler = handler_as_void;
   handler->routine(handler->args);
   return 0;
