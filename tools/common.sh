@@ -37,6 +37,15 @@ function fetch_previous_version()
     G_VERSION_PATCH=$(echo "${VERSION}" | awk ' { print $3; } ' )
 }
 
+function fetch_version_from_file()
+{
+    local VERSION=$(cat VERSION | tr -d 'v' | tr '.' ' ' )
+
+    G_VERSION_MAJOR=$(echo "${VERSION}" | awk ' { print $1; } ' )
+    G_VERSION_MINOR=$(echo "${VERSION}" | awk ' { print $2; } ' )
+    G_VERSION_PATCH=$(echo "${VERSION}" | awk ' { print $3; } ' )
+}
+
 function bump_version()
 {
   case $1 in
@@ -76,19 +85,17 @@ function build() {
 
   cmake -DCMAKE_C_COMPILER=${CC}      \
         -DCMAKE_C_COMPILER_WORKS=1    \
-        -DLFK_BUILD_CONSOLE=ON        \
-        -DCMAKE_BUILD_TYPE=MinSizeRel \
         -S .                          \
         -B ${BUILD_DIR}               \
         $@                            \
-        &&                            \
+        &&
   cmake --build ${BUILD_DIR} -- -j3   \
         || fail_with "The build for ${BUILD_DIR} is failed"
 
   local EXECUTABLE_NAME=$(echo "lfk-benchmark_${G_VERSION_MAJOR}-${G_VERSION_MINOR}-${G_VERSION_PATCH}_$(basename ${BUILD_DIR})" | tr '/' '-' )
   cp ${BUILD_DIR}/lfk_console/lfk-console     ${G_RELEASE_DIR}/${EXECUTABLE_NAME}     2> /dev/null || \
   cp ${BUILD_DIR}/lfk_console/lfk-console.exe ${G_RELEASE_DIR}/${EXECUTABLE_NAME}.exe 2> /dev/null || \
-  fail_with "lfk-console/lfk-console executable was not created"
+  fail_with "lfk-console./ge  /lfk-console executable was not created"
 
   rm -rf ${BUILD_DIR}
 }

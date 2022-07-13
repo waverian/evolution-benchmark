@@ -43,24 +43,29 @@ function main(){
   rm -rf ${G_RELEASE_DIR}
   mkdir -p ${G_RELEASE_DIR}
 
-  fetch_previous_version
-  fetch_current_version
+  fetch_version_from_file
 
-  generate_version
-  generate_changelog
-
-  build "windows_x86"    i686-w64-mingw32-gcc-win32                \
-                             -DCMAKE_SYSTEM_NAME="Windows"         \
+  build "linux_x86"      gcc                                       \
+                             -DCMAKE_C_FLAGS="-m32"                \
                              -DLFK_TARGET_ARCHITECTURE="32-bit"
 
-  build "windows_x86-64" x86_64-w64-mingw32-gcc-win32              \
-                             -DCMAKE_SYSTEM_NAME="Windows"         \
+  build "linux_x86-64"   gcc                                       \
+                             -DCMAKE_C_FLAGS="-m64"                \
                              -DLFK_TARGET_ARCHITECTURE="64-bit"
+
+  build "windows_x86"    i686-w64-mingw32-gcc-win32                \
+                            -DCMAKE_SYSTEM_NAME="Windows"          \
+                            -DLFK_TARGET_ARCHITECTURE="32-bit"
+
+  build "windows_x86-64" x86_64-w64-mingw32-gcc-win32              \
+                            -DCMAKE_SYSTEM_NAME="Windows"          \
+                            -DLFK_TARGET_ARCHITECTURE="64-bit"
+
 
   RELEASE_NAME="lfk-mp-v${G_VERSION_MAJOR}.${G_VERSION_MINOR}.${G_VERSION_PATCH}"
 
   zip -r ${G_RELEASE_DIR}/${RELEASE_NAME}-src.zip $(git ls-tree main --name-only -r)
-  ( cd ${G_RELEASE_DIR} && zip -r ../${RELEASE_NAME}-windows.zip ./* )
+  ( cd ${G_RELEASE_DIR} && zip -r ../${RELEASE_NAME}.zip ./* )
 }
 
 main "$@"

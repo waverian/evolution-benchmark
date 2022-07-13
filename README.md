@@ -26,6 +26,12 @@ match [original benchmark](http://www.netlib.org/benchmark/livermorec) results.
 
 -- Fancy HTML and Plaintext format report.
 
+## How to build
+
+```sh
+ mkdir build && cmake . -B build && cmake --build build # benchmark generated under subpath `build/lfk_console/lfk-console`
+```
+
 ## How to run:
 
 ```sh

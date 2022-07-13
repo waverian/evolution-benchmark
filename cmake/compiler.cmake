@@ -25,7 +25,7 @@ set(CMAKE_C_STANDARD 90)
 set(CMAKE_C_FLAGS "-fPIC ${CMAKE_C_FLAGS}")
 
 if (NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Release")
+    set(CMAKE_BUILD_TYPE "MinSizeRel")
 elseif (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
     if (MSVC)
         # warning level 4 and all warnings as errors
