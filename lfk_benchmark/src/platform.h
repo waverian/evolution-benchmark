@@ -25,5 +25,6 @@
 #define LFKX_LFK_CORE_PLATFORM_H
 
 unsigned get_core_count();
+char *get_cpu_name();
 
 #endif /* LFKX_LFK_CORE_PLATFORM_H */

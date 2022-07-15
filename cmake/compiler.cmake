@@ -22,15 +22,18 @@
 message(STATUS "Configuring compiler:")
 
 set(CMAKE_C_STANDARD 90)
-set(CMAKE_C_FLAGS "-fPIC ${CMAKE_C_FLAGS}")
+
+if (NOT MSVC)
+    set(CMAKE_C_FLAGS "-fPIC ${CMAKE_C_FLAGS}")
+endif ()
 
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "MinSizeRel")
 elseif (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
     if (MSVC)
-        # warning level 4 and all warnings as errors
+        # warning level 4
         string(REGEX REPLACE "/W." "" CMAKE_C_FLAGS ${CMAKE_C_FLAGS})
-        set(CMAKE_C_FLAGS "/W4 /WX ${CMAKE_C_FLAGS}")
+        set(CMAKE_C_FLAGS "/W4  ${CMAKE_C_FLAGS}")
     else ()
         # lots of warnings and all warnings as errors
         set(CMAKE_C_FLAGS "-Wall -Wextra -Werror ${CMAKE_C_FLAGS} ")

@@ -41,6 +41,7 @@ void text_report_generator_create_report(benchmark_handler_t handler,
   fprintf(file_handler, "Date       - %s\n", benchmark_get_date(handler));
   fprintf(file_handler, "Compiler   - %s\n",
           benchmark_get_compiler_info(handler));
+  fprintf(file_handler, "CPU name   - %s\n", benchmark_get_cpu_name(handler));
   fprintf(file_handler, "Core count - %u\n", benchmark_get_core_count(handler));
   fprintf(file_handler, "\n");
   fprintf(file_handler, "SINGLECORE RESULT - %f\n", result->singlecore_result);

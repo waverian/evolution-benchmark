@@ -21,12 +21,23 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include <windows.h>
+
 #include "platform.h"
-#include "windows.h"
+
+#include <intrin.h>
 #include <sysinfoapi.h>
 
 unsigned get_core_count() {
   SYSTEM_INFO sysinfo;
   GetSystemInfo(&sysinfo);
   return (int)sysinfo.dwNumberOfProcessors;
+}
+
+char *get_cpu_name() {
+  int brand[12];
+  __cpuid(&brand[0], 0x80000002);
+  __cpuid(&brand[4], 0x80000003);
+  __cpuid(&brand[8], 0x80000004);
+  return strdup((char *)brand);
 }
