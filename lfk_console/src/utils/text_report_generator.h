@@ -24,7 +24,7 @@
 #ifndef LFKX_TEXT_REPORT_GENERATOR_H
 #define LFKX_TEXT_REPORT_GENERATOR_H
 
-#include "lfk.h"
+#include "lfk/lfk.h"
 
 void text_report_generator_create_report(benchmark_handler_t handler,
                                          const char *file_path);

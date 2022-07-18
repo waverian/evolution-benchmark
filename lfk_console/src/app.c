@@ -26,7 +26,7 @@
 #include <string.h>
 
 #include "app.h"
-#include "lfk.h"
+#include "lfk/lfk.h"
 
 #include "utils/html_report_generator.h"
 #include "utils/text_report_generator.h"

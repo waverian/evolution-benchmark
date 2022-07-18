@@ -24,7 +24,7 @@
 #ifndef LFKX_LFK_H
 #define LFKX_LFK_H
 
-#include "../types/inc/lfk/types.h"
+#include "lfk/types.h"
 
 typedef struct benchmark_handler_ *benchmark_handler_t;
 

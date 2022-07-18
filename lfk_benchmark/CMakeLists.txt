@@ -19,8 +19,49 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-add_subdirectory( types )
-add_subdirectory( core )
+add_library(lfk-core-optimized
+        STATIC
+        src/core/lfk_core.c)
+
+add_library(lfk-core-nonoptimized
+        STATIC
+        src/core/lfk_core.c)
+
+if(MSVC)
+    string(TOUPPER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE_UPPER)
+    string(REGEX REPLACE "(/MDd|/Ob.|/O.|/MD|/RTC.)" "" CMAKE_C_FLAGS_${CMAKE_BUILD_TYPE_UPPER} "${CMAKE_C_FLAGS_${CMAKE_BUILD_TYPE_UPPER}}")
+    string(REGEX REPLACE "(/MDd|/Ob.|/O.|/MD|/RTC.)" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+
+    target_compile_options(lfk-core-optimized    BEFORE PRIVATE /MD /O1 /Ob1 /DNDEBUG)
+    target_compile_options(lfk-core-nonoptimized BEFORE PRIVATE /MDd /Zi /Ob0 /Od /RTC1)
+else()
+    target_compile_options(lfk-core-optimized    BEFORE PRIVATE -O3 -DNDEBUG)
+    target_compile_options(lfk-core-nonoptimized BEFORE PRIVATE -O0 -g)
+endif()
+
+
+foreach(OPTIMIZATION optimized nonoptimized)
+    set(target lfk-core-${OPTIMIZATION})
+
+    if(MSVC)
+        target_compile_definitions(${target}
+                        PRIVATE
+                        MSVC)
+    else()
+        target_compile_options(${target} PRIVATE -Wno-error=array-bounds -Wno-array-bounds)
+    endif()
+
+    target_include_directories(${target}
+            PUBLIC
+                inc
+            PRIVATE
+                src/
+            )
+    target_compile_definitions(${target}
+            PRIVATE
+            OPTIMIZATION=${OPTIMIZATION})
+
+endforeach()
 
 if( LFK_WINAPI )
     set(
@@ -35,7 +76,6 @@ else()
             src/posix/thread.c
     )
 endif()
-
 
 if(BUILD_SHARED_LIBS)
     add_library(lfk-benchmark

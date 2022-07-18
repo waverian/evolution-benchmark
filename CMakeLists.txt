@@ -24,15 +24,14 @@ file (STRINGS "VERSION" LFK_VERSION)
 
 project(lfkx VERSION ${LFK_VERSION} LANGUAGES C)
 
-option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
-option(LFK_BUILD_CONSOLE "Build benchmark console application" ON)
-
+option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+option(BUILD_CONSOLE_APP "Build benchmark console application" ON)
 
 include(cmake/compiler.cmake)
 include(cmake/definitions.cmake)
 
 add_subdirectory(lfk_benchmark)
 
-if(LFK_BUILD_CONSOLE)
+if(BUILD_CONSOLE_APP)
     add_subdirectory(lfk_console)
 endif()

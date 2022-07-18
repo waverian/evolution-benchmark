@@ -24,7 +24,7 @@
 #ifndef LFKX_TINY_HTML_H
 #define LFKX_TINY_HTML_H
 
-#include "lfk.h"
+#include "lfk/lfk.h"
 
 void html_report_generator_create_report(benchmark_handler_t handler,
                                          const char *file_path);

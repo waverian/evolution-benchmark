@@ -30,10 +30,10 @@
 #include "platform.h"
 #include "thread.h"
 
-#include "lfk.h"
+#include "lfk/lfk.h"
 #include "lfk/constants.h"
 
-#include "lfk_core.h"
+#include "core/lfk_core.h"
 
 typedef struct benchmark_handler_ {
   unsigned core_count;

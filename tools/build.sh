@@ -40,7 +40,7 @@ function main(){
   rm -rf ${G_BUILD_DIR}
   mkdir -p ${G_CMAKE_BUILD_DIR}
 
-  cmake -DLFK_BUILD_CONSOLE=ON -S $( pwd ) -B ${G_CMAKE_BUILD_DIR}
+  cmake -S $( pwd ) -B ${G_CMAKE_BUILD_DIR}
   cmake --build ${G_CMAKE_BUILD_DIR}
   mv ${G_CMAKE_BUILD_DIR}/lfk_console/lfk-console ${G_BUILD_DIR}/lfk-console
 

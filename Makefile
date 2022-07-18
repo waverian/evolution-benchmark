@@ -34,14 +34,13 @@ LKF_LIB=${BUILD_DIR}lfk.a
 LFK_CORE_OPT_LIB=${BUILD_DIR}lfk-core-optimized.a
 LFK_CORE_NOOPT_LIB=${BUILD_DIR}lfk-core-nonoptimized.a
 
-LFK_CORE_SRC=lfk_benchmark/core/src/lfk_core.c
+LFK_CORE_SRC=lfk_benchmark/src/core/lfk_core.c
 
 LFK_CORE_OPT_OBJ=$(addprefix ${BUILD_DIR}, $(LFK_CORE_SRC:.c=.opt.o))
 LFK_CORE_NONOPT_OBJ=$(addprefix ${BUILD_DIR}, $(LFK_CORE_SRC:.c=.nonopt.o))
 
 LFK_CORE_PRIVATE_INCLUDE=lfk_benchmark/core/src/
 LFK_CORE_PUBLIC_INCLUDE=lfk_benchmark/core/inc/
-LFK_CORE_TYPES_INCLUDE=lfk_benchmark/types/inc
 LFK_CORE_DEPS=-lm
 
 LFK_SRC=lfk_benchmark/src/posix/platform.c\
@@ -58,17 +57,17 @@ LFK_PRIVATE_INC=lfk_benchmark/src/
 ${BUILD_DIR}%.opt.o : %.c
 	mkdir -p $(dir $@)
 	${CC} ${CFLAGS} -O3 -c -DOPTIMIZATION=optimized -o $@ $^    \
-		-I${LFK_CORE_PRIVATE_INCLUDE} -I${LFK_CORE_PUBLIC_INCLUDE} -I${LFK_CORE_TYPES_INCLUDE} -I${LFK_PUBLIC_INC}
+		-I${LFK_CORE_PRIVATE_INCLUDE} -I${LFK_CORE_PUBLIC_INCLUDE} -I${LFK_PUBLIC_INC}
 
 ${BUILD_DIR}%.nonopt.o : %.c
 	mkdir -p $(dir $@)
 	${CC} ${CFLAGS} -O0 -c -DOPTIMIZATION=nonoptimized -o $@ $^ \
-		-I${LFK_CORE_PRIVATE_INCLUDE} -I${LFK_CORE_PUBLIC_INCLUDE} -I${LFK_CORE_TYPES_INCLUDE} -I${LFK_PUBLIC_INC}
+		-I${LFK_CORE_PRIVATE_INCLUDE} -I${LFK_CORE_PUBLIC_INCLUDE} -I${LFK_PUBLIC_INC}
 
 ${BUILD_DIR}%.o : %.c
 	mkdir -p $(dir $@)
 	${CC} ${CFLAGS} -O3 -c  -o $@ $^ \
-		-I${LFK_CORE_PUBLIC_INCLUDE} -I${LFK_CORE_TYPES_INCLUDE} -I${LFK_PUBLIC_INC} -I${LFK_PRIVATE_INC}
+		-I${LFK_CORE_PUBLIC_INCLUDE} -I${LFK_PUBLIC_INC} -I${LFK_PRIVATE_INC}
 
 
 $(LFK_CORE_OPT_LIB): $(LFK_CORE_OPT_OBJ)
