@@ -21,11 +21,11 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include "string.h"
+#include "time.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <time.h>
 
 #include "platform.h"
 #include "thread.h"
@@ -46,7 +46,6 @@ typedef struct benchmark_handler_ {
   char *compiler_info;
   char *version_info;
   char *timestamp;
-  char *cpu_name;
 
   lfk_full_result_t result;
 
@@ -68,10 +67,6 @@ static void benchmark_fill_timestamp(benchmark_handler_t handler) {
   handler->timestamp = strdup(buffer);
 }
 
-static void benchmark_fill_cpu_name(benchmark_handler_t handler) {
-  handler->cpu_name = get_cpu_name();
-}
-
 benchmark_handler_t benchmark_init() {
   benchmark_handler_t ret = calloc(1, sizeof(benchmark_handler_));
 
@@ -85,8 +80,6 @@ benchmark_handler_t benchmark_init() {
   ret->compiler_info = strdup(LFK_COMPILER);
 
   benchmark_fill_timestamp(ret);
-  benchmark_fill_cpu_name(ret);
-  benchmark_set_core_count(ret, 0);
 
   return ret;
 }
@@ -95,7 +88,6 @@ void benchmark_cleanup(benchmark_handler_t handler) {
   free(handler->version_info);
   free(handler->compiler_info);
   free(handler->timestamp);
-  free(handler->cpu_name);
   free(handler);
 }
 
@@ -260,10 +252,6 @@ const char *benchmark_get_version(benchmark_handler_t handler) {
 
 const char *benchmark_get_date(benchmark_handler_t handler) {
   return handler->timestamp;
-}
-
-const char *benchmark_get_cpu_name(benchmark_handler_t handler) {
-  return handler->cpu_name;
 }
 
 const lfk_full_result_t *benchmark_get_results(benchmark_handler_t handler) {

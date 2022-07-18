@@ -110,8 +110,6 @@ static char *create_system_param_table(const benchmark_handler_t result_p) {
                   benchmark_get_date(result_p));
   len += snprintf(buffer + len, 10240 - len, format, "Compiler",
                   benchmark_get_compiler_info(result_p));
-  len += snprintf(buffer + len, 10240 - len, format, "CPU name",
-                  benchmark_get_cpu_name(result_p));
   len += snprintf(buffer + len, 10240 - len, format, "Core count",
                   core_count_as_char);
   len += snprintf(buffer + len, 10240 - len, format, " ", " ");

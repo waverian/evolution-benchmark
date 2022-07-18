@@ -60,8 +60,6 @@ const char *benchmark_get_compiler_info(benchmark_handler_t handler);
 
 const char *benchmark_get_date(benchmark_handler_t handler);
 
-const char *benchmark_get_cpu_name(benchmark_handler_t handler);
-
 const lfk_full_result_t *benchmark_get_results(benchmark_handler_t handler);
 
 unsigned int benchmark_get_core_count(benchmark_handler_t handler);

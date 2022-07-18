@@ -88,7 +88,7 @@ int app_parse_args(program_parameters_t *params, int argc,
   params->html_report_file = "lfk-report.html";
 
 #ifdef LFK_RUNFAST
-  params->execution_time = 0.01;
+  params->execution_time = 0.1;
 #endif
 
   for (i = 1; i < argc; i++) {
@@ -118,17 +118,12 @@ int app_parse_args(program_parameters_t *params, int argc,
   return 0;
 }
 
-void app_print_run_parameters(const program_parameters_t *params,
-                              const benchmark_handler_t handler) {
+void app_print_run_parameters(const program_parameters_t *params) {
   printf("Running parameters:\n");
   printf("Report html file: ............. %s\n", params->html_report_file);
   printf("Report text file: ............. %s\n", params->text_report_file);
-  printf("CPU: .......................... %s\n",
-         benchmark_get_cpu_name(handler));
-  printf("Core count: ................... %i%s\n",
-         benchmark_get_core_count(handler),
-         (params->core_count == 0) ? " (auto)" : "");
-  printf("Execution time per kernel: .... %.1f second(s)\n",
+  printf("Core count (0 = auto): ........ %i\n", params->core_count);
+  printf("Execution time per kernel: .... %f second(s)\n",
          params->execution_time);
 }
 
@@ -138,16 +133,17 @@ int app_main(const int argc, const char *const argv[]) {
   benchmark_progress_callback_handler_t callbackHandler;
 
   app_parse_args(&params, argc, argv);
+  app_print_run_parameters(&params);
 
   handler = benchmark_init();
   benchmark_set_execution_time(handler, params.execution_time);
+
   benchmark_set_core_count(handler, params.core_count);
 
   callbackHandler.data = NULL;
   callbackHandler.callback = benchmark_callback;
-  benchmark_set_progress_callback(handler, callbackHandler);
 
-  app_print_run_parameters(&params, handler);
+  benchmark_set_progress_callback(handler, callbackHandler);
 
   benchmark_run(handler);
   printf("\n");
