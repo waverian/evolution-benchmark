@@ -26,7 +26,6 @@
 
 #ifdef MSVC
 #include <windows.h>
-#include <sysinfoapi.h>
 
 static double thread_clock() { return GetTickCount() / (double)1e3; }
 #else

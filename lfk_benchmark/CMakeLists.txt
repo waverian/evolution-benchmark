@@ -32,8 +32,8 @@ if(MSVC)
     string(REGEX REPLACE "(/MDd|/Ob.|/O.|/MD|/RTC.)" "" CMAKE_C_FLAGS_${CMAKE_BUILD_TYPE_UPPER} "${CMAKE_C_FLAGS_${CMAKE_BUILD_TYPE_UPPER}}")
     string(REGEX REPLACE "(/MDd|/Ob.|/O.|/MD|/RTC.)" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
 
-    target_compile_options(lfk-core-optimized    BEFORE PRIVATE /MD /O1 /Ob1 /DNDEBUG)
-    target_compile_options(lfk-core-nonoptimized BEFORE PRIVATE /MDd /Zi /Ob0 /Od /RTC1)
+    target_compile_options(lfk-core-optimized    BEFORE PRIVATE /MT /O1 /Ob1 /DNDEBUG)
+    target_compile_options(lfk-core-nonoptimized BEFORE PRIVATE /MTd /Zi /Ob0 /Od /RTC1)
 else()
     target_compile_options(lfk-core-optimized    BEFORE PRIVATE -O3 -DNDEBUG)
     target_compile_options(lfk-core-nonoptimized BEFORE PRIVATE -O0 -g)
@@ -118,7 +118,11 @@ if(ANDROID)
             PRIVATE
                 m
             )
-elseif(NOT LFK_WINAPI)
+elseif(LFK_WINAPI)
+    if (MSVC)
+        target_compile_options(lfk-benchmark PRIVATE /MT)
+    endif()
+else()
     target_link_libraries(lfk-benchmark
             PRIVATE
                 m

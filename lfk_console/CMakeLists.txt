@@ -16,3 +16,7 @@ target_link_libraries( lfk-console
         PRIVATE
         lfk-benchmark
 )
+
+if(MSVC)
+        target_compile_options(lfk-console PRIVATE /MT)
+endif()

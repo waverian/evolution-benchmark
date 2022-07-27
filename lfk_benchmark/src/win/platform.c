@@ -23,7 +23,6 @@
 
 #include "platform.h"
 #include "windows.h"
-#include <sysinfoapi.h>
 
 unsigned get_core_count() {
   SYSTEM_INFO sysinfo;
