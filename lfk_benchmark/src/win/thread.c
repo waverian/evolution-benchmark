@@ -23,8 +23,8 @@
 
 #include "thread.h"
 
-#include "stdlib.h"
-#include "windows.h"
+#include <stdlib.h>
+#include <windows.h>
 
 typedef struct lfk_thread_handler_t {
   HANDLE thread_handler;

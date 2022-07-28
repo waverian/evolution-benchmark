@@ -41,6 +41,12 @@ else ()
     message(FATAL "Unsupported target host system name ${CMAKE_SYSTEM_NAME}")
 endif ()
 
+message(STATUS "CMAKE_SYSTEM_PROCESSOR=${CMAKE_SYSTEM_PROCESSOR}")
+if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "^(x86_64|x86|AMD64)$" AND NOT ("${CMAKE_OSX_ARCHITECTURES}" MATCHES "arm"))
+    set(LFK_USE_CPUID ON)
+    add_compile_definitions(LFK_USE_CPUID)
+endif ()
+
 add_compile_definitions(LFK_VERSION="${LFK_VERSION}")
 add_compile_definitions(LFK_COMPILER="${CMAKE_C_COMPILER_VERSION}")
 
