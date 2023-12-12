@@ -1,0 +1,25 @@
+name: msvs-build
+run-name: MSVC build
+on: push
+jobs:
+  test:
+    runs-on: windows-2022
+    strategy:
+      matrix:
+        arch:
+          - amd64
+          - amd64_x86
+          - amd64_arm64
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{ matrix.arch }}
+      - name: Build
+        run: |
+          cmake -S . -B build_${{ matrix.arch }}
+          cmake --build build_${{ matrix.arch }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bin_${{ matrix.arch }}
+          path: build_${{ matrix.arch }}/benchmark_cli/benchmark-cli*
