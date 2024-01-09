@@ -1,6 +1,6 @@
 name: msvs-build
 run-name: MSVC build
-on: push
+on: pull_request
 jobs:
   test:
     runs-on: windows-2022
@@ -17,9 +17,9 @@ jobs:
           arch: ${{ matrix.arch }}
       - name: Build
         run: |
-          cmake -S . -B build_${{ matrix.arch }}
+          cmake -G "Ninja" -DCMAKE_BUILD_TYPE:STRING="" -S . -B build_${{ matrix.arch }}
           cmake --build build_${{ matrix.arch }}
       - uses: actions/upload-artifact@v4
         with:
           name: bin_${{ matrix.arch }}
-          path: build_${{ matrix.arch }}/benchmark_cli/benchmark-cli*
+          path: build_${{ matrix.arch }}/benchmark_cli/benchmark-cli.exe

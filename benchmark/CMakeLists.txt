@@ -32,6 +32,8 @@ if (MSVC)
     string(REGEX REPLACE "(/MDd|/Ob.|/O.|/MD|/RTC.)" "" CMAKE_C_FLAGS_${CMAKE_BUILD_TYPE_UPPER} "${CMAKE_C_FLAGS_${CMAKE_BUILD_TYPE_UPPER}}")
     string(REGEX REPLACE "(/MDd|/Ob.|/O.|/MD|/RTC.)" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
 
+    message(STATUS "")
+
     target_compile_options(benchmark-core-optimized BEFORE PRIVATE /MT /O1 /Ob1 /DNDEBUG)
     target_compile_options(benchmark-core-nonoptimized BEFORE PRIVATE /MTd /Zi /Ob0 /Od /RTC1)
 else ()
@@ -39,6 +41,19 @@ else ()
     target_compile_options(benchmark-core-nonoptimized BEFORE PRIVATE -O0 -g)
 endif ()
 
+foreach (OPTIMIZATION optimized nonoptimized)
+    get_target_property(compile_defs benchmark-core-${OPTIMIZATION} COMPILE_OPTIONS)
+    message(STATUS "benchmark-core-${OPTIMIZATION} compile definitions are ${compile_defs}")
+endforeach()
+
+foreach (lang C CXX)
+    message(STATUS "CMAKE_${lang}_FLAGS compile definitions are ${CMAKE_${lang}_FLAGS}")
+    message(STATUS "CMAKE_${lang}_FLAGS_INIT compile definitions are ${CMAKE_${lang}_FLAGS_INIT}")
+    foreach (type DEBUG MINSIZEREL RELEASE RELWITHDEBINFO)
+        message(STATUS "CMAKE_${lang}_${type}_FLAGS compile definitions are ${CMAKE_${lang}_${type}_FLAGS}")
+        message(STATUS "CMAKE_${lang}_${type}_FLAGS_INIT compile definitions are ${CMAKE_${lang}_${type}_FLAGS_INIT}")
+    endforeach ()
+endforeach ()
 
 foreach (OPTIMIZATION optimized nonoptimized)
     set(target benchmark-core-${OPTIMIZATION})
