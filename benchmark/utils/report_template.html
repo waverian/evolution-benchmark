@@ -1,0 +1,447 @@
+<!--%WPP_KEEP_WHITESPACES-->
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+	<title>Waverian benchmark results</title>
+	<style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
+        }
+
+        .container {
+            margin-left: auto;
+            margin-right: auto;
+            min-width: 30em;
+            max-width: 50em;
+            text-align: center;
+        }
+
+        .thin_font {
+            font-weight: 300;
+            margin: auto;
+        }
+
+        .white_on_blue {
+            background-color: #1e90ff;
+            color: #f0f8ff;
+        }
+
+        td {
+            border: 1px solid #1e90ff;
+        }
+
+        h1 {
+            font-size: 5em;
+        }
+
+        h2 {
+            font-size: 3em;
+        }
+
+        h3 {
+            font-size: 1.8em;
+        }
+
+        h4 {
+            font-size: 1.2em;
+        }
+
+        .row_spacer {
+            border: none;
+            height: 1.5em;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-width: 0;
+            width: 100%;
+            text-align: left;
+        }
+
+        p {
+            text-align: left;
+        }
+
+        .logo {
+            text-align: left;
+            padding: 10px;
+        }
+
+        .no_border {
+            border: none;
+        }
+
+        .sub_result_div {
+            text-align: center;
+            padding-bottom: 10px;
+        }
+	</style>
+</head>
+<body>
+<div class="container">
+	<div class="logo white_on_blue">
+		<h3 class="thin_font">Waverian benchmark</h3>
+	</div>
+	<table class="table_info">
+		<thead></thead>
+		<tbody>
+		<tr>
+			<td>Version</td>
+			<td colspan="4">
+				<!--%WPP_STR_PARAM=parameters.version_info-->
+				version<!--%WPP_IGNORE--></td>
+		</tr>
+		<tr>
+			<td>Date</td>
+			<td colspan="4">
+				<!--%WPP_STR_PARAM=result.timestamp-->
+				date<!--%WPP_IGNORE--></td>
+		</tr>
+		<tr>
+			<td>Compiler</td>
+			<td colspan="4">
+				<!--%WPP_STR_PARAM=parameters.compiler_info-->
+				compiler<!--%WPP_IGNORE--></td>
+		</tr>
+		<tr>
+			<td>Core count</td>
+			<td colspan="4">
+				<!--%WPP_INT_PARAM=result.core_count-->
+				Core count<!--%WPP_IGNORE--></td>
+		</tr>
+		<tr>
+			<td>CPU name</td>
+			<td colspan="4">
+				<!--%WPP_STR_PARAM=parameters.cpu_name-->
+				CPU name<!--%WPP_IGNORE--></td>
+		</tr>
+		<tr>
+			<td>Comment</td>
+			<td colspan="4">
+				<!--%WPP_STR_PARAM=result.comment-->
+				Comment<!--%WPP_IGNORE--></td>
+		</tr>
+		</tbody>
+	</table>
+	<div>
+		<h1 class="thin_font">
+			<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_DISABLED].score;AFTER_DOT=AUTO-->
+			912
+			<!--%WPP_IGNORE-->
+		</h1>
+		<h3 class="thin_font">Overall score</h3>
+	</div>
+	<br>
+	<div>
+		<table>
+			<tr>
+				<td class="no_border">
+					<div class="sub_result_div white_on_blue">
+						<h2 class="thin_font">
+							<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[WB_RUN_TYPE_SINGLE_CORE].valid-->
+							<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[WB_RUN_TYPE_SINGLE_CORE].score;AFTER_DOT=AUTO-->
+							<!--%WPP_ELSE-->N/A<!--%WPP_ENDIF--></h2>
+						<h4 class="thin_font">-</h4>
+						<h3 class="thin_font">Singlecore</h3>
+					</div>
+				</td>
+				<td class="no_border">
+					<div class="sub_result_div white_on_blue">
+						<h2 class="thin_font">
+							<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[WB_RUN_TYPE_MULTI_CORE].valid-->
+							<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[WB_RUN_TYPE_MULTI_CORE].score;AFTER_DOT=AUTO-->
+							<!--%WPP_ELSE-->N/A<!--%WPP_ENDIF--></h2>
+						<h4 class="thin_font">
+							<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[WB_RUN_TYPE_MULTI_CORE].valid-->
+							<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[WB_RUN_TYPE_MULTI_CORE].ratio;AFTER_DOT=1-->
+							42<!--%WPP_IGNORE--> x ratio<!--%WPP_ELSE--> -<!--%WPP_ENDIF--></h4>
+						<h3 class="thin_font">Multicore</h3>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="no_border">
+					<div class="sub_result_div white_on_blue">
+						<h2 class="thin_font">
+							<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[WB_RUN_TYPE_QUAD_CORE].valid-->
+							<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[WB_RUN_TYPE_QUAD_CORE].score;AFTER_DOT=AUTO-->
+							<!--%WPP_ELSE-->N/A<!--%WPP_ENDIF--></h2>
+						<h4 class="thin_font">
+							<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[WB_RUN_TYPE_QUAD_CORE].valid-->
+							<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[WB_RUN_TYPE_QUAD_CORE].ratio;AFTER_DOT=1-->
+							42<!--%WPP_IGNORE--> x ratio<!--%WPP_ELSE--> -<!--%WPP_ENDIF--></h4>
+						<h3 class="thin_font">Quadcore</h3>
+					</div>
+				</td>
+				<td class="no_border">
+					<div class="sub_result_div white_on_blue">
+						<h2 class="thin_font">
+							<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[WB_RUN_TYPE_WORKSTATION].valid-->
+							<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[WB_RUN_TYPE_WORKSTATION].score;AFTER_DOT=AUTO-->
+							<!--%WPP_ELSE-->N/A<!--%WPP_ENDIF--></h2>
+						<h4 class="thin_font">
+							<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[WB_RUN_TYPE_WORKSTATION].valid-->
+							<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[WB_RUN_TYPE_WORKSTATION].ratio;AFTER_DOT=1-->
+							42<!--%WPP_IGNORE--> x ratio<!--%WPP_ELSE--> -<!--%WPP_ENDIF--></h4>
+						<h3 class="thin_font">Workstation</h3>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div>
+		<table>
+			<tr class="row_spacer"></tr>
+			<tr class="white_on_blue">
+				<td></td>
+				<td><b>Non optimized</b></td>
+				<!--%WPP_FOR=j;WPP_FOR_BEGIN=0;WPP_FOR_END=WB_RUN_TYPE_SIZE-->
+				<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[j].valid-->
+				<td><!--%WPP_STR_PARAM=WB_RUN_TYPE_NAMES[j]-->Singlecore<!--%WPP_IGNORE--></td>
+				<!--%WPP_ENDIF-->
+				<!--%WPP_ENDFOR=j-->
+				<td>Multicore</td>
+				<td>Quadcore</td>
+				<td>Workstation</td>
+				<!--%WPP_IGNORE-->
+			</tr>
+			<tr>
+				<td></td>
+				<td>Maximum</td>
+				<!--%WPP_FOR=j;WPP_FOR_BEGIN=0;WPP_FOR_END=WB_RUN_TYPE_SIZE-->
+				<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[j].valid-->
+				<td>
+					<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[j].maximum;AFTER_DOT=AUTO-->
+					Maximum<!--%WPP_IGNORE--></td>
+				<!--%WPP_ENDIF-->
+				<!--%WPP_ENDFOR=j-->
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<!--%WPP_IGNORE-->
+			</tr>
+			<tr>
+				<td></td>
+				<td>Average</td>
+				<!--%WPP_FOR=j;WPP_FOR_BEGIN=0;WPP_FOR_END=WB_RUN_TYPE_SIZE-->
+				<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[j].valid-->
+				<td>
+					<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[j].average;AFTER_DOT=AUTO-->
+					Average<!--%WPP_IGNORE--></td>
+				<!--%WPP_ENDIF-->
+				<!--%WPP_ENDFOR=j-->
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<!--%WPP_IGNORE-->
+			</tr>
+			<tr>
+				<td></td>
+				<td>Geometric</td>
+				<!--%WPP_FOR=j;WPP_FOR_BEGIN=0;WPP_FOR_END=WB_RUN_TYPE_SIZE-->
+				<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[j].valid-->
+				<td>
+					<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[j].geometric;AFTER_DOT=AUTO-->
+					Geometric<!--%WPP_IGNORE--></td>
+				<!--%WPP_ENDIF-->
+				<!--%WPP_ENDFOR=j-->
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<!--%WPP_IGNORE-->
+			</tr>
+			<tr>
+				<td></td>
+				<td>Harmonic</td>
+				<!--%WPP_FOR=j;WPP_FOR_BEGIN=0;WPP_FOR_END=WB_RUN_TYPE_SIZE-->
+				<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[j].valid-->
+				<td>
+					<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[j].harmonic;AFTER_DOT=AUTO-->
+					Harmonic<!--%WPP_IGNORE--></td>
+				<!--%WPP_ENDIF-->
+				<!--%WPP_ENDFOR=j-->
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<!--%WPP_IGNORE-->
+			</tr>
+			<tr>
+				<td></td>
+				<td>Minimum</td>
+				<!--%WPP_FOR=j;WPP_FOR_BEGIN=0;WPP_FOR_END=WB_RUN_TYPE_SIZE-->
+				<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[j].valid-->
+				<td>
+					<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[j].minimum;AFTER_DOT=AUTO-->
+					Minimum<!--%WPP_IGNORE--></td>
+				<!--%WPP_ENDIF-->
+				<!--%WPP_ENDFOR=j-->
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<!--%WPP_IGNORE-->
+			</tr>
+			<tr class="white_on_blue">
+				<td>#</td>
+				<td>Kernel name</td>
+				<!--%WPP_FOR=j;WPP_FOR_BEGIN=0;WPP_FOR_END=WB_RUN_TYPE_SIZE-->
+				<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[j].valid-->
+				<td></td>
+				<!--%WPP_ENDIF-->
+				<!--%WPP_ENDFOR=j-->
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<!--%WPP_IGNORE-->
+			</tr>
+
+			<!--%WPP_FOR=i;WPP_FOR_BEGIN=0;WPP_FOR_END=WB_KERNEL_COUNT-->
+			<tr>
+				<td><!--%WPP_INT_PARAM=i+1-->1<!--%WPP_IGNORE-->.</td>
+				<td><!--%WPP_STR_PARAM=WB_KERNEL_NAMES[i]-->Kernel name<!--%WPP_IGNORE--></td>
+				<!--%WPP_FOR=j;WPP_FOR_BEGIN=0;WPP_FOR_END=WB_RUN_TYPE_SIZE-->
+				<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[j].valid-->
+				<td>
+					<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[j].kernel_results[i];AFTER_DOT=AUTO-->
+					0<!--%WPP_IGNORE--></td>
+				<!--%WPP_ENDIF-->
+				<!--%WPP_ENDFOR=j-->
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<!--%WPP_IGNORE-->
+			</tr>
+			<!--%WPP_ENDFOR=i-->
+		</table>
+		<p>
+			Optimized score - <!--%WPP_IF=result.full_result[WB_OPTIMIZATION_ENABLED].score-->
+			<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_ENABLED].score;AFTER_DOT=AUTO-->
+			<!--%WPP_ELSE-->N/A<!--%WPP_ENDIF-->
+			(
+			<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_ENABLED].score && result.full_result[WB_OPTIMIZATION_DISABLED].score-->
+			<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_ENABLED].score / result.full_result[WB_OPTIMIZATION_DISABLED].score;AFTER_DOT=1-->
+			42<!--%WPP_IGNORE--> x optimized ratio)<!--%WPP_ENDIF-->
+		</p>
+		<table>
+			<tr class="white_on_blue">
+				<td></td>
+				<td><b>Optimized</b></td>
+				<!--%WPP_FOR=j;WPP_FOR_BEGIN=0;WPP_FOR_END=WB_RUN_TYPE_SIZE-->
+				<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_ENABLED].detailed[j].valid-->
+				<td><!--%WPP_STR_PARAM=WB_RUN_TYPE_NAMES[j]-->Singlecore<!--%WPP_IGNORE--></td>
+				<!--%WPP_ENDIF-->
+				<!--%WPP_ENDFOR=j-->
+				<td>Multicore</td>
+				<td>Quadcore</td>
+				<td>Workstation</td>
+				<!--%WPP_IGNORE-->
+			</tr>
+			<tr>
+				<td></td>
+				<td>Maximum</td>
+				<!--%WPP_FOR=j;WPP_FOR_BEGIN=0;WPP_FOR_END=WB_RUN_TYPE_SIZE-->
+				<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_ENABLED].detailed[j].valid-->
+				<td>
+					<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_ENABLED].detailed[j].maximum;AFTER_DOT=AUTO-->
+					Maximum<!--%WPP_IGNORE--></td>
+				<!--%WPP_ENDIF-->
+				<!--%WPP_ENDFOR=j-->
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<!--%WPP_IGNORE-->
+			</tr>
+			<tr>
+				<td></td>
+				<td>Average</td>
+				<!--%WPP_FOR=j;WPP_FOR_BEGIN=0;WPP_FOR_END=WB_RUN_TYPE_SIZE-->
+				<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_ENABLED].detailed[j].valid-->
+				<td>
+					<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_ENABLED].detailed[j].average;AFTER_DOT=AUTO-->
+					Average<!--%WPP_IGNORE--></td>
+				<!--%WPP_ENDIF-->
+				<!--%WPP_ENDFOR=j-->
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<!--%WPP_IGNORE-->
+			</tr>
+			<tr>
+				<td></td>
+				<td>Geometric</td>
+				<!--%WPP_FOR=j;WPP_FOR_BEGIN=0;WPP_FOR_END=WB_RUN_TYPE_SIZE-->
+				<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_ENABLED].detailed[j].valid-->
+				<td>
+					<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_ENABLED].detailed[j].geometric;AFTER_DOT=AUTO-->
+					Geometric<!--%WPP_IGNORE--></td>
+				<!--%WPP_ENDIF-->
+				<!--%WPP_ENDFOR=j-->
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<!--%WPP_IGNORE-->
+			</tr>
+			<tr>
+				<td></td>
+				<td>Harmonic</td>
+				<!--%WPP_FOR=j;WPP_FOR_BEGIN=0;WPP_FOR_END=WB_RUN_TYPE_SIZE-->
+				<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_ENABLED].detailed[j].valid-->
+				<td>
+					<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_ENABLED].detailed[j].harmonic;AFTER_DOT=AUTO-->
+					Harmonic<!--%WPP_IGNORE--></td>
+				<!--%WPP_ENDIF-->
+				<!--%WPP_ENDFOR=j-->
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<!--%WPP_IGNORE-->
+			</tr>
+			<tr>
+				<td></td>
+				<td>Minimum</td>
+				<!--%WPP_FOR=j;WPP_FOR_BEGIN=0;WPP_FOR_END=WB_RUN_TYPE_SIZE-->
+				<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_ENABLED].detailed[j].valid-->
+				<td>
+					<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_ENABLED].detailed[j].minimum;AFTER_DOT=AUTO-->
+					Minimum<!--%WPP_IGNORE--></td>
+				<!--%WPP_ENDIF-->
+				<!--%WPP_ENDFOR=j-->
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<!--%WPP_IGNORE-->
+			</tr>
+
+			<tr class="white_on_blue">
+				<td>#</td>
+				<td>Kernel name</td>
+				<!--%WPP_FOR=j;WPP_FOR_BEGIN=0;WPP_FOR_END=WB_RUN_TYPE_SIZE-->
+				<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[j].valid-->
+				<td></td>
+				<!--%WPP_ENDIF-->
+				<!--%WPP_ENDFOR=j-->
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<!--%WPP_IGNORE-->
+			</tr>
+			<!--%WPP_FOR=i;WPP_FOR_BEGIN=0;WPP_FOR_END=WB_KERNEL_COUNT-->
+			<tr>
+				<td><!--%WPP_INT_PARAM=i+1-->1<!--%WPP_IGNORE-->.</td>
+				<td><!--%WPP_STR_PARAM=WB_KERNEL_NAMES[i]-->Kernel name<!--%WPP_IGNORE--></td>
+				<!--%WPP_FOR=j;WPP_FOR_BEGIN=0;WPP_FOR_END=WB_RUN_TYPE_SIZE-->
+				<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_ENABLED].detailed[j].valid-->
+				<td>
+					<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_ENABLED].detailed[j].kernel_results[i];AFTER_DOT=AUTO-->
+					0<!--%WPP_IGNORE--></td>
+				<!--%WPP_ENDIF-->
+				<!--%WPP_ENDFOR=j-->
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<!--%WPP_IGNORE-->
+			</tr>
+			<!--%WPP_ENDFOR=i-->
+		</table>
+	</div>
+</div>
+</body>
+</html>

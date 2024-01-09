@@ -59,11 +59,12 @@ function fetch_previous_version()
 
 function fetch_version_from_file()
 {
-    local VERSION=$(cat VERSION | tr -d 'v' | tr '.' ' ' )
-
-    G_VERSION_MAJOR=$(echo "${VERSION}" | awk ' { print $1; } ' )
-    G_VERSION_MINOR=$(echo "${VERSION}" | awk ' { print $2; } ' )
-    G_VERSION_PATCH=$(echo "${VERSION}" | awk ' { print $3; } ' )
+#    local VERSION=$(cat VERSION | tr -d 'v' | tr '.' ' ' )
+#
+#    G_VERSION_MAJOR=$(echo "${VERSION}" | awk ' { print $1; } ' )
+#    G_VERSION_MINOR=$(echo "${VERSION}" | awk ' { print $2; } ' )
+#    G_VERSION_PATCH=$(echo "${VERSION}" | awk ' { print $3; } ' )
+     G_VERSION=$(cat VERSION)
 }
 
 function bump_version()
@@ -112,10 +113,10 @@ function build() {
   cmake --build ${BUILD_DIR} -- -j3   \
         || fail_with "The build for ${BUILD_DIR} is failed"
 
-  local EXECUTABLE_NAME=$(echo "lfk-benchmark_${G_VERSION_MAJOR}-${G_VERSION_MINOR}-${G_VERSION_PATCH}_$(basename ${BUILD_DIR})" | tr '/' '-' )
-  cp ${BUILD_DIR}/lfk_console/lfk-console     ${G_RELEASE_DIR}/${EXECUTABLE_NAME}     2> /dev/null || \
-  cp ${BUILD_DIR}/lfk_console/lfk-console.exe ${G_RELEASE_DIR}/${EXECUTABLE_NAME}.exe 2> /dev/null || \
-  fail_with "lfk-console./exe  /lfk-console executable was not created"
+  local EXECUTABLE_NAME=$(echo "waverian-benchmark_${G_VERSION}_$(basename ${BUILD_DIR})" | tr '/' '-' )
+  cp ${BUILD_DIR}/benchmark_cli/benchmark-cli     ${G_RELEASE_DIR}/${EXECUTABLE_NAME}     2> /dev/null || \
+  cp ${BUILD_DIR}/benchmark_cli/benchmark-cli.exe ${G_RELEASE_DIR}/${EXECUTABLE_NAME}.exe 2> /dev/null || \
+  fail_with "benchmark-cli./exe  /benchmark-cli executable was not created"
 
   rm -rf ${BUILD_DIR}
 }

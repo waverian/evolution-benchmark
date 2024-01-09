@@ -27,10 +27,10 @@ source ${G_BASE_DIR}/common.sh
 
 G_RELEASE_DIR="release"
 
-G_LATEST_VERSION="0.0.0"
-G_VERSION_MAJOR=0
-G_VERSION_MINOR=0
-G_VERSION_PATCH=0
+#G_LATEST_VERSION="0.0.0"
+#G_VERSION_MAJOR=0
+#G_VERSION_MINOR=0
+#G_VERSION_PATCH=0
 
 function main(){
   for comand in zip git cc make cmake x86_64-w64-mingw32-gcc-win32 i686-w64-mingw32-gcc-win32
@@ -41,6 +41,14 @@ function main(){
 
   ls README.md &>/dev/null || fail_with "Please run in the project root. E.g. ./tools/generate_release.sh"
 
+  rm -rf build_cmake build_make
+
+  echo -n "Test make..."
+  make &> /dev/null && echo " OK!" || fail_with "Make build check failed"
+
+  echo -n "Test cmake..."
+  ./cmake_build.sh &> /dev/null && echo " OK!" || fail_with "CMake build check failed"
+
   rm -rf ${G_RELEASE_DIR}
   mkdir -p ${G_RELEASE_DIR}
 
@@ -48,24 +56,24 @@ function main(){
 
   build "linux_x86"      gcc                                       \
                              -DCMAKE_C_FLAGS="-m32"                \
-                             -DLFK_TARGET_ARCHITECTURE="32-bit"
+                             -DWB_TARGET_ARCHITECTURE="32-bit"
 
   build "linux_x86-64"   gcc                                       \
                              -DCMAKE_C_FLAGS="-m64"                \
-                             -DLFK_TARGET_ARCHITECTURE="64-bit"
+                             -DWB_TARGET_ARCHITECTURE="64-bit"
 
   build "windows_x86"    i686-w64-mingw32-gcc-win32                \
                             -DCMAKE_SYSTEM_NAME="Windows"          \
-                            -DLFK_TARGET_ARCHITECTURE="32-bit"
+                            -DWB_TARGET_ARCHITECTURE="32-bit"
 
   build "windows_x86-64" x86_64-w64-mingw32-gcc-win32              \
                             -DCMAKE_SYSTEM_NAME="Windows"          \
-                            -DLFK_TARGET_ARCHITECTURE="64-bit"
+                            -DWB_TARGET_ARCHITECTURE="64-bit"
 
 
-  RELEASE_NAME="lfk-mp-v${G_VERSION_MAJOR}.${G_VERSION_MINOR}.${G_VERSION_PATCH}"
+  RELEASE_NAME="waverian-benchmark-${G_VERSION}"
 
-  zip -r ${G_RELEASE_DIR}/${RELEASE_NAME}-src.zip $(git ls-tree main --name-only -r)
+  zip -r ${G_RELEASE_DIR}/${RELEASE_NAME}-src.zip $(git ls-tree HEAD --name-only -r)
   ( cd ${G_RELEASE_DIR} && zip -r ../${RELEASE_NAME}.zip ./* )
 }
 
