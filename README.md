@@ -1,8 +1,6 @@
-# LFK-MP
+# Waverian benchmark
 
-### Livermore fortran loops for multicore processors
-
-LFK-MP is a benchmark based on the original [LFK benchmark](https://en.wikipedia.org/wiki/Livermore_loops) by Francis H.
+Waverian benchmark is a benchmark based on the original [LFK benchmark](https://en.wikipedia.org/wiki/Livermore_loops) by Francis H.
 McMahon with support of multicore proccessors.
 
 The benchmark was rewritten in order tu support thread libraries (pthread and winapi threads), with big attention to
@@ -30,13 +28,17 @@ match [original benchmark](http://www.netlib.org/benchmark/livermorec) results.
 
 1. Makefile based:
     ```sh
-    make lfk_console
-    # Executable located in ./build_dir/lfk_console
+    make
+    # Executable located at ./benchmark-cli
+    # To disable CPUID run with argument `WB_USE_CPUID=OFF`
+    # To disable threads support run with argument `WB_USE_THREADS=OFF`
     ```
 2. Cmake based:
     ```sh
-    ./tools/build.sh
-    # Executable located in ./build_local/
+    ./cmake_build.sh
+    # Executable located at ./benchmark-cli
+    # To disable CPUID run with argument `-DWB_USE_CPUID=OFF`
+    # To disable threads support run with argument `-DWB_USE_THREADS=OFF`
     ```
 3. Cmake based (for windows hosts):
     ```sh
@@ -46,14 +48,13 @@ match [original benchmark](http://www.netlib.org/benchmark/livermorec) results.
 ## How to run:
 
 ```sh
-./build_dir/lfk_console --help
-Livermore Fortran Loops (LFK) benchmark tool.
+Waverian benchmark tool.
 Usage:
-         -o <file>      ..... report text file                      [default lfk-report.txt]
-         -r <file>.html ..... report html file                      [default lfk-report.html]
-         -j <cores>     ..... number of cores (0 - auto detection)  [default 1]
-         -t <seconds>   ..... execution time in seconds per kernel  [default 1]
-
+         -o <file>    ..... .txt and .html reports file name      [default waverian-benchmark-report]
+         -c <comment> ..... comment added to the report
+         -j <cores>   ..... number of cores (0 - auto detection)  [default 1]
+         -t <seconds> ..... execution time in seconds per kernel  [default 0.5]
+         -w           ..... enable workstation mode               [default off]
 ```
 
 ## License
