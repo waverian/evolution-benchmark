@@ -34,7 +34,7 @@ if (MSVC)
 
     message(STATUS "")
 
-    target_compile_options(benchmark-core-optimized BEFORE PRIVATE /MT /O1 /Ob1 /DNDEBUG)
+    target_compile_options(benchmark-core-optimized BEFORE PRIVATE /MT /O2 /Ob2 /DNDEBUG)
     target_compile_options(benchmark-core-nonoptimized BEFORE PRIVATE /MTd /Zi /Ob0 /Od /RTC1)
 else ()
     target_compile_options(benchmark-core-optimized BEFORE PRIVATE -O3 -DNDEBUG)
