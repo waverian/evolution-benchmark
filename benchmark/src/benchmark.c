@@ -82,8 +82,7 @@ static void benchmark_setup_execution_queue(benchmark_handler_t handler) {
     return;
   }
 
-  for (optimization = WB_OPTIMIZATION_DISABLED;
-       optimization < WB_OPTIMIZATION_SIZE; optimization++) {
+  for (optimization = WB_OPTIMIZATION_DISABLED; optimization < WB_OPTIMIZATION_SIZE; optimization++) {
     task = handler->execution_queue.queue + handler->execution_queue.size++;
     task->run_type = WB_RUN_TYPE_SINGLE_CORE;
     task->optimization = optimization;
@@ -128,9 +127,8 @@ static void benchmark_fill_timestamp(benchmark_handler_t handler) {
   time(&t);
   info = localtime(&t);
 
-  snprintf(buffer, sizeof(buffer), "%02i:%02i %02i/%02i/%i", info->tm_hour,
-           info->tm_min, info->tm_mday, (info->tm_mon + 1),
-           (info->tm_year + 1900));
+  snprintf(buffer, sizeof(buffer), "%02i:%02i %02i/%02i/%i", info->tm_hour, info->tm_min, info->tm_mday,
+           (info->tm_mon + 1), (info->tm_year + 1900));
 
   handler->timestamp = strdup(buffer);
 }
@@ -208,30 +206,25 @@ benchmark_set_core_count_limit(benchmark_handler_t handler, int core_count) {
 }
 
 BENCHMARK_ERROR_CODE_E
-benchmark_set_progress_callback(
-    benchmark_handler_t handler,
-    benchmark_progress_callback_handler_t callback) {
+benchmark_set_progress_callback(benchmark_handler_t handler, benchmark_progress_callback_handler_t callback) {
   handler->progress_callback = callback;
   return BENCHMARK_ERROR_CODE_OK;
 }
 
 BENCHMARK_ERROR_CODE_E
-benchmark_set_execution_time(benchmark_handler_t handler,
-                             double execution_time) {
+benchmark_set_execution_time(benchmark_handler_t handler, double execution_time) {
   handler->execution_time = execution_time;
   return BENCHMARK_ERROR_CODE_OK;
 }
 
 BENCHMARK_ERROR_CODE_E
-benchmark_set_execution_mode(benchmark_handler_t handler,
-                             WB_EXECUTION_MODE_E execution_mode) {
+benchmark_set_execution_mode(benchmark_handler_t handler, WB_EXECUTION_MODE_E execution_mode) {
   handler->execution_mode = execution_mode;
   return BENCHMARK_ERROR_CODE_OK;
 }
 
 BENCHMARK_ERROR_CODE_E
-benchmark_set_optimization_enabled(benchmark_handler_t handler,
-                                   WB_OPTIMIZATION_E optimization) {
+benchmark_set_optimization_enabled(benchmark_handler_t handler, WB_OPTIMIZATION_E optimization) {
   handler->optimization = optimization;
   return BENCHMARK_ERROR_CODE_OK;
 }
@@ -246,8 +239,7 @@ benchmark_set_comment(benchmark_handler_t handler, const char *comment) {
   return BENCHMARK_ERROR_CODE_OK;
 }
 
-void benchmark_proxy_progress_callback(void *handler_as_void, int kernel,
-                                       int run) {
+void benchmark_proxy_progress_callback(void *handler_as_void, int kernel, int run) {
   static const int TOTAL_KERNELS = 24;
   static const int TOTAL_RUNS = 3;
   int progress;
@@ -255,39 +247,30 @@ void benchmark_proxy_progress_callback(void *handler_as_void, int kernel,
 
   benchmark_handler_t handler = handler_as_void;
 
-  progress = (int)(100.0 * (TOTAL_KERNELS * (run) + kernel) /
-                   (TOTAL_KERNELS * TOTAL_RUNS));
+  progress = (int)(100.0 * (TOTAL_KERNELS * (run) + kernel) / (TOTAL_KERNELS * TOTAL_RUNS));
 
-  progress = (int)(100.0 *
-                   (handler->execution_queue.current -
-                    handler->execution_queue.queue) /
+  progress = (int)(100.0 * (handler->execution_queue.current - handler->execution_queue.queue) /
                    handler->execution_queue.size) +
              progress / handler->execution_queue.size;
 
-  snprintf(
-      buffer, sizeof(buffer), "%s | %s | Run %i/3 | Kernel %i/24 | %s",
-      WB_RUN_TYPE_NAMES[handler->execution_queue.current->run_type],
-      WB_OPTIMIZATION_NAMES[handler->execution_queue.current->optimization],
-      run + 1, kernel, WB_KERNEL_NAMES[kernel - 1]);
+  snprintf(buffer, sizeof(buffer), "%s | %s | Run %i/3 | Kernel %i/24 | %s",
+           WB_RUN_TYPE_NAMES[handler->execution_queue.current->run_type],
+           WB_OPTIMIZATION_NAMES[handler->execution_queue.current->optimization], run + 1, kernel,
+           WB_KERNEL_NAMES[kernel - 1]);
 
-  handler->progress_callback.callback(handler->progress_callback.data, progress,
-                                      buffer);
+  handler->progress_callback.callback(handler->progress_callback.data, progress, buffer);
 }
 
-static void benchmark_kernel_runner(benchmark_handler_t handler,
-                                    run_result_t *result_p) {
+static void benchmark_kernel_runner(benchmark_handler_t handler, run_result_t *result_p) {
   int thread_idx;
   int i;
 
-  void *(*benchmark)(void *) = handler->optimization == WB_OPTIMIZATION_ENABLED
-                                   ? benchmark_core_optimized
-                                   : benchmark_core_nonoptimized;
+  void *(*benchmark)(void *) =
+      handler->optimization == WB_OPTIMIZATION_ENABLED ? benchmark_core_optimized : benchmark_core_nonoptimized;
 
-  benchmark_core_args_t **thread_results =
-      calloc(handler->core_count_limit, sizeof(benchmark_core_args_t *));
+  benchmark_core_args_t **thread_results = calloc(handler->core_count_limit, sizeof(benchmark_core_args_t *));
 
-  thread_handler_p *thread_pool =
-      calloc(handler->core_count_limit, sizeof(thread_handler_p));
+  thread_handler_p *thread_pool = calloc(handler->core_count_limit, sizeof(thread_handler_p));
 
   for (thread_idx = 0; thread_idx < handler->core_count_limit; ++thread_idx) {
     thread_results[thread_idx] = calloc(1, sizeof(benchmark_core_args_t));
@@ -295,13 +278,11 @@ static void benchmark_kernel_runner(benchmark_handler_t handler,
     thread_results[thread_idx]->callback_handler.callback = NULL;
     thread_results[thread_idx]->callback_handler.data = NULL;
     if (0 == thread_idx) {
-      thread_results[thread_idx]->callback_handler.callback =
-          benchmark_proxy_progress_callback;
+      thread_results[thread_idx]->callback_handler.callback = benchmark_proxy_progress_callback;
       thread_results[thread_idx]->callback_handler.data = handler;
     }
 
-    thread_pool[thread_idx] =
-        thread_init(benchmark, thread_results[thread_idx]);
+    thread_pool[thread_idx] = thread_init(benchmark, thread_results[thread_idx]);
   }
   for (thread_idx = 0; thread_idx < handler->core_count_limit; ++thread_idx) {
     thread_join(thread_pool[thread_idx]);
@@ -310,8 +291,7 @@ static void benchmark_kernel_runner(benchmark_handler_t handler,
 
   for (thread_idx = 0; thread_idx < handler->core_count_limit; ++thread_idx) {
     for (i = 0; i < WB_KERNEL_COUNT; i++) {
-      result_p->kernel_results[i] +=
-          thread_results[thread_idx]->results.kernel_results[i];
+      result_p->kernel_results[i] += thread_results[thread_idx]->results.kernel_results[i];
     }
     free(thread_results[thread_idx]);
   }
@@ -368,7 +348,7 @@ benchmark_run(benchmark_handler_t handler) {
   benchmark_setup_execution_queue(handler);
   benchmark_fill_timestamp(handler);
   benchmark_process_execution_queue(handler);
-  if (NULL != handler->progress_callback.callback ){
+  if (NULL != handler->progress_callback.callback) {
     handler->progress_callback.callback(NULL, 100, "Done!");
   }
   return BENCHMARK_ERROR_CODE_OK;
@@ -376,9 +356,9 @@ benchmark_run(benchmark_handler_t handler) {
 
 benchmark_result_t benchmark_get_results(benchmark_handler_t handler) {
   benchmark_result_t result = {0};
-
   WB_RUN_TYPE_E current_run_type;
   WB_OPTIMIZATION_E optimization;
+  run_result_t *run_result;
   double score;
 
   result.core_count = handler->core_count_limit;
@@ -386,57 +366,42 @@ benchmark_result_t benchmark_get_results(benchmark_handler_t handler) {
   strncpy(result.comment, handler->comment, sizeof(result.comment));
 
   // Copy last results from handler
-  for (optimization = WB_OPTIMIZATION_DISABLED;
-       optimization < WB_OPTIMIZATION_SIZE; optimization++) {
-    for (current_run_type = WB_RUN_TYPE_MANUAL;
-         current_run_type < WB_RUN_TYPE_SIZE; current_run_type++) {
+  for (optimization = WB_OPTIMIZATION_DISABLED; optimization < WB_OPTIMIZATION_SIZE; optimization++) {
+    for (current_run_type = WB_RUN_TYPE_MANUAL; current_run_type < WB_RUN_TYPE_SIZE; current_run_type++) {
       memcpy(&result.full_result[optimization].detailed[current_run_type],
-             &handler->run_result[optimization][current_run_type],
-             sizeof(run_result_t));
+             &handler->run_result[optimization][current_run_type], sizeof(run_result_t));
     }
   }
 
-  for (optimization = WB_OPTIMIZATION_DISABLED;
-       optimization < WB_OPTIMIZATION_SIZE; optimization++) {
+  for (optimization = WB_OPTIMIZATION_DISABLED; optimization < WB_OPTIMIZATION_SIZE; optimization++) {
     score = 1;
-    for (current_run_type = WB_RUN_TYPE_SINGLE_CORE;
-         current_run_type < WB_RUN_TYPE_WORKSTATION; current_run_type++) {
-      // Copy single core result if run is not valid
-      if (!result.full_result[optimization].detailed[current_run_type].valid &&
-          result.full_result[optimization]
-              .detailed[WB_RUN_TYPE_SINGLE_CORE]
-              .valid) {
-        memcpy(
-            &result.full_result[optimization].detailed[current_run_type],
-            &result.full_result[optimization].detailed[WB_RUN_TYPE_SINGLE_CORE],
-            sizeof(run_result_t));
+    for (current_run_type = WB_RUN_TYPE_SINGLE_CORE; current_run_type < WB_RUN_TYPE_WORKSTATION; current_run_type++) {
+      // Copy  result if run is not valid
+      if (!result.full_result[optimization].detailed[current_run_type].valid) {
+        // prioritize multicore if valid. single core othervise.
+        run_result = result.full_result[optimization].detailed[WB_RUN_TYPE_MULTI_CORE].valid
+                         ? &result.full_result[optimization].detailed[WB_RUN_TYPE_MULTI_CORE]
+                         : &result.full_result[optimization].detailed[WB_RUN_TYPE_SINGLE_CORE];
+        memcpy(&result.full_result[optimization].detailed[current_run_type], run_result, sizeof(run_result_t));
       }
 
       // For score calculation consider only SINGLE_CORE MULTI_CORE
       // QUAD_CORE modes
-      if (current_run_type == WB_RUN_TYPE_SINGLE_CORE ||
-          current_run_type == WB_RUN_TYPE_MULTI_CORE ||
+      if (current_run_type == WB_RUN_TYPE_SINGLE_CORE || current_run_type == WB_RUN_TYPE_MULTI_CORE ||
           current_run_type == WB_RUN_TYPE_QUAD_CORE) {
-        score *=
-            result.full_result[optimization].detailed[current_run_type].score;
+        score *= result.full_result[optimization].detailed[current_run_type].score;
       }
     }
     result.full_result[optimization].score = cbrt(score);
   }
 
   // Calculate ratio only if single core is valid
-  for (optimization = WB_OPTIMIZATION_DISABLED;
-       optimization < WB_OPTIMIZATION_SIZE; optimization++) {
-    if (result.full_result[optimization]
-            .detailed[WB_RUN_TYPE_SINGLE_CORE]
-            .valid) {
-      for (current_run_type = WB_RUN_TYPE_MANUAL;
-           current_run_type < WB_RUN_TYPE_SIZE; current_run_type++) {
+  for (optimization = WB_OPTIMIZATION_DISABLED; optimization < WB_OPTIMIZATION_SIZE; optimization++) {
+    if (result.full_result[optimization].detailed[WB_RUN_TYPE_SINGLE_CORE].valid) {
+      for (current_run_type = WB_RUN_TYPE_MANUAL; current_run_type < WB_RUN_TYPE_SIZE; current_run_type++) {
         result.full_result[optimization].detailed[current_run_type].ratio =
             result.full_result[optimization].detailed[current_run_type].score /
-            result.full_result[optimization]
-                .detailed[WB_RUN_TYPE_SINGLE_CORE]
-                .score;
+            result.full_result[optimization].detailed[WB_RUN_TYPE_SINGLE_CORE].score;
       }
     }
   }

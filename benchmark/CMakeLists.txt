@@ -95,19 +95,18 @@ target_link_libraries(benchmark
         benchmark-core-nonoptimized
 )
 
-if (ANDROID)
+if (NOT WB_USE_WINAPI)
     target_link_libraries(benchmark
             PRIVATE
             m
     )
-elseif (WB_USE_WINAPI)
-    if (MSVC)
-        target_compile_options(benchmark PRIVATE /MT)
-    endif ()
-else ()
+endif ()
+
+if (${WB_USE_THREADS} STREQUAL WIN AND MSVC)
+    target_compile_options(benchmark PRIVATE /MT)
+elseif (${WB_USE_THREADS} STREQUAL POSIX AND NOT ANDROID)
     target_link_libraries(benchmark
             PRIVATE
-            m
             pthread
     )
 endif ()

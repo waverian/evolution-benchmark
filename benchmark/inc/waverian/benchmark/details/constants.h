@@ -29,8 +29,7 @@
 extern const char *const WB_KERNEL_NAMES[];
 extern const int WB_KERNEL_COUNT;
 
-static const char *const WB_OPTIMIZATION_NAMES[] = {"Non optimized",
-                                                    "Optimized"};
+static const char *const WB_OPTIMIZATION_NAMES[] = {"Non optimized", "Optimized"};
 extern const char *const WB_RUN_TYPE_NAMES[];
 
 extern const char *const WB_EXECUTION_MODE_NAMES[];

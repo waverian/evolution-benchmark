@@ -25,33 +25,31 @@
 
 const int WB_KERNEL_COUNT = 24;
 
-const char *const WB_KERNEL_NAMES[] = {
-    "Hydro fragment",
-    "ICCG excerpt (Incomplete Cholesky Conjugate Gradient)",
-    "Inner product",
-    "Banded linear equations",
-    "Tri-diagonal elimination, below diagonal",
-    "General linear recurrence equations",
-    "Equation of state fragment",
-    "ADI integration",
-    "Integrate predictors",
-    "Difference predictors",
-    "First sum",
-    "First difference",
-    "2-D PIC (Particle In Cell)",
-    "1-D PIC (Particle In Cell)",
-    "Casual Fortran.  Development version",
-    "Monte Carlo search loop",
-    "Implicit, conditional computation",
-    "2-D explicit hydrodynamics fragment",
-    "General linear recurrence equations",
-    "Discrete ordinates transport, conditional recurrence on xx",
-    "Matrix*matrix product",
-    "Planckian distribution",
-    "2-D implicit hydrodynamics fragment",
-    "Find location of first minimum in array"};
+const char *const WB_KERNEL_NAMES[] = {"Hydro fragment",
+                                       "ICCG excerpt (Incomplete Cholesky Conjugate Gradient)",
+                                       "Inner product",
+                                       "Banded linear equations",
+                                       "Tri-diagonal elimination, below diagonal",
+                                       "General linear recurrence equations",
+                                       "Equation of state fragment",
+                                       "ADI integration",
+                                       "Integrate predictors",
+                                       "Difference predictors",
+                                       "First sum",
+                                       "First difference",
+                                       "2-D PIC (Particle In Cell)",
+                                       "1-D PIC (Particle In Cell)",
+                                       "Casual Fortran.  Development version",
+                                       "Monte Carlo search loop",
+                                       "Implicit, conditional computation",
+                                       "2-D explicit hydrodynamics fragment",
+                                       "General linear recurrence equations",
+                                       "Discrete ordinates transport, conditional recurrence on xx",
+                                       "Matrix*matrix product",
+                                       "Planckian distribution",
+                                       "2-D implicit hydrodynamics fragment",
+                                       "Find location of first minimum in array"};
 
-const char *const WB_RUN_TYPE_NAMES[] = {"Manual", "Single core", "Multi core",
-                                         "Quad core", "Workstation"};
+const char *const WB_RUN_TYPE_NAMES[] = {"Manual", "Single core", "Multi core", "Quad core", "Workstation"};
 
 const char *const WB_EXECUTION_MODE_NAMES[] = {"Manual", "Full", "Workstation"};

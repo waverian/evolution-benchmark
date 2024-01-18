@@ -28,8 +28,7 @@ typedef struct thread_handler_t *thread_handler_p;
 typedef void *thread_args;
 typedef void *(*thread_routine)(thread_args);
 
-thread_handler_p thread_init(thread_routine routine,
-                                     thread_args args);
+thread_handler_p thread_init(thread_routine routine, thread_args args);
 
 void thread_join(thread_handler_p handler);
 

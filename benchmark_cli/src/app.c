@@ -114,7 +114,7 @@ void app_print_run_parameters(const program_parameters_t *params, const benchmar
   printf("Running benchmark_params:\n");
   printf("Report file: .................. %s\n", params->report_file);
   printf("CPU: .......................... %s\n", benchmark_params.cpu_name);
-  printf("Core count: ................... %i%s\n",
+  printf("Logical cores: ................ %i%s\n",
          (params->core_count == 0) ? benchmark_params.cpu_core_count : params->core_count,
          (params->core_count == 0) ? " (auto)" : "");
   printf("Execution time per kernel: .... %.1f second(s)\n", params->execution_time);

@@ -313,8 +313,7 @@ static void init(struct Arrays *as1, struct Parameters *as2, long which);
 
 /* Initialises arrays and variables  */
 
-static long endloop(struct Arrays *as1, struct Parameters *as2,
-                    struct RunParameters *as3, long which);
+static long endloop(struct Arrays *as1, struct Parameters *as2, struct RunParameters *as3, long which);
 
 /* Controls outer loops and stores results */
 
@@ -323,8 +322,7 @@ static long parameters(struct Arrays *as1, struct Parameters *as2, long which,
 
 /* Gets loop parameters and variables, starts timer */
 
-static void kernels(struct Arrays *as1, struct Parameters *as2,
-                    struct RunParameters *as3,
+static void kernels(struct Arrays *as1, struct Parameters *as2, struct RunParameters *as3,
                     benchmark_core_progress_callback_handler_t *callback);
 
 /* The 24 kernels */
@@ -337,21 +335,17 @@ static void iqranf(struct Arrays *as1, struct Parameters *as2);
 
 /* Random number generator for Kernel 14 */
 
-static void checkOut(struct Parameters *as2, struct RunParameters *as3,
-                     int which);
+static void checkOut(struct Parameters *as2, struct RunParameters *as3, int which);
 
-static void set_progress(benchmark_core_progress_callback_handler_t *callback,
-                         int current_kernel, int current_run) {
+static void set_progress(benchmark_core_progress_callback_handler_t *callback, int current_kernel, int current_run) {
   if (callback && callback->callback) {
     callback->callback(callback->data, current_kernel, current_run);
   }
 }
 
 void *BENCHMARK_INCLUDE_OPTIMIZATION(void *benchmark_args_as_void) {
-  benchmark_core_args_t *benchmark_args =
-      (benchmark_core_args_t *)benchmark_args_as_void;
-  benchmark_core_progress_callback_handler_t *callback_handler =
-      &benchmark_args->callback_handler;
+  benchmark_core_args_t *benchmark_args = (benchmark_core_args_t *)benchmark_args_as_void;
+  benchmark_core_progress_callback_handler_t *callback_handler = &benchmark_args->callback_handler;
   double pass_time, least, lmult; /*wt;*/
   long i, k, loop_passes;
   long mul[3] = {1, 2, 8};
@@ -366,11 +360,9 @@ void *BENCHMARK_INCLUDE_OPTIMIZATION(void *benchmark_args_as_void) {
 
   struct Arrays *as1 = (struct Arrays *)calloc(1, sizeof(struct Arrays));
 
-  struct Parameters *as2 =
-      (struct Parameters *)calloc(1, sizeof(struct Parameters));
+  struct Parameters *as2 = (struct Parameters *)calloc(1, sizeof(struct Parameters));
 
-  struct RunParameters *as3 =
-      (struct RunParameters *)calloc(1, sizeof(struct RunParameters));
+  struct RunParameters *as3 = (struct RunParameters *)calloc(1, sizeof(struct RunParameters));
 
   runSecs = benchmark_args->execution_time;
   reliability = FALSE;
@@ -482,10 +474,7 @@ void *BENCHMARK_INCLUDE_OPTIMIZATION(void *benchmark_args_as_void) {
      are re-initialised. The time for initialising parameters is
      not included in the loop time. */
 
-      extra_loops[section][i] =
-          (long)(runSecs / RunTime[section][i] *
-                 (double)extra_loops[section][i] * lmult) +
-          1;
+      extra_loops[section][i] = (long)(runSecs / RunTime[section][i] * (double)extra_loops[section][i] * lmult) + 1;
       RunTime[section][i] = 0.0;
     }
 
@@ -620,8 +609,7 @@ void *BENCHMARK_INCLUDE_OPTIMIZATION(void *benchmark_args_as_void) {
  *                          The Kernels                                 *
  ************************************************************************/
 
-static void kernels(struct Arrays *as1, struct Parameters *as2,
-                    struct RunParameters *as3,
+static void kernels(struct Arrays *as1, struct Parameters *as2, struct RunParameters *as3,
                     benchmark_core_progress_callback_handler_t *callback) {
   long lw;
   long ipnt, ipntp, ii;
@@ -772,8 +760,7 @@ static void kernels(struct Arrays *as1, struct Parameters *as2,
   do {
     for (k = 0; k < n; k++) {
       x[k] = u[k] + r * (z[k] + r * y[k]) +
-             t * (u[k + 3] + r * (u[k + 2] + r * u[k + 1]) +
-                  t * (u[k + 6] + q * (u[k + 5] + q * u[k + 4])));
+             t * (u[k + 3] + r * (u[k + 2] + r * u[k + 1]) + t * (u[k + 6] + q * (u[k + 5] + q * u[k + 4])));
     }
 
     endloop(as1, as2, as3, 7);
@@ -796,18 +783,12 @@ static void kernels(struct Arrays *as1, struct Parameters *as2,
         du1[ky] = u1[nl1][ky + 1][kx] - u1[nl1][ky - 1][kx];
         du2[ky] = u2[nl1][ky + 1][kx] - u2[nl1][ky - 1][kx];
         du3[ky] = u3[nl1][ky + 1][kx] - u3[nl1][ky - 1][kx];
-        u1[nl2][ky][kx] = u1[nl1][ky][kx] + a11 * du1[ky] + a12 * du2[ky] +
-                          a13 * du3[ky] +
-                          sig * (u1[nl1][ky][kx + 1] - 2.0 * u1[nl1][ky][kx] +
-                                 u1[nl1][ky][kx - 1]);
-        u2[nl2][ky][kx] = u2[nl1][ky][kx] + a21 * du1[ky] + a22 * du2[ky] +
-                          a23 * du3[ky] +
-                          sig * (u2[nl1][ky][kx + 1] - 2.0 * u2[nl1][ky][kx] +
-                                 u2[nl1][ky][kx - 1]);
-        u3[nl2][ky][kx] = u3[nl1][ky][kx] + a31 * du1[ky] + a32 * du2[ky] +
-                          a33 * du3[ky] +
-                          sig * (u3[nl1][ky][kx + 1] - 2.0 * u3[nl1][ky][kx] +
-                                 u3[nl1][ky][kx - 1]);
+        u1[nl2][ky][kx] = u1[nl1][ky][kx] + a11 * du1[ky] + a12 * du2[ky] + a13 * du3[ky] +
+                          sig * (u1[nl1][ky][kx + 1] - 2.0 * u1[nl1][ky][kx] + u1[nl1][ky][kx - 1]);
+        u2[nl2][ky][kx] = u2[nl1][ky][kx] + a21 * du1[ky] + a22 * du2[ky] + a23 * du3[ky] +
+                          sig * (u2[nl1][ky][kx + 1] - 2.0 * u2[nl1][ky][kx] + u2[nl1][ky][kx - 1]);
+        u3[nl2][ky][kx] = u3[nl1][ky][kx] + a31 * du1[ky] + a32 * du2[ky] + a33 * du3[ky] +
+                          sig * (u3[nl1][ky][kx + 1] - 2.0 * u3[nl1][ky][kx] + u3[nl1][ky][kx - 1]);
       }
     }
 
@@ -824,9 +805,8 @@ static void kernels(struct Arrays *as1, struct Parameters *as2,
 
   do {
     for (i = 0; i < n; i++) {
-      px[i][0] = dm28 * px[i][12] + dm27 * px[i][11] + dm26 * px[i][10] +
-                 dm25 * px[i][9] + dm24 * px[i][8] + dm23 * px[i][7] +
-                 dm22 * px[i][6] + c0 * (px[i][4] + px[i][5]) + px[i][2];
+      px[i][0] = dm28 * px[i][12] + dm27 * px[i][11] + dm26 * px[i][10] + dm25 * px[i][9] + dm24 * px[i][8] +
+                 dm23 * px[i][7] + dm22 * px[i][6] + c0 * (px[i][4] + px[i][5]) + px[i][2];
     }
 
     endloop(as1, as2, as3, 9);
@@ -1061,8 +1041,7 @@ static void kernels(struct Arrays *as1, struct Parameters *as2,
         break; /* 475 */
       } else {
         k3++; /* 450 */
-        tmp = (d[j5 - 1] - (d[j5 - 2] * (t - d[j5 - 3]) * (t - d[j5 - 3]) +
-                            (s - d[j5 - 4]) * (s - d[j5 - 4]) +
+        tmp = (d[j5 - 1] - (d[j5 - 2] * (t - d[j5 - 3]) * (t - d[j5 - 3]) + (s - d[j5 - 4]) * (s - d[j5 - 4]) +
                             (r - d[j5 - 5]) * (r - d[j5 - 5])));
       }
       if (tmp < 0.0) {
@@ -1142,24 +1121,18 @@ static void kernels(struct Arrays *as1, struct Parameters *as2,
     jn = n;
     for (k = 1; k < kn; k++) {
       for (j = 1; j < jn; j++) {
-        za[k][j] = (zp[k + 1][j - 1] + zq[k + 1][j - 1] - zp[k][j - 1] -
-                    zq[k][j - 1]) *
-                   (zr[k][j] + zr[k][j - 1]) /
+        za[k][j] = (zp[k + 1][j - 1] + zq[k + 1][j - 1] - zp[k][j - 1] - zq[k][j - 1]) * (zr[k][j] + zr[k][j - 1]) /
                    (zm[k][j - 1] + zm[k + 1][j - 1]);
-        zb[k][j] = (zp[k][j - 1] + zq[k][j - 1] - zp[k][j] - zq[k][j]) *
-                   (zr[k][j] + zr[k - 1][j]) / (zm[k][j] + zm[k][j - 1]);
+        zb[k][j] =
+            (zp[k][j - 1] + zq[k][j - 1] - zp[k][j] - zq[k][j]) * (zr[k][j] + zr[k - 1][j]) / (zm[k][j] + zm[k][j - 1]);
       }
     }
     for (k = 1; k < kn; k++) {
       for (j = 1; j < jn; j++) {
-        zu[k][j] += s * (za[k][j] * (zz[k][j] - zz[k][j + 1]) -
-                         za[k][j - 1] * (zz[k][j] - zz[k][j - 1]) -
-                         zb[k][j] * (zz[k][j] - zz[k - 1][j]) +
-                         zb[k + 1][j] * (zz[k][j] - zz[k + 1][j]));
-        zv[k][j] += s * (za[k][j] * (zr[k][j] - zr[k][j + 1]) -
-                         za[k][j - 1] * (zr[k][j] - zr[k][j - 1]) -
-                         zb[k][j] * (zr[k][j] - zr[k - 1][j]) +
-                         zb[k + 1][j] * (zr[k][j] - zr[k + 1][j]));
+        zu[k][j] += s * (za[k][j] * (zz[k][j] - zz[k][j + 1]) - za[k][j - 1] * (zz[k][j] - zz[k][j - 1]) -
+                         zb[k][j] * (zz[k][j] - zz[k - 1][j]) + zb[k + 1][j] * (zz[k][j] - zz[k + 1][j]));
+        zv[k][j] += s * (za[k][j] * (zr[k][j] - zr[k][j + 1]) - za[k][j - 1] * (zr[k][j] - zr[k][j - 1]) -
+                         zb[k][j] * (zr[k][j] - zr[k - 1][j]) + zb[k + 1][j] * (zr[k][j] - zr[k + 1][j]));
       }
     }
     for (k = 1; k < kn; k++) {
@@ -1266,8 +1239,8 @@ static void kernels(struct Arrays *as1, struct Parameters *as2,
   do {
     for (j = 1; j < 6; j++) {
       for (k = 1; k < n; k++) {
-        qa = za[j + 1][k] * zr[j][k] + za[j - 1][k] * zb[j][k] +
-             za[j][k + 1] * zu[j][k] + za[j][k - 1] * zv[j][k] + zz[j][k];
+        qa = za[j + 1][k] * zr[j][k] + za[j - 1][k] * zb[j][k] + za[j][k + 1] * zu[j][k] + za[j][k - 1] * zv[j][k] +
+             zz[j][k];
         za[j][k] += 0.175 * (qa - za[j][k]);
       }
     }
@@ -1298,8 +1271,7 @@ static void kernels(struct Arrays *as1, struct Parameters *as2,
  *        endloop procedure - calculate checksums and MFLOPS            *
  ************************************************************************/
 
-static long endloop(struct Arrays *as1, struct Parameters *as2,
-                    struct RunParameters *as3, long which) {
+static long endloop(struct Arrays *as1, struct Parameters *as2, struct RunParameters *as3, long which) {
   double useflops = 0;
   long i, j, k, m;
   double Scale = 1000000.0;
@@ -1371,8 +1343,7 @@ static long endloop(struct Arrays *as1, struct Parameters *as2,
             for (k = 0; k < 5; k++) {
               m = 101 * 5 * i + 5 * j + k + 1;
               if (m < 10 * n + 1) {
-                Checksum[section][8] = Checksum[section][8] + u1[i][j][k] * m +
-                                       u2[i][j][k] * m + u3[i][j][k] * m;
+                Checksum[section][8] = Checksum[section][8] + u1[i][j][k] * m + u2[i][j][k] * m + u3[i][j][k] * m;
               }
             }
           }
@@ -1384,8 +1355,7 @@ static long endloop(struct Arrays *as1, struct Parameters *as2,
           for (j = 0; j < 25; j++) {
             m = 25 * i + j + 1;
             if (m < 15 * n + 1) {
-              Checksum[section][9] =
-                  Checksum[section][9] + px[i][j] * (double)(m);
+              Checksum[section][9] = Checksum[section][9] + px[i][j] * (double)(m);
             }
           }
         }
@@ -1396,8 +1366,7 @@ static long endloop(struct Arrays *as1, struct Parameters *as2,
           for (j = 0; j < 25; j++) {
             m = 25 * i + j + 1;
             if (m < 15 * n + 1) {
-              Checksum[section][10] =
-                  Checksum[section][10] + px[i][j] * (double)(m);
+              Checksum[section][10] = Checksum[section][10] + px[i][j] * (double)(m);
             }
           }
         }
@@ -1411,8 +1380,7 @@ static long endloop(struct Arrays *as1, struct Parameters *as2,
       }
       if (which == 12) {
         for (k = 0; k < n - 1; k++) {
-          Checksum[section][12] =
-              Checksum[section][12] + x[k] * (double)(k + 1);
+          Checksum[section][12] = Checksum[section][12] + x[k] * (double)(k + 1);
         }
         useflops = nflops * (double)(n * loop);
       }
@@ -1420,16 +1388,14 @@ static long endloop(struct Arrays *as1, struct Parameters *as2,
         for (k = 0; k < 2 * n; k++) {
           for (j = 0; j < 4; j++) {
             m = 4 * k + j + 1;
-            Checksum[section][13] =
-                Checksum[section][13] + p[k][j] * (double)(m);
+            Checksum[section][13] = Checksum[section][13] + p[k][j] * (double)(m);
           }
         }
         for (i = 0; i < 8 * n / 64; i++) {
           for (j = 0; j < 64; j++) {
             m = 64 * i + j + 1;
             if (m < 8 * n + 1) {
-              Checksum[section][13] =
-                  Checksum[section][13] + h[i][j] * (double)(m);
+              Checksum[section][13] = Checksum[section][13] + h[i][j] * (double)(m);
             }
           }
         }
@@ -1437,12 +1403,10 @@ static long endloop(struct Arrays *as1, struct Parameters *as2,
       }
       if (which == 14) {
         for (k = 0; k < n; k++) {
-          Checksum[section][14] =
-              Checksum[section][14] + (xx[k] + vx[k]) * (double)(k + 1);
+          Checksum[section][14] = Checksum[section][14] + (xx[k] + vx[k]) * (double)(k + 1);
         }
         for (k = 0; k < 67; k++) {
-          Checksum[section][14] =
-              Checksum[section][14] + rh[k] * (double)(k + 1);
+          Checksum[section][14] = Checksum[section][14] + rh[k] * (double)(k + 1);
         }
         useflops = nflops * (double)(n * loop);
       }
@@ -1451,8 +1415,7 @@ static long endloop(struct Arrays *as1, struct Parameters *as2,
           for (k = 0; k < 101; k++) {
             m = 101 * j + k + 1;
             if (m < n * 7 + 1) {
-              Checksum[section][15] =
-                  Checksum[section][15] + (vs[j][k] + vy[j][k]) * (double)(m);
+              Checksum[section][15] = Checksum[section][15] + (vs[j][k] + vy[j][k]) * (double)(m);
             }
           }
         }
@@ -1465,8 +1428,7 @@ static long endloop(struct Arrays *as1, struct Parameters *as2,
       if (which == 17) {
         Checksum[section][17] = xnm;
         for (k = 0; k < n; k++) {
-          Checksum[section][17] =
-              Checksum[section][17] + (vxne[k] + vxnd[k]) * (double)(k + 1);
+          Checksum[section][17] = Checksum[section][17] + (vxne[k] + vxnd[k]) * (double)(k + 1);
         }
         useflops = nflops * (double)(n * loop);
       }
@@ -1475,8 +1437,7 @@ static long endloop(struct Arrays *as1, struct Parameters *as2,
           for (j = 0; j < 101; j++) {
             m = 101 * k + j + 1;
             if (m < 7 * n + 1) {
-              Checksum[section][18] =
-                  Checksum[section][18] + (zz[k][j] + zr[k][j]) * (double)(m);
+              Checksum[section][18] = Checksum[section][18] + (zz[k][j] + zr[k][j]) * (double)(m);
             }
           }
         }
@@ -1485,8 +1446,7 @@ static long endloop(struct Arrays *as1, struct Parameters *as2,
       if (which == 19) {
         Checksum[section][19] = stb5;
         for (k = 0; k < n; k++) {
-          Checksum[section][19] =
-              Checksum[section][19] + b5[k] * (double)(k + 1);
+          Checksum[section][19] = Checksum[section][19] + b5[k] * (double)(k + 1);
         }
         useflops = nflops * (double)(n * loop);
       }
@@ -1500,16 +1460,14 @@ static long endloop(struct Arrays *as1, struct Parameters *as2,
         for (k = 0; k < n; k++) {
           for (i = 0; i < 25; i++) {
             m = 25 * k + i + 1;
-            Checksum[section][21] =
-                Checksum[section][21] + px[k][i] * (double)(m);
+            Checksum[section][21] = Checksum[section][21] + px[k][i] * (double)(m);
           }
         }
         useflops = nflops * (double)(n * 625 * loop);
       }
       if (which == 22) {
         for (k = 0; k < n; k++) {
-          Checksum[section][22] =
-              Checksum[section][22] + w[k] * (double)(k + 1);
+          Checksum[section][22] = Checksum[section][22] + w[k] * (double)(k + 1);
         }
         useflops = nflops * (double)(n * loop);
       }
@@ -1518,8 +1476,7 @@ static long endloop(struct Arrays *as1, struct Parameters *as2,
           for (k = 0; k < 101; k++) {
             m = 101 * j + k + 1;
             if (m < 7 * n + 1) {
-              Checksum[section][23] =
-                  Checksum[section][23] + za[j][k] * (double)(m);
+              Checksum[section][23] = Checksum[section][23] + za[j][k] * (double)(m);
             }
           }
         }
@@ -1543,12 +1500,9 @@ static long endloop(struct Arrays *as1, struct Parameters *as2,
          *results *
          ************************************************************************/
 
-        RunTime[section][which] =
-            RunTime[section][which] -
-            (loop * extra_loops[section][which]) * overhead_l;
+        RunTime[section][which] = RunTime[section][which] - (loop * extra_loops[section][which]) * overhead_l;
         FPops[section][which] = useflops * extra_loops[section][which];
-        Mflops[section][which] =
-            FPops[section][which] / Scale / RunTime[section][which];
+        Mflops[section][which] = FPops[section][which] / Scale / RunTime[section][which];
         if (pass > 0) {
           /************************************************************************
            *      Compare sumcheck with standard result, calculate
@@ -2022,15 +1976,11 @@ static long parameters(struct Arrays *as1, struct Parameters *as2, long which,
        64, 1001, 101, 75,   101,  100,  101, 1000, 101, 101, 100, 1001},
       {0,  101, 101, 101, 101, 101, 32,  101, 100, 101, 101, 101, 100,
        32, 101, 101, 40,  101, 100, 101, 100, 50,  101, 100, 101},
-      {0, 27, 15, 27, 27, 27, 8,  21, 14, 15, 15, 27, 26,
-       8, 27, 15, 15, 15, 14, 15, 26, 20, 15, 14, 27}};
+      {0, 27, 15, 27, 27, 27, 8, 21, 14, 15, 15, 27, 26, 8, 27, 15, 15, 15, 14, 15, 26, 20, 15, 14, 27}};
 
-  long lpass[3][25] = {{0,  7, 67, 9,  14, 10, 3,  4, 10, 36, 34, 11, 12,
-                        36, 2, 1,  25, 35, 2,  39, 1, 1,  11, 8,  5},
-                       {0,  40, 40, 53, 70, 55, 7,  22, 6, 21, 19, 64, 68,
-                        41, 10, 1,  27, 20, 1,  23, 8,  1, 7,  5,  31},
-                       {0,  28, 46, 37, 38, 40, 21, 20, 9, 26, 25, 46, 48,
-                        31, 8,  1,  14, 26, 2,  28, 7,  1, 8,  7,  23}};
+  long lpass[3][25] = {{0, 7, 67, 9, 14, 10, 3, 4, 10, 36, 34, 11, 12, 36, 2, 1, 25, 35, 2, 39, 1, 1, 11, 8, 5},
+                       {0, 40, 40, 53, 70, 55, 7, 22, 6, 21, 19, 64, 68, 41, 10, 1, 27, 20, 1, 23, 8, 1, 7, 5, 31},
+                       {0, 28, 46, 37, 38, 40, 21, 20, 9, 26, 25, 46, 48, 31, 8, 1, 14, 26, 2, 28, 7, 1, 8, 7, 23}};
 
   double sums[3][25] = {{0.0,
                          5.114652693224671e+04,
@@ -2110,9 +2060,8 @@ static long parameters(struct Arrays *as1, struct Parameters *as2, long which,
                          4.850340602749970e+02,
                          1.300000000000000e+01}};
 
-  double number_flops[25] = {0,   5., 4.,  2., 2.,  2.,  2.,  16., 36.,
-                             17., 9., 1.,  1., 7.,  11., 33., 10., 9.,
-                             44., 6., 26., 2., 17., 11., 1.};
+  double number_flops[25] = {0,  5.,  4.,  2.,  2., 2.,  2., 16., 36., 17., 9.,  1., 1.,
+                             7., 11., 33., 10., 9., 44., 6., 26., 2.,  17., 11., 1.};
 
   n = nloops[section][which];
   nspan[section][which] = n;
@@ -2209,8 +2158,7 @@ static void iqranf(struct Arrays *as1, struct Parameters *as2) {
   return;
 }
 
-static void checkOut(struct Parameters *as2, struct RunParameters *as3,
-                     int which) {
+static void checkOut(struct Parameters *as2, struct RunParameters *as3, int which) {
   int i = 0;
   int j = 0;
   int errors = 0;

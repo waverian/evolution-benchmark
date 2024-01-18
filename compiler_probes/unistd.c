@@ -1,5 +1,5 @@
 #include "unistd.h"
 
 int main() {
-  return 0;
+  return (int)sysconf(_SC_NPROCESSORS_ONLN);
 }

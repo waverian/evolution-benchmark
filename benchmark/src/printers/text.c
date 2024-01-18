@@ -64,8 +64,7 @@ void print_int_first_cell(FILE *file_handler, int num) {
 }
 
 BENCHMARK_ERROR_CODE_E
-benchmark_print_results_text(const benchmark_handler_t handler,
-                             const char *path) {
+benchmark_print_results_text(const benchmark_handler_t handler, const char *path) {
   int column_count = 0;
   int kernel_idx;
   WB_RUN_TYPE_E run_type;
@@ -81,9 +80,8 @@ benchmark_print_results_text(const benchmark_handler_t handler,
   fprintf(file_handler, "\r\n");
   fprintf(file_handler, "Version            - %s\r\n", parameters.version_info);
   fprintf(file_handler, "Date               - %s\r\n", result.timestamp);
-  fprintf(file_handler, "Compiler           - %s\r\n",
-          parameters.compiler_info);
-  fprintf(file_handler, "Core count         - %u\r\n", result.core_count);
+  fprintf(file_handler, "Compiler           - %s\r\n", parameters.compiler_info);
+  fprintf(file_handler, "Logical cores      - %u\r\n", result.core_count);
   fprintf(file_handler, "CPU name           - %s\r\n", parameters.cpu_name);
   fprintf(file_handler, "Comment            - %s\r\n", result.comment);
   fprintf(file_handler, "\r\n");
@@ -94,14 +92,9 @@ benchmark_print_results_text(const benchmark_handler_t handler,
   for (run_type = WB_RUN_TYPE_MANUAL; run_type < WB_RUN_TYPE_SIZE; run_type++) {
     if (result.full_result[WB_OPTIMIZATION_DISABLED].detailed[run_type].valid) {
       fprintf(file_handler, "%-18s - %-6.*f", WB_RUN_TYPE_NAMES[run_type],
-              AUTO_PRECISION(result.full_result[WB_OPTIMIZATION_DISABLED]
-                                 .detailed[run_type]
-                                 .score));
+              AUTO_PRECISION(result.full_result[WB_OPTIMIZATION_DISABLED].detailed[run_type].score));
       if (run_type != WB_RUN_TYPE_SINGLE_CORE) {
-        fprintf(file_handler, " (ratio x%.1f)",
-                result.full_result[WB_OPTIMIZATION_DISABLED]
-                    .detailed[run_type]
-                    .ratio);
+        fprintf(file_handler, " (ratio x%.1f)", result.full_result[WB_OPTIMIZATION_DISABLED].detailed[run_type].ratio);
       }
       fprintf(file_handler, "\r\n");
       column_count++;
@@ -109,23 +102,19 @@ benchmark_print_results_text(const benchmark_handler_t handler,
   }
   fprintf(file_handler, "\r\n");
 
-  for (optimization = WB_OPTIMIZATION_DISABLED;
-       optimization < WB_OPTIMIZATION_SIZE; optimization++) {
+  for (optimization = WB_OPTIMIZATION_DISABLED; optimization < WB_OPTIMIZATION_SIZE; optimization++) {
     if (optimization == WB_OPTIMIZATION_ENABLED) {
       fprintf(file_handler, "\r\n");
-      fprintf(file_handler,
-              "Optimized score - %.*f (optimized ratio x%.1f)\r\n",
+      fprintf(file_handler, "Optimized score - %.*f (optimized ratio x%.1f)\r\n",
               AUTO_PRECISION(result.full_result[WB_OPTIMIZATION_ENABLED].score),
-              result.full_result[WB_OPTIMIZATION_ENABLED].score /
-                  result.full_result[WB_OPTIMIZATION_DISABLED].score);
+              result.full_result[WB_OPTIMIZATION_ENABLED].score / result.full_result[WB_OPTIMIZATION_DISABLED].score);
       fprintf(file_handler, "\r\n");
     }
 
     print_table_divider(file_handler, column_count);
 
     print_str_first_cell(file_handler, WB_OPTIMIZATION_NAMES[optimization]);
-    for (run_type = WB_RUN_TYPE_MANUAL; run_type < WB_RUN_TYPE_SIZE;
-         run_type++) {
+    for (run_type = WB_RUN_TYPE_MANUAL; run_type < WB_RUN_TYPE_SIZE; run_type++) {
       if (result.full_result[optimization].detailed[run_type].valid) {
         print_str_cell(file_handler, WB_RUN_TYPE_NAMES[run_type]);
       }
@@ -135,56 +124,41 @@ benchmark_print_results_text(const benchmark_handler_t handler,
     print_table_divider(file_handler, column_count);
 
     print_str_first_cell(file_handler, "Maximum");
-    for (run_type = WB_RUN_TYPE_MANUAL; run_type < WB_RUN_TYPE_SIZE;
-         run_type++) {
+    for (run_type = WB_RUN_TYPE_MANUAL; run_type < WB_RUN_TYPE_SIZE; run_type++) {
       if (result.full_result[optimization].detailed[run_type].valid) {
-        print_float_cell(
-            file_handler,
-            result.full_result[optimization].detailed[run_type].maximum);
+        print_float_cell(file_handler, result.full_result[optimization].detailed[run_type].maximum);
       }
     }
     fprintf(file_handler, "\r\n");
 
     print_str_first_cell(file_handler, "Average");
-    for (run_type = WB_RUN_TYPE_MANUAL; run_type < WB_RUN_TYPE_SIZE;
-         run_type++) {
+    for (run_type = WB_RUN_TYPE_MANUAL; run_type < WB_RUN_TYPE_SIZE; run_type++) {
       if (result.full_result[optimization].detailed[run_type].valid) {
-        print_float_cell(
-            file_handler,
-            result.full_result[optimization].detailed[run_type].average);
+        print_float_cell(file_handler, result.full_result[optimization].detailed[run_type].average);
       }
     }
     fprintf(file_handler, "\r\n");
 
     print_str_first_cell(file_handler, "Geometric");
-    for (run_type = WB_RUN_TYPE_MANUAL; run_type < WB_RUN_TYPE_SIZE;
-         run_type++) {
+    for (run_type = WB_RUN_TYPE_MANUAL; run_type < WB_RUN_TYPE_SIZE; run_type++) {
       if (result.full_result[optimization].detailed[run_type].valid) {
-        print_float_cell(
-            file_handler,
-            result.full_result[optimization].detailed[run_type].geometric);
+        print_float_cell(file_handler, result.full_result[optimization].detailed[run_type].geometric);
       }
     }
     fprintf(file_handler, "\r\n");
 
     print_str_first_cell(file_handler, "Harmonic");
-    for (run_type = WB_RUN_TYPE_MANUAL; run_type < WB_RUN_TYPE_SIZE;
-         run_type++) {
+    for (run_type = WB_RUN_TYPE_MANUAL; run_type < WB_RUN_TYPE_SIZE; run_type++) {
       if (result.full_result[optimization].detailed[run_type].valid) {
-        print_float_cell(
-            file_handler,
-            result.full_result[optimization].detailed[run_type].harmonic);
+        print_float_cell(file_handler, result.full_result[optimization].detailed[run_type].harmonic);
       }
     }
     fprintf(file_handler, "\r\n");
 
     print_str_first_cell(file_handler, "Minimum");
-    for (run_type = WB_RUN_TYPE_MANUAL; run_type < WB_RUN_TYPE_SIZE;
-         run_type++) {
+    for (run_type = WB_RUN_TYPE_MANUAL; run_type < WB_RUN_TYPE_SIZE; run_type++) {
       if (result.full_result[optimization].detailed[run_type].valid) {
-        print_float_cell(
-            file_handler,
-            result.full_result[optimization].detailed[run_type].minimum);
+        print_float_cell(file_handler, result.full_result[optimization].detailed[run_type].minimum);
       }
     }
     fprintf(file_handler, "\r\n");
@@ -192,12 +166,10 @@ benchmark_print_results_text(const benchmark_handler_t handler,
 
     for (kernel_idx = 0; kernel_idx < WB_KERNEL_COUNT; kernel_idx++) {
       print_int_first_cell(file_handler, kernel_idx + 1);
-      for (run_type = WB_RUN_TYPE_MANUAL; run_type < WB_RUN_TYPE_SIZE;
-           run_type++) {
+      for (run_type = WB_RUN_TYPE_MANUAL; run_type < WB_RUN_TYPE_SIZE; run_type++) {
         if (result.full_result[optimization].detailed[run_type].valid) {
-          print_float_cell(file_handler, result.full_result[optimization]
-                                             .detailed[run_type]
-                                             .kernel_results[kernel_idx]);
+          print_float_cell(file_handler,
+                           result.full_result[optimization].detailed[run_type].kernel_results[kernel_idx]);
         }
       }
       fprintf(file_handler, "\r\n");

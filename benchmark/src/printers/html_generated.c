@@ -28,9 +28,10 @@ fprintf(file_handler,
         "</td>\n		</tr>\n		<tr>\n			<td>Compiler</td>\n			<td "
         "colspan=\"4\">");
 fprintf(file_handler, "%s", parameters.compiler_info);
-fprintf(file_handler,
-        "</td>\n		</tr>\n		<tr>\n			<td>Core count</td>\n			<td "
-        "colspan=\"4\">");
+fprintf(
+    file_handler,
+    "</td>\n		</tr>\n		<tr>\n			<td>Logical cores</td>\n			<td "
+    "colspan=\"4\">");
 fprintf(file_handler, "%i", result.core_count);
 fprintf(file_handler,
         "</td>\n		</tr>\n		<tr>\n			<td>CPU name</td>\n			<td "

@@ -54,8 +54,7 @@ static DWORD WINAPI _routine_wrapper(LPVOID handler_as_void) {
 }
 #endif
 
-thread_handler_p thread_init(thread_routine routine,
-                                     thread_args args) {
+thread_handler_p thread_init(thread_routine routine, thread_args args) {
 #ifdef WB_USE_POSIX_THREADS
   thread_handler_p handler = calloc(1, sizeof(thread_handler_t));
   handler->pthread_handler = 0;
@@ -67,8 +66,7 @@ thread_handler_p thread_init(thread_routine routine,
   handler->routine = routine;
   handler->args = args;
 
-  handler->thread_handler =
-      CreateThread(NULL, 0, _routine_wrapper, handler, 0, NULL);
+  handler->thread_handler = CreateThread(NULL, 0, _routine_wrapper, handler, 0, NULL);
   return handler;
 #else
   routine(args);
