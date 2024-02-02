@@ -19,7 +19,7 @@ fprintf(
     "class=\"container\">\n	<div class=\"logo white_on_blue\">\n		<h3 class=\"thin_font\">Waverian "
     "benchmark</h3>\n	</div>\n	<table class=\"table_info\">\n		<thead></thead>\n		"
     "<tbody>\n		<tr>\n			<td>Version</td>\n			<td colspan=\"4\">");
-fprintf(file_handler, "%s", parameters.version_info);
+fprintf(file_handler, "%s", result.system_info.version_info);
 fprintf(
     file_handler,
     "</td>\n		</tr>\n		<tr>\n			<td>Date</td>\n			<td colspan=\"4\">");
@@ -27,7 +27,7 @@ fprintf(file_handler, "%s", result.timestamp);
 fprintf(file_handler,
         "</td>\n		</tr>\n		<tr>\n			<td>Compiler</td>\n			<td "
         "colspan=\"4\">");
-fprintf(file_handler, "%s", parameters.compiler_info);
+fprintf(file_handler, "%s", result.system_info.compiler_info);
 fprintf(
     file_handler,
     "</td>\n		</tr>\n		<tr>\n			<td>Logical cores</td>\n			<td "
@@ -36,7 +36,7 @@ fprintf(file_handler, "%i", result.core_count);
 fprintf(file_handler,
         "</td>\n		</tr>\n		<tr>\n			<td>CPU name</td>\n			<td "
         "colspan=\"4\">");
-fprintf(file_handler, "%s", parameters.cpu_name);
+fprintf(file_handler, "%s", result.system_info.cpu_name);
 fprintf(file_handler,
         "</td>\n		</tr>\n		<tr>\n			<td>Comment</td>\n			<td "
         "colspan=\"4\">");
@@ -194,7 +194,7 @@ for (i = 0; i < WB_KERNEL_COUNT; i++) {
     if (result.full_result[WB_OPTIMIZATION_DISABLED].detailed[j].valid) {
       fprintf(file_handler, "\n				<td>");
       fprintf(file_handler, "%.*f",
-              AUTO_PRECISION(result.full_result[WB_OPTIMIZATION_DISABLED].detailed[j].kernel_results[i]));
+              AUTO_PRECISION(result.full_result[WB_OPTIMIZATION_DISABLED].detailed[j].kernels[i]));
       fprintf(file_handler, "</td>");
     }
   }
@@ -290,8 +290,7 @@ for (i = 0; i < WB_KERNEL_COUNT; i++) {
   for (j = 0; j < WB_RUN_TYPE_SIZE; j++) {
     if (result.full_result[WB_OPTIMIZATION_ENABLED].detailed[j].valid) {
       fprintf(file_handler, "\n				<td>");
-      fprintf(file_handler, "%.*f",
-              AUTO_PRECISION(result.full_result[WB_OPTIMIZATION_ENABLED].detailed[j].kernel_results[i]));
+      fprintf(file_handler, "%.*f", AUTO_PRECISION(result.full_result[WB_OPTIMIZATION_ENABLED].detailed[j].kernels[i]));
       fprintf(file_handler, "</td>");
     }
   }

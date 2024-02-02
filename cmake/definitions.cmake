@@ -41,5 +41,5 @@ else ()
     message(FATAL "Unsupported target host system name ${CMAKE_SYSTEM_NAME}")
 endif ()
 
-add_compile_definitions(WB_VERSION="${WB_VERSION}")
-add_compile_definitions(WB_COMPILER="${CMAKE_C_COMPILER_VERSION}")
+add_compile_definitions(EB_VERSION="${EB_VERSION}")
+add_compile_definitions(EB_COMPILER="${CMAKE_C_COMPILER_VERSION}")

@@ -49,6 +49,13 @@ typedef enum {
 } WB_OPTIMIZATION_E;
 
 typedef struct {
+  const char *compiler_info;
+  const char *version_info;
+  const char *cpu_name;
+  int cpu_core_count;
+} system_info_t;
+
+typedef struct {
   int valid;
 
   double score;
@@ -60,27 +67,22 @@ typedef struct {
   double harmonic;
   double minimum;
 
-  double kernel_results[24];
+  double kernels[24];
 } run_result_t;
 
 typedef struct {
   double score;
   run_result_t detailed[WB_RUN_TYPE_SIZE];
-} full_result_t[WB_OPTIMIZATION_SIZE];
+} full_result_t;
 
 typedef struct {
+  system_info_t system_info;
+
   char timestamp[32];
   char comment[128];
   int core_count;
 
-  full_result_t full_result;
+  full_result_t full_result[WB_OPTIMIZATION_SIZE];
 } benchmark_result_t;
-
-typedef struct {
-  const char *compiler_info;
-  const char *version_info;
-  const char *cpu_name;
-  int cpu_core_count;
-} benchmark_parameters_t;
 
 #endif /* WAVERIAN_BENCHMARK_RESULT_H */

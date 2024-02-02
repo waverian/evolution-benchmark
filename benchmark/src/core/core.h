@@ -26,7 +26,7 @@
 
 #include <waverian/benchmark/details/types.h>
 
-typedef void (*benchmark_core_progress_callback_t)(void *data, int run, int kernel);
+typedef int (*benchmark_core_progress_callback_t)(void *data, int run, int kernel);
 
 typedef struct {
   void *data;

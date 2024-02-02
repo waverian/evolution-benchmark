@@ -20,11 +20,11 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 add_library(benchmark-core-optimized
-        STATIC
+        OBJECT
         src/core/core.c)
 
 add_library(benchmark-core-nonoptimized
-        STATIC
+        OBJECT
         src/core/core.c)
 
 if (MSVC)

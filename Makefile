@@ -80,11 +80,11 @@ endif
 
 BUILD_DIR?=build_make/
 
-WB_VERSION=$(shell cat VERSION || echo "UNKNOWN")
-WB_COMPILER=$(shell ${CC} --version | head -n1)
+EB_VERSION=$(shell cat VERSION || echo "UNKNOWN")
+EB_COMPILER=$(shell ${CC} --version | head -n1)
 
-override CFLAGS += -DWB_VERSION="\"${WB_VERSION}\""\
-                   -DWB_COMPILER="\"${WB_COMPILER}\""\
+override CFLAGS += -DEB_VERSION="\"${EB_VERSION}\""\
+                   -DEB_COMPILER="\"${EB_COMPILER}\""\
                    ${WB_FLAGS}
 
 

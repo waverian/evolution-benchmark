@@ -51,7 +51,7 @@ typedef struct {
   const char *report_file;
 } program_parameters_t;
 
-void benchmark_callback(void *dummy, int progress, const char *message) {
+int benchmark_callback(void *dummy, int progress, const char *message) {
   static int previous_length = 0;
   (void)dummy;
 
@@ -59,6 +59,7 @@ void benchmark_callback(void *dummy, int progress, const char *message) {
   previous_length = printf("\r[%3i%%] - %s", progress, message);
 
   fflush(stdout);
+  return 0;
 }
 
 int app_parse_args(program_parameters_t *params, int argc, const char *const argv[]) {
@@ -108,21 +109,21 @@ int app_parse_args(program_parameters_t *params, int argc, const char *const arg
   return 0;
 }
 
-void app_print_run_parameters(const program_parameters_t *params, const benchmark_handler_t handler) {
-  const benchmark_parameters_t benchmark_params = benchmark_get_parameters(handler);
+void app_print_run_parameters(const program_parameters_t params, const benchmark_handler_t handler) {
+  system_info_t system_info;
+  benchmark_get_system_info(handler, &system_info);
 
-  printf("Running benchmark_params:\n");
-  printf("Report file: .................. %s\n", params->report_file);
-  printf("CPU: .......................... %s\n", benchmark_params.cpu_name);
+  printf("Running system_info:\n");
+  printf("Report file: .................. %s\n", params.report_file);
+  printf("CPU: .......................... %s\n", system_info.cpu_name);
   printf("Logical cores: ................ %i%s\n",
-         (params->core_count == 0) ? benchmark_params.cpu_core_count : params->core_count,
-         (params->core_count == 0) ? " (auto)" : "");
-  printf("Execution time per kernel: .... %.1f second(s)\n", params->execution_time);
-  printf("Execution mode: ............... %s\n", WB_EXECUTION_MODE_NAMES[params->execution_mode]);
+         (params.core_count == 0) ? system_info.cpu_core_count : params.core_count,
+         (params.core_count == 0) ? " (auto)" : "");
+  printf("Execution time per kernel: .... %.1f second(s)\n", params.execution_time);
+  printf("Execution mode: ............... %s\n", WB_EXECUTION_MODE_NAMES[params.execution_mode]);
 }
 
-void app_print_run_results(const benchmark_handler_t handler) {
-  const benchmark_result_t result = benchmark_get_results(handler);
+void app_print_run_results(const benchmark_result_t result) {
   WB_RUN_TYPE_E run_type;
   const char *format = "%-14s - %-6.*f";
 
@@ -145,6 +146,7 @@ void app_print_run_results(const benchmark_handler_t handler) {
 int app_main(const int argc, const char *const argv[]) {
   program_parameters_t params;
   benchmark_handler_t handler;
+  benchmark_result_t results;
   char *filename;
   benchmark_progress_callback_handler_t callbackHandler;
 
@@ -161,20 +163,22 @@ int app_main(const int argc, const char *const argv[]) {
   callbackHandler.callback = benchmark_callback;
   benchmark_set_progress_callback(handler, callbackHandler);
 
-  app_print_run_parameters(&params, handler);
-  benchmark_run(handler);
+  app_print_run_parameters(params, handler);
+
+  benchmark_run(handler, &results);
   printf("\n\n");
 
-  app_print_run_results(handler);
+  app_print_run_results(results);
 
   filename = malloc(strlen(params.report_file) + 6);
+
   strcpy(filename, params.report_file);
   strncat(filename, ".html", strlen(filename));
-  benchmark_print_results_html(handler, filename);
+  benchmark_print_results_html(results, filename);
 
   strcpy(filename, params.report_file);
   strncat(filename, ".txt", strlen(filename));
-  benchmark_print_results_text(handler, filename);
+  benchmark_print_results_text(results, filename);
 
   free(filename);
   benchmark_cleanup(handler);

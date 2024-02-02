@@ -587,7 +587,7 @@ void *BENCHMARK_INCLUDE_OPTIMIZATION(void *benchmark_args_as_void) {
    ************************************************************************/
 
   for (which = 1; which < 25; which++) {
-    benchmark_args->results.kernel_results[which - 1] = Mflops[0][which];
+    benchmark_args->results.kernels[which - 1] = Mflops[0][which];
   }
 
   if (!reliability) {

@@ -64,25 +64,22 @@ void print_int_first_cell(FILE *file_handler, int num) {
 }
 
 BENCHMARK_ERROR_CODE_E
-benchmark_print_results_text(const benchmark_handler_t handler, const char *path) {
+benchmark_print_results_text(const benchmark_result_t result, const char *path) {
   int column_count = 0;
   int kernel_idx;
   WB_RUN_TYPE_E run_type;
   WB_OPTIMIZATION_E optimization;
   FILE *file_handler;
 
-  const benchmark_parameters_t parameters = benchmark_get_parameters(handler);
-  const benchmark_result_t result = benchmark_get_results(handler);
-
   file_handler = fopen(path, "wb");
 
   fprintf(file_handler, "Waverian benchmark report\r\n");
   fprintf(file_handler, "\r\n");
-  fprintf(file_handler, "Version            - %s\r\n", parameters.version_info);
+  fprintf(file_handler, "Version            - %s\r\n", result.system_info.version_info);
   fprintf(file_handler, "Date               - %s\r\n", result.timestamp);
-  fprintf(file_handler, "Compiler           - %s\r\n", parameters.compiler_info);
+  fprintf(file_handler, "Compiler           - %s\r\n", result.system_info.compiler_info);
   fprintf(file_handler, "Logical cores      - %u\r\n", result.core_count);
-  fprintf(file_handler, "CPU name           - %s\r\n", parameters.cpu_name);
+  fprintf(file_handler, "CPU name           - %s\r\n", result.system_info.cpu_name);
   fprintf(file_handler, "Comment            - %s\r\n", result.comment);
   fprintf(file_handler, "\r\n");
   fprintf(file_handler, "OVERALL RESULT     - %.*f\r\n",
@@ -168,8 +165,7 @@ benchmark_print_results_text(const benchmark_handler_t handler, const char *path
       print_int_first_cell(file_handler, kernel_idx + 1);
       for (run_type = WB_RUN_TYPE_MANUAL; run_type < WB_RUN_TYPE_SIZE; run_type++) {
         if (result.full_result[optimization].detailed[run_type].valid) {
-          print_float_cell(file_handler,
-                           result.full_result[optimization].detailed[run_type].kernel_results[kernel_idx]);
+          print_float_cell(file_handler, result.full_result[optimization].detailed[run_type].kernels[kernel_idx]);
         }
       }
       fprintf(file_handler, "\r\n");

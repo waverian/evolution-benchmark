@@ -36,7 +36,7 @@
  * @return
  */
 BENCHMARK_ERROR_CODE_E
-benchmark_print_results_html(const benchmark_handler_t handler, const char *path);
+benchmark_print_results_html(const benchmark_result_t handler, const char *path);
 
 /**
  * This functions prints results of the benchmark run to the text file by the
@@ -47,6 +47,6 @@ benchmark_print_results_html(const benchmark_handler_t handler, const char *path
  * @return
  */
 BENCHMARK_ERROR_CODE_E
-benchmark_print_results_text(const benchmark_handler_t handler, const char *path);
+benchmark_print_results_text(const benchmark_result_t handler, const char *path);
 
 #endif /*WAVERIAN_BENCHMARK_PRINTERS_H*/

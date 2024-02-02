@@ -27,7 +27,7 @@
 #include <waverian/benchmark/details/error_code.h>
 #include <waverian/benchmark/details/types.h>
 
-typedef void (*benchmark_progress_callback_t)(void *data, int progress, const char *message);
+typedef int (*benchmark_progress_callback_t)(void *data, int progress, const char *message);
 
 typedef struct {
   void *data;
@@ -38,8 +38,8 @@ benchmark_handler_t benchmark_init();
 
 BENCHMARK_ERROR_CODE_E benchmark_cleanup(benchmark_handler_t handler);
 
-BENCHMARK_ERROR_CODE_E benchmark_set_progress_callback(benchmark_handler_t handler,
-                                                       benchmark_progress_callback_handler_t callback);
+BENCHMARK_ERROR_CODE_E
+benchmark_set_progress_callback(benchmark_handler_t handler, benchmark_progress_callback_handler_t callback);
 
 BENCHMARK_ERROR_CODE_E
 benchmark_set_core_count_limit(benchmark_handler_t handler, int core_count);
@@ -47,7 +47,8 @@ benchmark_set_core_count_limit(benchmark_handler_t handler, int core_count);
 BENCHMARK_ERROR_CODE_E
 benchmark_set_execution_time(benchmark_handler_t handler, double execution_time);
 
-BENCHMARK_ERROR_CODE_E benchmark_set_comment(benchmark_handler_t handler, const char *comment);
+BENCHMARK_ERROR_CODE_E
+benchmark_set_comment(benchmark_handler_t handler, const char *comment);
 
 BENCHMARK_ERROR_CODE_E
 benchmark_set_execution_mode(benchmark_handler_t handler, WB_EXECUTION_MODE_E execution_mode);
@@ -55,10 +56,10 @@ benchmark_set_execution_mode(benchmark_handler_t handler, WB_EXECUTION_MODE_E ex
 BENCHMARK_ERROR_CODE_E
 benchmark_set_optimization_enabled(benchmark_handler_t handler, WB_OPTIMIZATION_E optimization);
 
-BENCHMARK_ERROR_CODE_E benchmark_run(benchmark_handler_t handler);
+BENCHMARK_ERROR_CODE_E
+benchmark_run(benchmark_handler_t handler, benchmark_result_t *result);
 
-benchmark_parameters_t benchmark_get_parameters(benchmark_handler_t handler);
-
-benchmark_result_t benchmark_get_results(benchmark_handler_t handler);
+BENCHMARK_ERROR_CODE_E
+benchmark_get_system_info(benchmark_handler_t handler, system_info_t *system_info);
 
 #endif /*WAVERIAN_BENCHMARK_BENCHMARK_H*/

@@ -87,7 +87,7 @@
 		<tr>
 			<td>Version</td>
 			<td colspan="4">
-				<!--%WPP_STR_PARAM=parameters.version_info-->
+				<!--%WPP_STR_PARAM=result.system_info.version_info-->
 				version<!--%WPP_IGNORE--></td>
 		</tr>
 		<tr>
@@ -99,7 +99,7 @@
 		<tr>
 			<td>Compiler</td>
 			<td colspan="4">
-				<!--%WPP_STR_PARAM=parameters.compiler_info-->
+				<!--%WPP_STR_PARAM=result.system_info.compiler_info-->
 				compiler<!--%WPP_IGNORE--></td>
 		</tr>
 		<tr>
@@ -111,7 +111,7 @@
 		<tr>
 			<td>CPU name</td>
 			<td colspan="4">
-				<!--%WPP_STR_PARAM=parameters.cpu_name-->
+				<!--%WPP_STR_PARAM=result.system_info.cpu_name-->
 				CPU name<!--%WPP_IGNORE--></td>
 		</tr>
 		<tr>
@@ -300,7 +300,7 @@
 				<!--%WPP_FOR=j;WPP_FOR_BEGIN=0;WPP_FOR_END=WB_RUN_TYPE_SIZE-->
 				<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[j].valid-->
 				<td>
-					<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[j].kernel_results[i];AFTER_DOT=AUTO-->
+					<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_DISABLED].detailed[j].kernels[i];AFTER_DOT=AUTO-->
 					0<!--%WPP_IGNORE--></td>
 				<!--%WPP_ENDIF-->
 				<!--%WPP_ENDFOR=j-->
@@ -430,7 +430,7 @@
 				<!--%WPP_FOR=j;WPP_FOR_BEGIN=0;WPP_FOR_END=WB_RUN_TYPE_SIZE-->
 				<!--%WPP_IF=result.full_result[WB_OPTIMIZATION_ENABLED].detailed[j].valid-->
 				<td>
-					<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_ENABLED].detailed[j].kernel_results[i];AFTER_DOT=AUTO-->
+					<!--%WPP_NUM_PARAM=result.full_result[WB_OPTIMIZATION_ENABLED].detailed[j].kernels[i];AFTER_DOT=AUTO-->
 					0<!--%WPP_IGNORE--></td>
 				<!--%WPP_ENDIF-->
 				<!--%WPP_ENDFOR=j-->
