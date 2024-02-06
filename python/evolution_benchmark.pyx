@@ -182,7 +182,7 @@ cdef class Benchmark:
 
     def __call_callback(self, progress: int, message: str):
         if self.external_callback:
-            ret = self.external_callback(progress, str)
+            ret = self.external_callback(progress, message)
             if type(ret) is not int:
                 return 0
             return ret
