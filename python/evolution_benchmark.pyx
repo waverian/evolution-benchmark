@@ -12,7 +12,7 @@
  For details of the C module look at https://github.com/waverian/lfk-mp-benchmark
  '''
  
-#cython: language_level=3
+cython: language_level=3
 
 from typing import Callable
 
