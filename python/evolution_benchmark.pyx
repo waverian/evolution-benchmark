@@ -201,7 +201,7 @@ cdef class Benchmark:
         self.callback_handler.callback = self.progress_callback_internal
 
         benchmark_set_progress_callback(self.handler, self.callback_handler)
-        benchmark_set_execution_time(self.handler, 0.000001)
+        benchmark_set_execution_time(self.handler, 1.00000 if 'EVOBENCHTESTMODE' not in os.environ else .0000001)
 
     def __del__(self):
         benchmark_cleanup(self.handler)
