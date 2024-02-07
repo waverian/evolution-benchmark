@@ -23,7 +23,7 @@ setup(
     author_email='akshay@kivy.org',
     cmdclass={'build_ext': build_ext},
     packages=['evolution_benchmark'],
-    package_dir={'evolution_benchmark': '.'},
+    package_dir={'evolution_benchmark': '..'},
     options={'bdist_wheel':{'universal':'1'}},
     ext_modules=cythonize(
         [Extension(
