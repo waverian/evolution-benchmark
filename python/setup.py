@@ -15,7 +15,7 @@ with open(join(dirname(__file__), 'evolution_benchmark.pyx')) as f:
             __version__ == line.split('=')[-1].strip()[1:-1]
 
 root_dir = abspath(dirname(__file__))
-
+print(f" THE ROOT DIR IS {root_dir}")
 setup(
     name='evolution_benchmark',
     description='Python Interface to Evolution Benchmark',
@@ -30,9 +30,9 @@ setup(
             "evolution_benchmark",
             [join(root_dir, 'evolution_benchmark.pyx')],
             language="c",
-            include_dirs=[join(root_dir, "..", "", "benchmark", "inc")],
+            include_dirs=[join(root_dir, "..", "benchmark", "inc")],
             libraries=["benchmark"],
-            library_dirs=[join(root_dir, "..", '', 'build_cmake', 'benchmark')],
+            library_dirs=[join(root_dir, "..", 'build_cmake', 'benchmark')],
             language_level='3',
         )],
         compiler_directives={'language_level' : "3"}
