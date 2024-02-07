@@ -23,7 +23,14 @@ setup(
     author_email='akshay@kivy.org',
     cmdclass={'build_ext': build_ext},
     packages=['evolution_benchmark'],
-    package_dir={'evolution_benchmark': '..'},
+    package_dir={'evolution_benchmark': '.'},
+    package_data={'evolution_benchmark': [
+        join(root_dir, '..', 'benchmark', 'inc', 'waverian', 'benchmark', 'details', 'constants.h'),
+        join(root_dir, '..', 'benchmark', 'inc', 'waverian', 'benchmark', 'details', 'error_code.h'),
+        join(root_dir, '..', 'benchmark', 'inc', 'waverian', 'benchmark', 'details', 'types.h'),
+        join(root_dir, '..', 'benchmark', 'inc', 'waverian', 'benchmark', 'benchmark.h'),
+        join(root_dir, '..', 'benchmark', 'inc', 'waverian', 'benchmark', 'printers.h'),
+    ]},
     options={'bdist_wheel':{'universal':'1'}},
     ext_modules=cythonize(
         [Extension(
