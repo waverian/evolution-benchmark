@@ -15,7 +15,11 @@ with open(join(dirname(__file__), 'evolution_benchmark.pyx')) as f:
             __version__ == line.split('=')[-1].strip()[1:-1]
 
 root_dir = abspath(dirname(__file__))
-print(f" THE ROOT DIR IS {root_dir}")
+
+import os
+os.system('ls -la ')
+os.system('ls -la ./*')
+
 setup(
     name='evolution_benchmark',
     description='Python Interface to Evolution Benchmark',
