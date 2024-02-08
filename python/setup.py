@@ -30,9 +30,10 @@ setup(
             "evolution_benchmark",
             [join(root_dir, 'evolution_benchmark.pyx')],
             language="c",
-            include_dirs=[join(root_dir, "..", "", "benchmark", "inc")],
+            include_dirs=[join(root_dir, "..", "benchmark", "inc")],
             libraries=["benchmark"],
-            library_dirs=[join(root_dir, "..", '', 'build_cmake', 'benchmark')],
+            library_dirs=[join(root_dir, "..", 'build_cmake', 'benchmark'),
+                          join(root_dir, "..", 'build_cmake', 'benchmark', 'Release'),],
             language_level='3',
         )],
         compiler_directives={'language_level' : "3"}

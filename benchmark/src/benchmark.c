@@ -329,6 +329,9 @@ static void benchmark_process_execution_queue(benchmark_handler_t handler, bench
     benchmark_kernel_runner(handler, run_result);
     handler->execution_queue.current++;
   }
+
+  handler->execution_queue.size = 0;
+  handler->execution_queue.current = handler->execution_queue.queue;
 }
 
 static void benchmark_fill_results(benchmark_handler_t handler, benchmark_result_t *result) {

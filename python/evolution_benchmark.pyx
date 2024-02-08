@@ -144,8 +144,9 @@ cdef class Result():
         for opt in opts:
             for run in runs:
                 if self.result['full_result'][opt]['detailed'][run]['valid'] == 0:
-                    print(f'deleting {opt} {run}')
-                    del self.result['full_result'][opt]['detailed'][run]
+                    self.result['full_result'][opt]['detailed'][run] = None
+                else:
+                    del self.result['full_result'][opt]['detailed'][run]['valid']
 
         def fix_string(result):
             for key, value in result.items():
@@ -155,7 +156,6 @@ cdef class Result():
                     result[key] = value.decode('utf-8')
         fix_string(self.result)
 
-        print(self.result)
 
     def print_results_html(self, path: str):
         benchmark_print_results_html(self.data, bytes(path, 'utf-8'))
@@ -206,7 +206,7 @@ cdef class Benchmark:
     def __del__(self):
         benchmark_cleanup(self.handler)
 
-    def run_benchmark(self, comment: str = None, callback: Callable[[int, str], int] = None):
+    def run_benchmark(self, comment: str = None, workstation: bool = False, callback: Callable[[int, str], int] = None):
         '''Run benchmark from UI.
         Warning::
 
@@ -216,10 +216,10 @@ cdef class Benchmark:
         
             `callback` pass a function here. Defaults to `None`.
         '''
-        if not self.handler:
-            raise RuntimeError("Use Benchmark within a 'with' statement.")
         if comment:
             benchmark_set_comment(self.handler, bytes(comment, 'utf-8'))
+        if workstation:
+            benchmark_set_execution_mode(self.handler, WB_EXECUTION_MODE_FULL_AUTO)
 
         Logger.debug('LFKBenchmark:  Setting up benchmark.')
 
