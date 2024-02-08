@@ -145,6 +145,8 @@ cdef class Result():
             for run in runs:
                 if self.result['full_result'][opt]['detailed'][run]['valid'] == 0:
                     self.result['full_result'][opt]['detailed'][run] = None
+                else:
+                    del self.result['full_result'][opt]['detailed'][run]['valid']
 
         def fix_string(result):
             for key, value in result.items():
