@@ -1,4 +1,4 @@
-# Copyright (c) 2022 waverian
+# Copyright (c) 2022 waverian. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -20,9 +20,9 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 cmake_minimum_required(VERSION 3.4)
-file (STRINGS "VERSION" WB_VERSION)
+file (STRINGS "VERSION" EB_VERSION)
 
-project(benchmark LANGUAGES C)
+project(evolution-benchmark LANGUAGES C)
 
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 option(BUILD_CONSOLE_APP "Build benchmark console application" ON)
@@ -31,8 +31,8 @@ include(cmake/compiler.cmake)
 include(cmake/definitions.cmake)
 include(cmake/options.cmake)
 
-add_subdirectory(benchmark)
+add_subdirectory(lib)
 
 if(BUILD_CONSOLE_APP)
-    add_subdirectory(benchmark_cli)
+    add_subdirectory(bin)
 endif()

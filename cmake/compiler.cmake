@@ -1,4 +1,4 @@
-# Copyright (c) 2022 waverian
+# Copyright (c) 2022 waverian. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -28,7 +28,7 @@ if (NOT MSVC)
 endif ()
 
 if (NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "MinSizeRel")
+    set(CMAKE_BUILD_TYPE "Release")
 elseif (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
     if (MSVC)
         # warning level 4
@@ -38,7 +38,7 @@ elseif (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
         # lots of warnings and all warnings as errors
         set(CMAKE_C_FLAGS "-Wall -Wextra -Werror ${CMAKE_C_FLAGS} ")
     endif ()
-    add_compile_definitions(WB_RUN_FAST)
+    add_compile_definitions(EB_RUN_FAST)
 endif ()
 
 if (MSVC)
@@ -50,8 +50,8 @@ string(REPLACE "\n" ";" COMPILER_VERSION ${COMPILER_VERSION})
 
 list(GET COMPILER_VERSION 0 CMAKE_C_COMPILER_VERSION)
 
-if (NOT ${WB_TARGET_ARCHITECTURE} STREQUAL "")
-    set(CMAKE_C_COMPILER_VERSION "${CMAKE_C_COMPILER_VERSION} ${WB_TARGET_ARCHITECTURE}")
+if (NOT ${EB_TARGET_ARCHITECTURE} STREQUAL "")
+    set(CMAKE_C_COMPILER_VERSION "${CMAKE_C_COMPILER_VERSION} ${EB_TARGET_ARCHITECTURE}")
 elseif (NOT ${CMAKE_C_COMPILER_ARCHITECTURE_ID} STREQUAL "")
     set(CMAKE_C_COMPILER_VERSION "${CMAKE_C_COMPILER_VERSION} ${CMAKE_C_COMPILER_ARCHITECTURE_ID}")
 endif ()

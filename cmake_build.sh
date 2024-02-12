@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) 2022 Waverian
+# Copyright (c) 2022 waverian. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -20,8 +20,9 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+rm -rf build_cmake
 cmake -S . -B build_cmake $@ && \
 cmake --build build_cmake && \
-cp ./build_cmake/benchmark_cli/benchmark-cli .
+cp ./build_cmake/bin/evolution-benchmark-cli . && \
 echo "" && \
-echo "Waverian benchmark executable is located ./benchmark-cli"
+echo "Waverian evolution benchmark executable is located ./evolution-benchmark-cli"

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2022 Waverian
+# Copyright (c) 2022 waverian. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -113,9 +113,9 @@ function build() {
   cmake --build ${BUILD_DIR} -- -j3   \
         || fail_with "The build for ${BUILD_DIR} is failed"
 
-  local EXECUTABLE_NAME=$(echo "waverian-benchmark_${G_VERSION}_$(basename ${BUILD_DIR})" | tr '/' '-' )
-  cp ${BUILD_DIR}/benchmark_cli/benchmark-cli     ${G_RELEASE_DIR}/${EXECUTABLE_NAME}     2> /dev/null || \
-  cp ${BUILD_DIR}/benchmark_cli/benchmark-cli.exe ${G_RELEASE_DIR}/${EXECUTABLE_NAME}.exe 2> /dev/null || \
+  local EXECUTABLE_NAME=$(echo "evolution_benchmark_cli_${G_VERSION}_$(basename ${BUILD_DIR})" | tr '/' '-' )
+  cp ${BUILD_DIR}/evolution_benchmark_cli/evolution-benchmark-cli     ${G_RELEASE_DIR}/${EXECUTABLE_NAME}     2> /dev/null || \
+  cp ${BUILD_DIR}/evolution_benchmark_cli/evolution-benchmark-cli.exe ${G_RELEASE_DIR}/${EXECUTABLE_NAME}.exe 2> /dev/null || \
   fail_with "benchmark-cli./exe  /benchmark-cli executable was not created"
 
   rm -rf ${BUILD_DIR}

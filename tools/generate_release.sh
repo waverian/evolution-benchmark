@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2022 waverian
+# Copyright (c) 2022 waverian. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -56,19 +56,19 @@ function main(){
 
   build "linux_x86"      gcc                                       \
                              -DCMAKE_C_FLAGS="-m32"                \
-                             -DWB_TARGET_ARCHITECTURE="32-bit"
+                             -DEB_TARGET_ARCHITECTURE="32-bit"
 
   build "linux_x86-64"   gcc                                       \
                              -DCMAKE_C_FLAGS="-m64"                \
-                             -DWB_TARGET_ARCHITECTURE="64-bit"
+                             -DEB_TARGET_ARCHITECTURE="64-bit"
 
   build "windows_x86"    i686-w64-mingw32-gcc-win32                \
                             -DCMAKE_SYSTEM_NAME="Windows"          \
-                            -DWB_TARGET_ARCHITECTURE="32-bit"
+                            -DEB_TARGET_ARCHITECTURE="32-bit"
 
   build "windows_x86-64" x86_64-w64-mingw32-gcc-win32              \
                             -DCMAKE_SYSTEM_NAME="Windows"          \
-                            -DWB_TARGET_ARCHITECTURE="64-bit"
+                            -DEB_TARGET_ARCHITECTURE="64-bit"
 
 
   RELEASE_NAME="waverian-benchmark-${G_VERSION}"

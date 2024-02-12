@@ -1,6 +1,6 @@
-# Waverian benchmark
+# Evolution Benchmark
 
-Waverian benchmark is a benchmark based on the original [LFK benchmark](https://en.wikipedia.org/wiki/Livermore_loops) by Francis H.
+Waverian Evolution Benchmark is a benchmark based on the original [LFK benchmark](https://en.wikipedia.org/wiki/Livermore_loops) by Francis H.
 McMahon with support of multicore proccessors.
 
 The benchmark was rewritten in order tu support thread libraries (pthread and winapi threads), with big attention to
@@ -30,15 +30,15 @@ match [original benchmark](http://www.netlib.org/benchmark/livermorec) results.
     ```sh
     make
     # Executable located at ./benchmark-cli
-    # To disable CPUID run with argument `WB_USE_CPUID=OFF`
-    # To disable threads support run with argument `WB_USE_THREADS=OFF`
+    # To disable CPUID run with argument `EB_USE_CPUID=OFF`
+    # To disable threads support run with argument `EB_USE_THREADS=OFF`
     ```
 2. Cmake based:
     ```sh
     ./cmake_build.sh
     # Executable located at ./benchmark-cli
-    # To disable CPUID run with argument `-DWB_USE_CPUID=OFF`
-    # To disable threads support run with argument `-DWB_USE_THREADS=OFF`
+    # To disable CPUID run with argument `-DEB_USE_CPUID=OFF`
+    # To disable threads support run with argument `-DEB_USE_THREADS=OFF`
     ```
 3. Cmake based (for windows hosts):
     ```sh
@@ -48,7 +48,7 @@ match [original benchmark](http://www.netlib.org/benchmark/livermorec) results.
 ## How to run:
 
 ```sh
-Waverian benchmark tool.
+Evolution Benchmark tool.
 Usage:
          -o <file>    ..... .txt and .html reports file name      [default waverian-benchmark-report]
          -c <comment> ..... comment added to the report

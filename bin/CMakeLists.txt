@@ -18,23 +18,29 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-BasedOnStyle: Google
-AllowShortFunctionsOnASingleLine: None
-ColumnLimit: 120
-IncludeBlocks: Regroup
-IncludeCategories:
-  - Regex: '^<waverian/.*>'  # Waverian includes
-    Priority: 1
-    SortPriority: 2
-  - Regex: '^<(assert|locale|stddef|ctype|math|stdio|errno|setjmp|stdlib|float|signal|string|limits|stdarg|time)\.h>'  # C standard libraries
-    Priority: 2
-    SortPriority: 3
-  - Regex: '^<.*>'  # Other angle bracket includes
-    Priority: 3
-    SortPriority: 4
-  - Regex: '^\".*\"'  # Remaining quoted includes
-    Priority: 4
-    SortPriority: 5
-  - Regex: '.*'  # Remaining includes
-    Priority: 5
-    SortPriority: 6
+
+add_executable(
+        evolution-benchmark-cli
+        main.c
+        src/app.c
+)
+
+target_include_directories(
+        evolution-benchmark-cli
+        PRIVATE
+        src/
+)
+
+target_link_libraries(
+        evolution-benchmark-cli
+        PRIVATE
+        evolution-benchmark
+)
+
+if (MSVC)
+    target_compile_options(
+            evolution-benchmark-cli
+            PRIVATE
+            /MT
+    )
+endif ()

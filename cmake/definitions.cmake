@@ -1,4 +1,4 @@
-# Copyright (c) 2022 waverian
+# Copyright (c) 2022 waverian. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -22,24 +22,24 @@
 message(STATUS "Setting up the definitions:")
 
 if (MSVC)
-    set(WB_USE_WINAPI ON)
-    add_compile_definitions(WB_USE_WINAPI)
+    set(EB_USE_WINAPI ON)
+    add_compile_definitions(EB_USE_WINAPI)
 elseif ("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
-    set(WB_USE_WINAPI ON)
-    add_compile_definitions(WB_USE_WINAPI)
+    set(EB_USE_WINAPI ON)
+    add_compile_definitions(EB_USE_WINAPI)
 elseif ("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
-    set(WB_USE_WINAPI OFF)
+    set(EB_USE_WINAPI OFF)
 elseif ("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
-    set(WB_USE_WINAPI OFF)
+    set(EB_USE_WINAPI OFF)
 elseif ("${CMAKE_SYSTEM_NAME}" STREQUAL "iOS")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fembed-bitcode")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fembed-bitcode")
     set(CMAKE_XCODE_ATTRIBUTE_ARCHS[sdk=iphoneos*] "${__iphoneos_archs}")
     #set(CMAKE_OSX_SYSROOT "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator15.4.sdk")
-    set(WB_USE_WINAPI OFF)
+    set(EB_USE_WINAPI OFF)
 else ()
     message(FATAL "Unsupported target host system name ${CMAKE_SYSTEM_NAME}")
 endif ()
 
-add_compile_definitions(WB_VERSION="${WB_VERSION}")
-add_compile_definitions(WB_COMPILER="${CMAKE_C_COMPILER_VERSION}")
+add_compile_definitions(EB_VERSION="${EB_VERSION}")
+add_compile_definitions(EB_COMPILER="${CMAKE_C_COMPILER_VERSION}")
