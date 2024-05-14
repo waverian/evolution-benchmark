@@ -376,6 +376,11 @@ static void benchmark_fill_results(eb_handler_t handler, eb_result_t *result) {
       }
     }
   }
+
+  // Calculate optimization ratio, skip disabled optimization
+  for (optimization = EB_OPTIMIZATION_DISABLED; optimization < EB_OPTIMIZATION_SIZE; optimization++) {
+    result->full_result[optimization].optimized_ratio = result->full_result[optimization].score / result->full_result[EB_OPTIMIZATION_DISABLED].score;
+  }
 }
 
 EB_ERROR_CODE_E

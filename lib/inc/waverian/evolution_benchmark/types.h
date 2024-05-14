@@ -72,6 +72,8 @@ typedef struct {
 
 typedef struct {
   double score;
+  double optimized_ratio;
+
   eb_run_result_t detailed[EB_RUN_TYPE_SIZE];
 } eb_full_result_t;
 

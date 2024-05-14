@@ -20,18 +20,16 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-'''This is the python module for interfacing with lfk-mp-benchmark.
+'''This is the python module for interfacing with evolution-benchmark.
 
  Usage::
 
-     import lfkbenchmark
-     benchmark = lfkbenchmark.lfk_benchmark()
+     import evolution_benchmark
+     benchmark = evolution_benchmark.Benchmark()
      benchmark.console_run_benchmark()
 
 
- Repository: https://github.com/waverian/py-lfk-mp-benchmark
-
- For details of the C module look at https://github.com/waverian/lfk-mp-benchmark
+ Repository: https://github.com/waverian/evolution-benchmark
  '''
  
 cython: language_level=3
@@ -115,12 +113,16 @@ cdef extern from "waverian/evolution_benchmark/types.h":
 
     ctypedef struct eb_full_result_t:
         double score
+        double optimized_ratio
+
         eb_run_result_t detailed[5]
 
     ctypedef struct eb_result_t:
         eb_system_info_t system_info
+
         char timestamp[32]
         char comment[128]
+
         eb_full_result_t full_result[2]
 
 cdef extern from "waverian/evolution_benchmark.h":
@@ -185,7 +187,7 @@ cdef class Result():
 
 
 cdef class Benchmark:
-    '''Wrapper around the lfkbenchmark module.
+    '''Wrapper around the evolution-benchmark module.
     '''
 
     cdef eb_handler_t handler
@@ -207,7 +209,7 @@ cdef class Benchmark:
                 return 0
             return ret
         #default callback
-        Logger.debug(f'LFKBenchmark: {progress}, {message}')
+        Logger.debug(f'EvolutionBenchmark: {progress}, {message}')
         return 0
 
     def __init__(self, *args, **kwargs):
@@ -241,7 +243,7 @@ cdef class Benchmark:
         if workstation:
             eb_set_execution_mode(self.handler, EB_EXECUTION_MODE_FULL_AUTO)
 
-        Logger.debug('LFKBenchmark:  Setting up benchmark.')
+        Logger.debug('EvolutionBenchmark:  Setting up benchmark.')
 
         self.external_callback = callback
 
@@ -250,12 +252,12 @@ cdef class Benchmark:
 
         eb_get_system_info(self.handler, &c_system_info)
 
-        Logger.debug('LFKBenchmark: Runing benchmark.')
+        Logger.debug('EvolutionBenchmark: Running benchmark.')
         with nogil:
             eb_run_benchmark(self.handler, &c_result)
 
 
-        Logger.debug('LFKBenchmark: Returning results.')
+        Logger.debug('EvolutionBenchmark: Returning results.')
         result = Result()
         result.init(c_result)
         return result
@@ -273,4 +275,14 @@ cdef class Benchmark:
     def get_parameters(self):
         cdef eb_system_info_t system_info
         eb_get_system_info(self.handler, &system_info)
-        return system_info
+
+        system_info_result = dict(system_info)
+        def fix_string(param):
+            for key, value in param.items():
+                if isinstance(value, dict):
+                    fix_string(value)
+                elif isinstance(value, bytes):
+                    param[key] = value.decode('utf-8')
+        fix_string(system_info_result)
+
+        return system_info_result

@@ -1,24 +1,27 @@
 
 fprintf(
     file_handler,
-    "\n<html xmlns=\"http://www.w3.org/1999/html\">\n<head>\n	<title>Evolution Benchmark</title>\n	"
-    "<style>\n        body {\n            font-family: system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica "
-    "Neue\", Arial, \"Noto Sans\", \"Liberation Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe "
-    "UI Symbol\", \"Noto Color Emoji\"\n        }\n\n        .container {\n            margin-left: auto;\n            "
-    "margin-right: auto;\n            min-width: 30em;\n            max-width: 50em;\n            text-align: "
-    "center;\n        }\n\n        .thin_font {\n            font-weight: 300;\n            margin: auto;\n        "
-    "}\n\n        .white_on_blue {\n            background-color: #1e90ff;\n            color: #f0f8ff;\n        }\n\n "
-    "       td {\n            border: 1px solid #1e90ff;\n        }\n\n        h1 {\n            font-size: 5em;\n     "
-    "   }\n\n        h2 {\n            font-size: 3em;\n        }\n\n        h3 {\n            font-size: 1.8em;\n     "
-    "   }\n\n        h4 {\n            font-size: 1.2em;\n        }\n\n        .row_spacer {\n            border: "
-    "none;\n            height: 1.5em;\n        }\n\n        table {\n            border-collapse: collapse;\n         "
-    "   border-width: 0;\n            width: 100%%;\n            text-align: left;\n        }\n\n        p {\n         "
-    "   text-align: left;\n        }\n\n        .logo {\n            text-align: left;\n            padding: 10px;\n   "
-    "     }\n\n        .no_border {\n            border: none;\n        }\n\n        .sub_result_div {\n            "
-    "text-align: center;\n            padding-bottom: 10px;\n        }\n	</style>\n</head>\n<body>\n<div "
-    "class=\"container\">\n	<div class=\"logo white_on_blue\">\n		<h3 class=\"thin_font\">Waverian "
-    "lib</h3>\n	</div>\n	<table class=\"table_info\">\n		<thead></thead>\n		"
-    "<tbody>\n		<tr>\n			<td>Version</td>\n			<td colspan=\"4\">");
+    "\n<html xmlns=\"http://www.w3.org/1999/html\">\n<head>\n	<title>Waverian Evolution benchmark "
+    "results</title>\n	<style>\n        body {\n            font-family: system-ui, -apple-system, \"Segoe UI\", "
+    "Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", \"Liberation Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe "
+    "UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"\n        }\n\n        .container {\n            "
+    "margin-left: auto;\n            margin-right: auto;\n            min-width: 30em;\n            max-width: 50em;\n "
+    "           text-align: center;\n        }\n\n        .thin_font {\n            font-weight: 300;\n            "
+    "margin: auto;\n        }\n\n        .white_on_blue {\n            background-color: #1e90ff;\n            color: "
+    "#f0f8ff;\n        }\n\n		.white_on_grey {\n			background-color: #909090;\n	"
+    "		color: #f0f8ff;\n		}\n\n		table.blue_border td{\n			border: 1px "
+    "solid #1e90ff;\n		}\n\n		table.grey_border td{\n            border: 1px solid #909090;\n        "
+    "}\n\n        h1 {\n            font-size: 5em;\n        }\n\n        h2 {\n            font-size: 3em;\n        "
+    "}\n\n        h3 {\n            font-size: 1.8em;\n        }\n\n        h4 {\n            font-size: 1.2em;\n      "
+    "  }\n\n        .row_spacer {\n            border: none;\n            height: 1.5em;\n        }\n\n        table "
+    "{\n            border-collapse: collapse;\n            border-width: 0;\n            width: 100%%;\n            "
+    "text-align: left;\n        }\n\n        p {\n            text-align: left;\n        }\n\n        .logo {\n        "
+    "    text-align: left;\n            padding: 10px;\n        }\n\n        .no_border {\n            border: none;\n "
+    "       }\n\n        .sub_result_div {\n            text-align: center;\n            padding-bottom: 10px;\n       "
+    " }\n	</style>\n</head>\n<body>\n<div class=\"container\">\n	<div class=\"logo white_on_blue\">\n	"
+    "	<h3 class=\"thin_font\">Waverian Evolution benchmark</h3>\n	</div>\n	<table "
+    "class=\"blue_border\">\n		<thead></thead>\n		<tbody>\n		<tr>\n		"
+    "	<td>Version</td>\n			<td colspan=\"4\">");
 fprintf(file_handler, "%s", result.system_info.version_info);
 fprintf(
     file_handler,
@@ -28,10 +31,9 @@ fprintf(file_handler,
         "</td>\n		</tr>\n		<tr>\n			<td>Compiler</td>\n			<td "
         "colspan=\"4\">");
 fprintf(file_handler, "%s", result.system_info.compiler_info);
-fprintf(
-    file_handler,
-    "</td>\n		</tr>\n		<tr>\n			<td>Logical cores</td>\n			<td "
-    "colspan=\"4\">");
+fprintf(file_handler,
+        "</td>\n		</tr>\n		<tr>\n			<td>Logical cores</td>\n		"
+        "	<td colspan=\"4\">");
 fprintf(file_handler, "%i", result.core_count);
 fprintf(file_handler,
         "</td>\n		</tr>\n		<tr>\n			<td>CPU name</td>\n			<td "
@@ -70,10 +72,10 @@ if (result.full_result[EB_OPTIMIZATION_DISABLED].detailed[EB_RUN_TYPE_MULTI_CORE
 }
 fprintf(file_handler, "</h2>\n						<h4 class=\"thin_font\">");
 if (result.full_result[EB_OPTIMIZATION_DISABLED].detailed[EB_RUN_TYPE_MULTI_CORE].valid) {
+  fprintf(file_handler, "\n							MP ratio x");
   fprintf(file_handler, "%.1f", result.full_result[EB_OPTIMIZATION_DISABLED].detailed[EB_RUN_TYPE_MULTI_CORE].ratio);
-  fprintf(file_handler, " x ratio");
 } else {
-  fprintf(file_handler, " -");
+  fprintf(file_handler, "-");
 }
 fprintf(
     file_handler,
@@ -89,10 +91,10 @@ if (result.full_result[EB_OPTIMIZATION_DISABLED].detailed[EB_RUN_TYPE_QUAD_CORE]
 }
 fprintf(file_handler, "</h2>\n						<h4 class=\"thin_font\">");
 if (result.full_result[EB_OPTIMIZATION_DISABLED].detailed[EB_RUN_TYPE_QUAD_CORE].valid) {
+  fprintf(file_handler, "\n							MP ratio x");
   fprintf(file_handler, "%.1f", result.full_result[EB_OPTIMIZATION_DISABLED].detailed[EB_RUN_TYPE_QUAD_CORE].ratio);
-  fprintf(file_handler, " x ratio");
 } else {
-  fprintf(file_handler, " -");
+  fprintf(file_handler, "-");
 }
 fprintf(file_handler,
         "</h4>\n						<h3 class=\"thin_font\">Quadcore</h3>\n		"
@@ -107,15 +109,15 @@ if (result.full_result[EB_OPTIMIZATION_DISABLED].detailed[EB_RUN_TYPE_WORKSTATIO
 }
 fprintf(file_handler, "</h2>\n						<h4 class=\"thin_font\">");
 if (result.full_result[EB_OPTIMIZATION_DISABLED].detailed[EB_RUN_TYPE_WORKSTATION].valid) {
+  fprintf(file_handler, "\n							MP ratio x");
   fprintf(file_handler, "%.1f", result.full_result[EB_OPTIMIZATION_DISABLED].detailed[EB_RUN_TYPE_WORKSTATION].ratio);
-  fprintf(file_handler, " x ratio");
 } else {
-  fprintf(file_handler, " -");
+  fprintf(file_handler, "-");
 }
 fprintf(file_handler,
         "</h4>\n						<h3 class=\"thin_font\">Workstation</h3>\n	"
         "				</div>\n				</td>\n			</tr>\n	"
-        "	</table>\n	</div>\n	<div>\n		<table>\n			<tr "
+        "	</table>\n	</div>\n	<div>\n		<table class=\"blue_border\">\n			<tr "
         "class=\"row_spacer\"></tr>\n			<tr class=\"white_on_blue\">\n				"
         "<td></td>\n				<td><b>Non optimized</b></td>");
 for (j = 0; j < EB_RUN_TYPE_SIZE; j++) {
@@ -200,21 +202,95 @@ for (i = 0; i < EB_KERNEL_COUNT; i++) {
   }
   fprintf(file_handler, "\n			</tr>");
 }
-fprintf(file_handler, "\n		</table>\n		<p>\n			Optimized score - ");
+fprintf(file_handler,
+        "\n		</table>\n\n		<br>\n		<div>\n			<h2 class=\"thin_font\">");
 if (result.full_result[EB_OPTIMIZATION_ENABLED].score) {
   fprintf(file_handler, "%.*f", AUTO_PRECISION(result.full_result[EB_OPTIMIZATION_ENABLED].score));
 } else {
   fprintf(file_handler, "N/A");
 }
-fprintf(file_handler, "\n			(");
-if (result.full_result[EB_OPTIMIZATION_ENABLED].score && result.full_result[EB_OPTIMIZATION_DISABLED].score) {
-  fprintf(file_handler, "%.1f",
-          result.full_result[EB_OPTIMIZATION_ENABLED].score / result.full_result[EB_OPTIMIZATION_DISABLED].score);
-  fprintf(file_handler, " x optimized ratio)");
+fprintf(file_handler, "\n			</h2>\n			<h4 class=\"thin_font\">");
+if (result.full_result[EB_OPTIMIZATION_ENABLED].optimized_ratio) {
+  fprintf(file_handler, "\n				Optimized ratio x");
+  fprintf(file_handler, "%.1f", result.full_result[EB_OPTIMIZATION_ENABLED].optimized_ratio);
 }
 fprintf(file_handler,
-        "\n		</p>\n		<table>\n			<tr class=\"white_on_blue\">\n		"
-        "		<td></td>\n				<td><b>Optimized</b></td>");
+        "\n			</h4>\n			<h3 class=\"thin_font\">Optimized score</h3>\n		"
+        "</div>\n		<br>\n		<div>\n			<table>\n				"
+        "<tr>\n					<td class=\"no_border\">\n					"
+        "	<div class=\"sub_result_div white_on_grey\">\n							<h2 "
+        "class=\"thin_font\">");
+if (result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_SINGLE_CORE].valid) {
+  fprintf(file_handler, "%.*f",
+          AUTO_PRECISION(result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_SINGLE_CORE].score));
+} else {
+  fprintf(file_handler, "N/A");
+}
+fprintf(
+    file_handler,
+    "</h2>\n							<h4 class=\"thin_font\">-</h4>\n		"
+    "					<h3 class=\"thin_font\">Singlecore</h3>\n				"
+    "		</div>\n					</td>\n					<td "
+    "class=\"no_border\">\n						<div class=\"sub_result_div "
+    "white_on_grey\">\n							<h2 class=\"thin_font\">");
+if (result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_MULTI_CORE].valid) {
+  fprintf(file_handler, "%.*f",
+          AUTO_PRECISION(result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_MULTI_CORE].score));
+} else {
+  fprintf(file_handler, "N/A");
+}
+fprintf(file_handler, "</h2>\n							<h4 class=\"thin_font\">");
+if (result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_MULTI_CORE].valid) {
+  fprintf(file_handler, "\n								MP ratio x");
+  fprintf(file_handler, "%.1f", result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_MULTI_CORE].ratio);
+} else {
+  fprintf(file_handler, "-");
+}
+fprintf(
+    file_handler,
+    "</h4>\n							<h3 class=\"thin_font\">Multicore</h3>\n	"
+    "					</div>\n					</td>\n			"
+    "	</tr>\n				<tr>\n					<td class=\"no_border\">\n	"
+    "					<div class=\"sub_result_div white_on_grey\">\n				"
+    "			<h2 class=\"thin_font\">");
+if (result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_QUAD_CORE].valid) {
+  fprintf(file_handler, "%.*f",
+          AUTO_PRECISION(result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_QUAD_CORE].score));
+} else {
+  fprintf(file_handler, "N/A");
+}
+fprintf(file_handler, "</h2>\n							<h4 class=\"thin_font\">");
+if (result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_QUAD_CORE].valid) {
+  fprintf(file_handler, "\n								MP ratio x");
+  fprintf(file_handler, "%.1f", result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_QUAD_CORE].ratio);
+} else {
+  fprintf(file_handler, "-");
+}
+fprintf(
+    file_handler,
+    "</h4>\n							<h3 class=\"thin_font\">Quadcore</h3>\n		"
+    "				</div>\n					</td>\n				"
+    "	<td class=\"no_border\">\n						<div class=\"sub_result_div "
+    "white_on_grey\">\n							<h2 class=\"thin_font\">");
+if (result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_WORKSTATION].valid) {
+  fprintf(file_handler, "%.*f",
+          AUTO_PRECISION(result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_WORKSTATION].score));
+} else {
+  fprintf(file_handler, "N/A");
+}
+fprintf(file_handler, "</h2>\n							<h4 class=\"thin_font\">");
+if (result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_WORKSTATION].valid) {
+  fprintf(file_handler, "\n								MP ratio x");
+  fprintf(file_handler, "%.1f", result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_WORKSTATION].ratio);
+} else {
+  fprintf(file_handler, "-");
+}
+fprintf(file_handler,
+        "</h4>\n							<h3 "
+        "class=\"thin_font\">Workstation</h3>\n						</div>\n		"
+        "			</td>\n				</tr>\n			</table>\n		"
+        "</div>\n		<table class=\"grey_border\">\n			<tr class=\"white_on_grey\">\n	"
+        "			<td></td>\n				<td><b>Optimized</b></td>");
 for (j = 0; j < EB_RUN_TYPE_SIZE; j++) {
   if (result.full_result[EB_OPTIMIZATION_ENABLED].detailed[j].valid) {
     fprintf(file_handler, "\n				<td>");
@@ -273,7 +349,7 @@ for (j = 0; j < EB_RUN_TYPE_SIZE; j++) {
   }
 }
 fprintf(file_handler,
-        "\n			</tr>\n\n			<tr class=\"white_on_blue\">\n			"
+        "\n			</tr>\n\n			<tr class=\"white_on_grey\">\n			"
         "	<td>#</td>\n				<td>Kernel name</td>");
 for (j = 0; j < EB_RUN_TYPE_SIZE; j++) {
   if (result.full_result[EB_OPTIMIZATION_DISABLED].detailed[j].valid) {

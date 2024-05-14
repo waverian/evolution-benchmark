@@ -136,7 +136,7 @@ void app_print_run_results(const eb_result_t result) {
       printf("%-14s - %-6.*f", EB_RUN_TYPE_NAMES[run_type],
              AUTO_PRECISION(result.full_result[EB_OPTIMIZATION_DISABLED].detailed[run_type].score));
       if (run_type != EB_RUN_TYPE_SINGLE_CORE) {
-        printf(" (ratio x%.1f)", result.full_result[EB_OPTIMIZATION_DISABLED].detailed[run_type].ratio);
+        printf(" (MP ratio x%.1f)", result.full_result[EB_OPTIMIZATION_DISABLED].detailed[run_type].ratio);
       }
       printf("\n");
     }

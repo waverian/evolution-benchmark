@@ -1,7 +1,7 @@
 <!--%WPP_KEEP_WHITESPACES-->
 <html xmlns="http://www.w3.org/1999/html">
 <head>
-	<title>Waverian benchmark results</title>
+	<title>Waverian Evolution benchmark results</title>
 	<style>
         body {
             font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
@@ -25,8 +25,17 @@
             color: #f0f8ff;
         }
 
-        td {
-            border: 1px solid #1e90ff;
+		.white_on_grey {
+			background-color: #909090;
+			color: #f0f8ff;
+		}
+
+		table.blue_border td{
+			border: 1px solid #1e90ff;
+		}
+
+		table.grey_border td{
+            border: 1px solid #909090;
         }
 
         h1 {
@@ -79,9 +88,9 @@
 <body>
 <div class="container">
 	<div class="logo white_on_blue">
-		<h3 class="thin_font">Waverian benchmark</h3>
+		<h3 class="thin_font">Waverian Evolution benchmark</h3>
 	</div>
-	<table class="table_info">
+	<table class="blue_border">
 		<thead></thead>
 		<tbody>
 		<tr>
@@ -152,8 +161,8 @@
 							<!--%WPP_ELSE-->N/A<!--%WPP_ENDIF--></h2>
 						<h4 class="thin_font">
 							<!--%WPP_IF=result.full_result[EB_OPTIMIZATION_DISABLED].detailed[EB_RUN_TYPE_MULTI_CORE].valid-->
-							<!--%WPP_NUM_PARAM=result.full_result[EB_OPTIMIZATION_DISABLED].detailed[EB_RUN_TYPE_MULTI_CORE].ratio;AFTER_DOT=1-->
-							42<!--%WPP_IGNORE--> x ratio<!--%WPP_ELSE--> -<!--%WPP_ENDIF--></h4>
+							MP ratio x<!--%WPP_NUM_PARAM=result.full_result[EB_OPTIMIZATION_DISABLED].detailed[EB_RUN_TYPE_MULTI_CORE].ratio;AFTER_DOT=1-->
+							42<!--%WPP_IGNORE--><!--%WPP_ELSE-->-<!--%WPP_ENDIF--></h4>
 						<h3 class="thin_font">Multicore</h3>
 					</div>
 				</td>
@@ -167,8 +176,8 @@
 							<!--%WPP_ELSE-->N/A<!--%WPP_ENDIF--></h2>
 						<h4 class="thin_font">
 							<!--%WPP_IF=result.full_result[EB_OPTIMIZATION_DISABLED].detailed[EB_RUN_TYPE_QUAD_CORE].valid-->
-							<!--%WPP_NUM_PARAM=result.full_result[EB_OPTIMIZATION_DISABLED].detailed[EB_RUN_TYPE_QUAD_CORE].ratio;AFTER_DOT=1-->
-							42<!--%WPP_IGNORE--> x ratio<!--%WPP_ELSE--> -<!--%WPP_ENDIF--></h4>
+							MP ratio x<!--%WPP_NUM_PARAM=result.full_result[EB_OPTIMIZATION_DISABLED].detailed[EB_RUN_TYPE_QUAD_CORE].ratio;AFTER_DOT=1-->
+							42<!--%WPP_IGNORE--><!--%WPP_ELSE-->-<!--%WPP_ENDIF--></h4>
 						<h3 class="thin_font">Quadcore</h3>
 					</div>
 				</td>
@@ -180,8 +189,8 @@
 							<!--%WPP_ELSE-->N/A<!--%WPP_ENDIF--></h2>
 						<h4 class="thin_font">
 							<!--%WPP_IF=result.full_result[EB_OPTIMIZATION_DISABLED].detailed[EB_RUN_TYPE_WORKSTATION].valid-->
-							<!--%WPP_NUM_PARAM=result.full_result[EB_OPTIMIZATION_DISABLED].detailed[EB_RUN_TYPE_WORKSTATION].ratio;AFTER_DOT=1-->
-							42<!--%WPP_IGNORE--> x ratio<!--%WPP_ELSE--> -<!--%WPP_ENDIF--></h4>
+							MP ratio x<!--%WPP_NUM_PARAM=result.full_result[EB_OPTIMIZATION_DISABLED].detailed[EB_RUN_TYPE_WORKSTATION].ratio;AFTER_DOT=1-->
+							42<!--%WPP_IGNORE--><!--%WPP_ELSE-->-<!--%WPP_ENDIF--></h4>
 						<h3 class="thin_font">Workstation</h3>
 					</div>
 				</td>
@@ -189,7 +198,7 @@
 		</table>
 	</div>
 	<div>
-		<table>
+		<table class="blue_border">
 			<tr class="row_spacer"></tr>
 			<tr class="white_on_blue">
 				<td></td>
@@ -311,17 +320,81 @@
 			</tr>
 			<!--%WPP_ENDFOR=i-->
 		</table>
-		<p>
-			Optimized score - <!--%WPP_IF=result.full_result[EB_OPTIMIZATION_ENABLED].score-->
-			<!--%WPP_NUM_PARAM=result.full_result[EB_OPTIMIZATION_ENABLED].score;AFTER_DOT=AUTO-->
-			<!--%WPP_ELSE-->N/A<!--%WPP_ENDIF-->
-			(
-			<!--%WPP_IF=result.full_result[EB_OPTIMIZATION_ENABLED].score && result.full_result[EB_OPTIMIZATION_DISABLED].score-->
-			<!--%WPP_NUM_PARAM=result.full_result[EB_OPTIMIZATION_ENABLED].score / result.full_result[EB_OPTIMIZATION_DISABLED].score;AFTER_DOT=1-->
-			42<!--%WPP_IGNORE--> x optimized ratio)<!--%WPP_ENDIF-->
-		</p>
-		<table>
-			<tr class="white_on_blue">
+
+		<br>
+		<div>
+			<h2 class="thin_font">
+				<!--%WPP_IF=result.full_result[EB_OPTIMIZATION_ENABLED].score-->
+				<!--%WPP_NUM_PARAM=result.full_result[EB_OPTIMIZATION_ENABLED].score;AFTER_DOT=AUTO-->
+				<!--%WPP_ELSE-->N/A<!--%WPP_ENDIF-->
+			</h2>
+			<h4 class="thin_font">
+				<!--%WPP_IF=result.full_result[EB_OPTIMIZATION_ENABLED].optimized_ratio-->
+				Optimized ratio x<!--%WPP_NUM_PARAM=result.full_result[EB_OPTIMIZATION_ENABLED].optimized_ratio;AFTER_DOT=1-->
+				42<!--%WPP_IGNORE--><!--%WPP_ENDIF-->
+			</h4>
+			<h3 class="thin_font">Optimized score</h3>
+		</div>
+		<br>
+		<div>
+			<table>
+				<tr>
+					<td class="no_border">
+						<div class="sub_result_div white_on_grey">
+							<h2 class="thin_font">
+								<!--%WPP_IF=result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_SINGLE_CORE].valid-->
+								<!--%WPP_NUM_PARAM=result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_SINGLE_CORE].score;AFTER_DOT=AUTO-->
+								<!--%WPP_ELSE-->N/A<!--%WPP_ENDIF--></h2>
+							<h4 class="thin_font">-</h4>
+							<h3 class="thin_font">Singlecore</h3>
+						</div>
+					</td>
+					<td class="no_border">
+						<div class="sub_result_div white_on_grey">
+							<h2 class="thin_font">
+								<!--%WPP_IF=result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_MULTI_CORE].valid-->
+								<!--%WPP_NUM_PARAM=result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_MULTI_CORE].score;AFTER_DOT=AUTO-->
+								<!--%WPP_ELSE-->N/A<!--%WPP_ENDIF--></h2>
+							<h4 class="thin_font">
+								<!--%WPP_IF=result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_MULTI_CORE].valid-->
+								MP ratio x<!--%WPP_NUM_PARAM=result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_MULTI_CORE].ratio;AFTER_DOT=1-->
+								42<!--%WPP_IGNORE--><!--%WPP_ELSE-->-<!--%WPP_ENDIF--></h4>
+							<h3 class="thin_font">Multicore</h3>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="no_border">
+						<div class="sub_result_div white_on_grey">
+							<h2 class="thin_font">
+								<!--%WPP_IF=result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_QUAD_CORE].valid-->
+								<!--%WPP_NUM_PARAM=result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_QUAD_CORE].score;AFTER_DOT=AUTO-->
+								<!--%WPP_ELSE-->N/A<!--%WPP_ENDIF--></h2>
+							<h4 class="thin_font">
+								<!--%WPP_IF=result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_QUAD_CORE].valid-->
+								MP ratio x<!--%WPP_NUM_PARAM=result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_QUAD_CORE].ratio;AFTER_DOT=1-->
+								42<!--%WPP_IGNORE--><!--%WPP_ELSE-->-<!--%WPP_ENDIF--></h4>
+							<h3 class="thin_font">Quadcore</h3>
+						</div>
+					</td>
+					<td class="no_border">
+						<div class="sub_result_div white_on_grey">
+							<h2 class="thin_font">
+								<!--%WPP_IF=result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_WORKSTATION].valid-->
+								<!--%WPP_NUM_PARAM=result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_WORKSTATION].score;AFTER_DOT=AUTO-->
+								<!--%WPP_ELSE-->N/A<!--%WPP_ENDIF--></h2>
+							<h4 class="thin_font">
+								<!--%WPP_IF=result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_WORKSTATION].valid-->
+								MP ratio x<!--%WPP_NUM_PARAM=result.full_result[EB_OPTIMIZATION_ENABLED].detailed[EB_RUN_TYPE_WORKSTATION].ratio;AFTER_DOT=1-->
+								42<!--%WPP_IGNORE--><!--%WPP_ELSE-->-<!--%WPP_ENDIF--></h4>
+							<h3 class="thin_font">Workstation</h3>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<table class="grey_border">
+			<tr class="white_on_grey">
 				<td></td>
 				<td><b>Optimized</b></td>
 				<!--%WPP_FOR=j;WPP_FOR_BEGIN=0;WPP_FOR_END=EB_RUN_TYPE_SIZE-->
@@ -410,7 +483,7 @@
 				<!--%WPP_IGNORE-->
 			</tr>
 
-			<tr class="white_on_blue">
+			<tr class="white_on_grey">
 				<td>#</td>
 				<td>Kernel name</td>
 				<!--%WPP_FOR=j;WPP_FOR_BEGIN=0;WPP_FOR_END=EB_RUN_TYPE_SIZE-->

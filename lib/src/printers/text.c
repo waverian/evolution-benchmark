@@ -81,32 +81,33 @@ eb_result_print_text(const eb_result_t result, const char *path) {
   fprintf(file_handler, "Logical cores      - %u\r\n", result.core_count);
   fprintf(file_handler, "CPU name           - %s\r\n", result.system_info.cpu_name);
   fprintf(file_handler, "Comment            - %s\r\n", result.comment);
-  fprintf(file_handler, "\r\n");
-  fprintf(file_handler, "OVERALL RESULT     - %.*f\r\n",
-          AUTO_PRECISION(result.full_result[EB_OPTIMIZATION_DISABLED].score));
-  fprintf(file_handler, "\r\n");
-
-  for (run_type = EB_RUN_TYPE_MANUAL; run_type < EB_RUN_TYPE_SIZE; run_type++) {
-    if (result.full_result[EB_OPTIMIZATION_DISABLED].detailed[run_type].valid) {
-      fprintf(file_handler, "%-18s - %-6.*f", EB_RUN_TYPE_NAMES[run_type],
-              AUTO_PRECISION(result.full_result[EB_OPTIMIZATION_DISABLED].detailed[run_type].score));
-      if (run_type != EB_RUN_TYPE_SINGLE_CORE) {
-        fprintf(file_handler, " (ratio x%.1f)", result.full_result[EB_OPTIMIZATION_DISABLED].detailed[run_type].ratio);
-      }
-      fprintf(file_handler, "\r\n");
-      column_count++;
-    }
-  }
-  fprintf(file_handler, "\r\n");
 
   for (optimization = EB_OPTIMIZATION_DISABLED; optimization < EB_OPTIMIZATION_SIZE; optimization++) {
-    if (optimization == EB_OPTIMIZATION_ENABLED) {
-      fprintf(file_handler, "\r\n");
+    fprintf(file_handler, "\r\n");
+    if (optimization == EB_OPTIMIZATION_DISABLED) {
+      fprintf(file_handler, "OVERALL RESULT     - %.*f\r\n",
+              AUTO_PRECISION(result.full_result[EB_OPTIMIZATION_DISABLED].score));
+    }
+    else{
       fprintf(file_handler, "Optimized score - %.*f (optimized ratio x%.1f)\r\n",
               AUTO_PRECISION(result.full_result[EB_OPTIMIZATION_ENABLED].score),
-              result.full_result[EB_OPTIMIZATION_ENABLED].score / result.full_result[EB_OPTIMIZATION_DISABLED].score);
-      fprintf(file_handler, "\r\n");
+              result.full_result[EB_OPTIMIZATION_ENABLED].optimized_ratio);
     }
+    fprintf(file_handler, "\r\n");
+
+    column_count = 0;
+    for (run_type = EB_RUN_TYPE_MANUAL; run_type < EB_RUN_TYPE_SIZE; run_type++) {
+      if (result.full_result[optimization].detailed[run_type].valid) {
+        fprintf(file_handler, "%-18s - %-6.*f", EB_RUN_TYPE_NAMES[run_type],
+                AUTO_PRECISION(result.full_result[optimization].detailed[run_type].score));
+        if (run_type != EB_RUN_TYPE_SINGLE_CORE) {
+          fprintf(file_handler, " (MP ratio x%.1f)", result.full_result[optimization].detailed[run_type].ratio);
+        }
+        fprintf(file_handler, "\r\n");
+        column_count++;
+      }
+    }
+    fprintf(file_handler, "\r\n");
 
     print_table_divider(file_handler, column_count);
 
