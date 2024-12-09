@@ -61,9 +61,6 @@ char *get_cpu_name() {
 #else
 #ifdef EB_USE_POSIX_CPUID
   unsigned int brand[12];
-  if (!__get_cpuid_max(0x80000004, NULL)) {
-    return strdup("No CPUID information");
-  }
 
   __get_cpuid(0x80000002, brand + 0x0, brand + 0x1, brand + 0x2, brand + 0x3);
   __get_cpuid(0x80000003, brand + 0x4, brand + 0x5, brand + 0x6, brand + 0x7);

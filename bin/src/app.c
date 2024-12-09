@@ -114,6 +114,7 @@ void app_print_run_parameters(const app_params_t params, const eb_handler_t hand
   eb_get_system_info(handler, &system_info);
 
   printf("Running parameters:\n");
+  printf("Benchmark version: ............ %s\n", system_info.version_info);
   printf("Report file: .................. %s\n", params.report_file);
   printf("CPU: .......................... %s\n", system_info.cpu_name);
   printf("Logical cores: ................ %i%s\n",
