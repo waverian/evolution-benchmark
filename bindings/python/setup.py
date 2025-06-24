@@ -36,7 +36,7 @@ setup(
             join(root_dir, '..', '..', 'build_cmake', 'lib', 'Release'),
         ],
         language_level='3',
-        cython_directives={
+        compiler_directives={
             'language_level': 3
         },
     )],
