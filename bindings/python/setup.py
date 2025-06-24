@@ -35,9 +35,6 @@ setup(
     cmdclass=cmdclass,
     packages=['evolution_benchmark'],
     package_dir={'evolution_benchmark': '.'},
-    options={
-        'bdist_wheel':{'universal':'1'}
-    },
     ext_modules= cythonize(extensions, compiler_directives=cython_directives),
     version=__version__
 )
