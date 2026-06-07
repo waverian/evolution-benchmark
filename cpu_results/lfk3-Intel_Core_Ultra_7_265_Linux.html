@@ -1,0 +1,723 @@
+
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+	<title>Waverian Evolution benchmark results</title>
+	<style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
+        }
+
+        .container {
+            margin-left: auto;
+            margin-right: auto;
+            min-width: 30em;
+            max-width: 50em;
+            text-align: center;
+        }
+
+        .thin_font {
+            font-weight: 300;
+            margin: auto;
+        }
+
+        .white_on_blue {
+            background-color: #1e90ff;
+            color: #f0f8ff;
+        }
+
+		.white_on_grey {
+			background-color: #909090;
+			color: #f0f8ff;
+		}
+
+		table.blue_border td{
+			border: 1px solid #1e90ff;
+		}
+
+		table.grey_border td{
+            border: 1px solid #909090;
+        }
+
+        h1 {
+            font-size: 5em;
+        }
+
+        h2 {
+            font-size: 3em;
+        }
+
+        h3 {
+            font-size: 1.8em;
+        }
+
+        h4 {
+            font-size: 1.2em;
+        }
+
+        .row_spacer {
+            border: none;
+            height: 1.5em;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-width: 0;
+            width: 100%;
+            text-align: left;
+        }
+
+        p {
+            text-align: left;
+        }
+
+        .logo {
+            text-align: left;
+            padding: 10px;
+        }
+
+        .no_border {
+            border: none;
+        }
+
+        .sub_result_div {
+            text-align: center;
+            padding-bottom: 10px;
+        }
+	</style>
+</head>
+<body>
+<div class="container">
+	<div class="logo white_on_blue">
+		<h3 class="thin_font">Waverian Evolution benchmark</h3>
+	</div>
+	<table class="blue_border">
+		<thead></thead>
+		<tbody>
+		<tr>
+			<td>Version</td>
+			<td colspan="4">3.3.1</td>
+		</tr>
+		<tr>
+			<td>Date</td>
+			<td colspan="4">22:17 18/10/2025</td>
+		</tr>
+		<tr>
+			<td>Compiler</td>
+			<td colspan="4">gcc (Debian 4.9.2-10+deb8u2) 4.9.2</td>
+		</tr>
+		<tr>
+			<td>Logical cores</td>
+			<td colspan="4">20</td>
+		</tr>
+		<tr>
+			<td>CPU name</td>
+			<td colspan="4">Intel(R) Core(TM) Ultra 7 265</td>
+		</tr>
+		<tr>
+			<td>Comment</td>
+			<td colspan="4">20-core (8P+12E) desktop processor.</td>
+		</tr>
+		</tbody>
+	</table>
+	<div>
+		<h1 class="thin_font">5659
+		</h1>
+		<h3 class="thin_font">Overall score</h3>
+	</div>
+	<br>
+	<div>
+		<table>
+			<tr>
+				<td class="no_border">
+					<div class="sub_result_div white_on_blue">
+						<h2 class="thin_font">1452</h2>
+						<h4 class="thin_font">-</h4>
+						<h3 class="thin_font">Singlecore</h3>
+					</div>
+				</td>
+				<td class="no_border">
+					<div class="sub_result_div white_on_blue">
+						<h2 class="thin_font">22016</h2>
+						<h4 class="thin_font">
+							MP ratio x15.2</h4>
+						<h3 class="thin_font">Multicore</h3>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="no_border">
+					<div class="sub_result_div white_on_blue">
+						<h2 class="thin_font">5669</h2>
+						<h4 class="thin_font">
+							MP ratio x3.9</h4>
+						<h3 class="thin_font">Quadcore</h3>
+					</div>
+				</td>
+				<td class="no_border">
+					<div class="sub_result_div white_on_blue">
+						<h2 class="thin_font">21368</h2>
+						<h4 class="thin_font">
+							MP ratio x14.7</h4>
+						<h3 class="thin_font">Workstation</h3>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div>
+		<table class="blue_border">
+			<tr class="row_spacer"></tr>
+			<tr class="white_on_blue">
+				<td></td>
+				<td><b>Non optimized</b></td>
+				<td>Single core</td>
+				<td>Multi core</td>
+				<td>Quad core</td>
+				<td>Workstation</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>Maximum</td>
+				<td>4700</td>
+				<td>72292</td>
+				<td>18440</td>
+				<td>71690</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>Average</td>
+				<td>1801</td>
+				<td>26933</td>
+				<td>7056</td>
+				<td>26385</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>Geometric</td>
+				<td>1452</td>
+				<td>22016</td>
+				<td>5669</td>
+				<td>21368</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>Harmonic</td>
+				<td>1190</td>
+				<td>18299</td>
+				<td>4618</td>
+				<td>17586</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>Minimum</td>
+				<td>478</td>
+				<td>7476</td>
+				<td>1886</td>
+				<td>7031</td>
+			</tr>
+			<tr class="white_on_blue">
+				<td>#</td>
+				<td>Kernel name</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>1.</td>
+				<td>Hydro fragment</td>
+				<td>3319</td>
+				<td>50152</td>
+				<td>13078</td>
+				<td>49930</td>
+			</tr>
+			<tr>
+				<td>2.</td>
+				<td>ICCG excerpt (Incomplete Cholesky Conjugate Gradient)</td>
+				<td>2306</td>
+				<td>34620</td>
+				<td>8928</td>
+				<td>34505</td>
+			</tr>
+			<tr>
+				<td>3.</td>
+				<td>Inner product</td>
+				<td>955</td>
+				<td>14769</td>
+				<td>3748</td>
+				<td>13844</td>
+			</tr>
+			<tr>
+				<td>4.</td>
+				<td>Banded linear equations</td>
+				<td>1127</td>
+				<td>17533</td>
+				<td>4438</td>
+				<td>16177</td>
+			</tr>
+			<tr>
+				<td>5.</td>
+				<td>Tri-diagonal elimination, below diagonal</td>
+				<td>768</td>
+				<td>12247</td>
+				<td>3022</td>
+				<td>11373</td>
+			</tr>
+			<tr>
+				<td>6.</td>
+				<td>General linear recurrence equations</td>
+				<td>788</td>
+				<td>12120</td>
+				<td>3096</td>
+				<td>11194</td>
+			</tr>
+			<tr>
+				<td>7.</td>
+				<td>Equation of state fragment</td>
+				<td>4700</td>
+				<td>72292</td>
+				<td>18440</td>
+				<td>71690</td>
+			</tr>
+			<tr>
+				<td>8.</td>
+				<td>ADI integration</td>
+				<td>2757</td>
+				<td>40353</td>
+				<td>11073</td>
+				<td>40868</td>
+			</tr>
+			<tr>
+				<td>9.</td>
+				<td>Integrate predictors</td>
+				<td>4074</td>
+				<td>53438</td>
+				<td>15947</td>
+				<td>53279</td>
+			</tr>
+			<tr>
+				<td>10.</td>
+				<td>Difference predictors</td>
+				<td>760</td>
+				<td>11205</td>
+				<td>2969</td>
+				<td>10865</td>
+			</tr>
+			<tr>
+				<td>11.</td>
+				<td>First sum</td>
+				<td>478</td>
+				<td>7476</td>
+				<td>1886</td>
+				<td>7031</td>
+			</tr>
+			<tr>
+				<td>12.</td>
+				<td>First difference</td>
+				<td>1041</td>
+				<td>15555</td>
+				<td>4130</td>
+				<td>15747</td>
+			</tr>
+			<tr>
+				<td>13.</td>
+				<td>2-D PIC (Particle In Cell)</td>
+				<td>670</td>
+				<td>10580</td>
+				<td>2263</td>
+				<td>10399</td>
+			</tr>
+			<tr>
+				<td>14.</td>
+				<td>1-D PIC (Particle In Cell)</td>
+				<td>974</td>
+				<td>15302</td>
+				<td>3759</td>
+				<td>15087</td>
+			</tr>
+			<tr>
+				<td>15.</td>
+				<td>Casual Fortran.  Development version</td>
+				<td>2481</td>
+				<td>34653</td>
+				<td>9742</td>
+				<td>34449</td>
+			</tr>
+			<tr>
+				<td>16.</td>
+				<td>Monte Carlo search loop</td>
+				<td>1566</td>
+				<td>24103</td>
+				<td>6227</td>
+				<td>23591</td>
+			</tr>
+			<tr>
+				<td>17.</td>
+				<td>Implicit, conditional computation</td>
+				<td>1580</td>
+				<td>23944</td>
+				<td>6230</td>
+				<td>23039</td>
+			</tr>
+			<tr>
+				<td>18.</td>
+				<td>2-D explicit hydrodynamics fragment</td>
+				<td>1880</td>
+				<td>26645</td>
+				<td>7371</td>
+				<td>25967</td>
+			</tr>
+			<tr>
+				<td>19.</td>
+				<td>General linear recurrence equations</td>
+				<td>539</td>
+				<td>8787</td>
+				<td>2114</td>
+				<td>8147</td>
+			</tr>
+			<tr>
+				<td>20.</td>
+				<td>Discrete ordinates transport, conditional recurrence on xx</td>
+				<td>2827</td>
+				<td>43960</td>
+				<td>11098</td>
+				<td>41420</td>
+			</tr>
+			<tr>
+				<td>21.</td>
+				<td>Matrix*matrix product</td>
+				<td>1117</td>
+				<td>16280</td>
+				<td>4404</td>
+				<td>16175</td>
+			</tr>
+			<tr>
+				<td>22.</td>
+				<td>Planckian distribution</td>
+				<td>3988</td>
+				<td>60743</td>
+				<td>15452</td>
+				<td>59785</td>
+			</tr>
+			<tr>
+				<td>23.</td>
+				<td>2-D implicit hydrodynamics fragment</td>
+				<td>1549</td>
+				<td>23813</td>
+				<td>6057</td>
+				<td>23433</td>
+			</tr>
+			<tr>
+				<td>24.</td>
+				<td>Find location of first minimum in array</td>
+				<td>983</td>
+				<td>15817</td>
+				<td>3870</td>
+				<td>15254</td>
+			</tr>
+		</table>
+
+		<br>
+		<div>
+			<h2 class="thin_font">26910
+			</h2>
+			<h4 class="thin_font">
+				Optimized ratio x4.8
+			</h4>
+			<h3 class="thin_font">Optimized score</h3>
+		</div>
+		<br>
+		<div>
+			<table>
+				<tr>
+					<td class="no_border">
+						<div class="sub_result_div white_on_grey">
+							<h2 class="thin_font">7161</h2>
+							<h4 class="thin_font">-</h4>
+							<h3 class="thin_font">Singlecore</h3>
+						</div>
+					</td>
+					<td class="no_border">
+						<div class="sub_result_div white_on_grey">
+							<h2 class="thin_font">98146</h2>
+							<h4 class="thin_font">
+								MP ratio x13.7</h4>
+							<h3 class="thin_font">Multicore</h3>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="no_border">
+						<div class="sub_result_div white_on_grey">
+							<h2 class="thin_font">27725</h2>
+							<h4 class="thin_font">
+								MP ratio x3.9</h4>
+							<h3 class="thin_font">Quadcore</h3>
+						</div>
+					</td>
+					<td class="no_border">
+						<div class="sub_result_div white_on_grey">
+							<h2 class="thin_font">97753</h2>
+							<h4 class="thin_font">
+								MP ratio x13.7</h4>
+							<h3 class="thin_font">Workstation</h3>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<table class="grey_border">
+			<tr class="white_on_grey">
+				<td></td>
+				<td><b>Optimized</b></td>
+				<td>Single core</td>
+				<td>Multi core</td>
+				<td>Quad core</td>
+				<td>Workstation</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>Maximum</td>
+				<td>33679</td>
+				<td>419182</td>
+				<td>129602</td>
+				<td>426023</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>Average</td>
+				<td>9531</td>
+				<td>124906</td>
+				<td>36799</td>
+				<td>125473</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>Geometric</td>
+				<td>7161</td>
+				<td>98146</td>
+				<td>27725</td>
+				<td>97753</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>Harmonic</td>
+				<td>5629</td>
+				<td>80190</td>
+				<td>21829</td>
+				<td>79248</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>Minimum</td>
+				<td>1960</td>
+				<td>32965</td>
+				<td>7545</td>
+				<td>31856</td>
+			</tr>
+
+			<tr class="white_on_grey">
+				<td>#</td>
+				<td>Kernel name</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>1.</td>
+				<td>Hydro fragment</td>
+				<td>30216</td>
+				<td>345930</td>
+				<td>116229</td>
+				<td>353500</td>
+			</tr>
+			<tr>
+				<td>2.</td>
+				<td>ICCG excerpt (Incomplete Cholesky Conjugate Gradient)</td>
+				<td>8866</td>
+				<td>106361</td>
+				<td>34013</td>
+				<td>111062</td>
+			</tr>
+			<tr>
+				<td>3.</td>
+				<td>Inner product</td>
+				<td>6945</td>
+				<td>105223</td>
+				<td>26741</td>
+				<td>103644</td>
+			</tr>
+			<tr>
+				<td>4.</td>
+				<td>Banded linear equations</td>
+				<td>7810</td>
+				<td>101645</td>
+				<td>30055</td>
+				<td>103133</td>
+			</tr>
+			<tr>
+				<td>5.</td>
+				<td>Tri-diagonal elimination, below diagonal</td>
+				<td>3327</td>
+				<td>49082</td>
+				<td>12806</td>
+				<td>46697</td>
+			</tr>
+			<tr>
+				<td>6.</td>
+				<td>General linear recurrence equations</td>
+				<td>4328</td>
+				<td>60033</td>
+				<td>16641</td>
+				<td>58740</td>
+			</tr>
+			<tr>
+				<td>7.</td>
+				<td>Equation of state fragment</td>
+				<td>33679</td>
+				<td>419182</td>
+				<td>129602</td>
+				<td>426023</td>
+			</tr>
+			<tr>
+				<td>8.</td>
+				<td>ADI integration</td>
+				<td>15434</td>
+				<td>228067</td>
+				<td>59355</td>
+				<td>228797</td>
+			</tr>
+			<tr>
+				<td>9.</td>
+				<td>Integrate predictors</td>
+				<td>18547</td>
+				<td>243230</td>
+				<td>71583</td>
+				<td>246254</td>
+			</tr>
+			<tr>
+				<td>10.</td>
+				<td>Difference predictors</td>
+				<td>8359</td>
+				<td>100192</td>
+				<td>32144</td>
+				<td>100124</td>
+			</tr>
+			<tr>
+				<td>11.</td>
+				<td>First sum</td>
+				<td>3955</td>
+				<td>53160</td>
+				<td>15233</td>
+				<td>51979</td>
+			</tr>
+			<tr>
+				<td>12.</td>
+				<td>First difference</td>
+				<td>7295</td>
+				<td>107579</td>
+				<td>29957</td>
+				<td>107983</td>
+			</tr>
+			<tr>
+				<td>13.</td>
+				<td>2-D PIC (Particle In Cell)</td>
+				<td>3210</td>
+				<td>46475</td>
+				<td>13555</td>
+				<td>46881</td>
+			</tr>
+			<tr>
+				<td>14.</td>
+				<td>1-D PIC (Particle In Cell)</td>
+				<td>4362</td>
+				<td>63524</td>
+				<td>16819</td>
+				<td>63358</td>
+			</tr>
+			<tr>
+				<td>15.</td>
+				<td>Casual Fortran.  Development version</td>
+				<td>8577</td>
+				<td>126071</td>
+				<td>33020</td>
+				<td>124523</td>
+			</tr>
+			<tr>
+				<td>16.</td>
+				<td>Monte Carlo search loop</td>
+				<td>8275</td>
+				<td>97394</td>
+				<td>31795</td>
+				<td>97606</td>
+			</tr>
+			<tr>
+				<td>17.</td>
+				<td>Implicit, conditional computation</td>
+				<td>6515</td>
+				<td>91183</td>
+				<td>25069</td>
+				<td>89736</td>
+			</tr>
+			<tr>
+				<td>18.</td>
+				<td>2-D explicit hydrodynamics fragment</td>
+				<td>19966</td>
+				<td>234089</td>
+				<td>76739</td>
+				<td>235381</td>
+			</tr>
+			<tr>
+				<td>19.</td>
+				<td>General linear recurrence equations</td>
+				<td>1960</td>
+				<td>32965</td>
+				<td>7545</td>
+				<td>31856</td>
+			</tr>
+			<tr>
+				<td>20.</td>
+				<td>Discrete ordinates transport, conditional recurrence on xx</td>
+				<td>2378</td>
+				<td>36179</td>
+				<td>9155</td>
+				<td>35398</td>
+			</tr>
+			<tr>
+				<td>21.</td>
+				<td>Matrix*matrix product</td>
+				<td>8767</td>
+				<td>126409</td>
+				<td>33883</td>
+				<td>128103</td>
+			</tr>
+			<tr>
+				<td>22.</td>
+				<td>Planckian distribution</td>
+				<td>7205</td>
+				<td>94974</td>
+				<td>27703</td>
+				<td>94783</td>
+			</tr>
+			<tr>
+				<td>23.</td>
+				<td>2-D implicit hydrodynamics fragment</td>
+				<td>5544</td>
+				<td>84838</td>
+				<td>21294</td>
+				<td>82391</td>
+			</tr>
+			<tr>
+				<td>24.</td>
+				<td>Find location of first minimum in array</td>
+				<td>3224</td>
+				<td>43952</td>
+				<td>12244</td>
+				<td>43391</td>
+			</tr>
+		</table>
+	</div>
+</div>
+</body>
+</html>

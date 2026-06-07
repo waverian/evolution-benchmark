@@ -1,0 +1,168 @@
+Here we have a summary of entire human history of CPU progress, like a in museum.
+
+Added Metadata:
+Important          - 1  (whenever to show in GUI only "major" generations)
+KEYWORD_CPU_ARCH_ID- INTEL_CORE2DUO_1GEN_CONROE (family name / generation)
+Clockrate          - 2400 (max/turbo clockrate of a single-core)
+TDP                - 65   (real power consumption of a chip, CPU or SoC, in watts)
+  TDP NOTES: my TDP value can be lower or higher than marketing agenda by vendors...
+      TDP may be higher due to turbo-boost, or lower due to thermal throttling on my PC.
+      TDP by vendors is often a marketing trick, which does not count turbo or throttling.
+  
+
+KEYWORD_ARCH =
+---
+AMD_K5
+AMD_K6
+AMD_ATHLON_1GEN_SLOTA
+AMD_ATHLON_2GEN_SOCKET
+AMD_ATHLONXP
+AMD_ATHLON64
+AMD_PHENOM1
+AMD_PHENOM2
+AMD_E1
+AMD_FX
+AMD_ZEN1
+AMD_ZEN1PLUS
+AMD_ZEN2
+AMD_ZEN3
+AMD_ZEN4
+AMD_ZEN5
+INTEL_486
+INTEL_PENTIUM1
+INTEL_PENTIUM1_MMX
+INTEL_PENTIUM2
+INTEL_PENTIUM3_1GEN_KATMAI
+INTEL_PENTIUM3_2GEN_COPPERMINE
+INTEL_PENTIUM3_3GEN_TUALATIN
+INTEL_PENTIUM4_1GEN_WILLAMETTE
+INTEL_PENTIUM4_2GEN_NORTHWOOD
+INTEL_PENTIUMM_1GEN_BANIAS
+INTEL_PENTIUMM_2GEN_DOTHAN
+INTEL_CORE1DUO
+INTEL_CORE2DUO_1GEN_CONROE
+INTEL_CORE2DUO_2GEN_WOLFDALE
+INTEL_CORE_1GEN
+INTEL_CORE_2GEN
+INTEL_CORE_3GEN
+INTEL_CORE_4GEN
+INTEL_CORE_5GEN
+INTEL_CORE_6GEN
+INTEL_CORE_7GEN
+INTEL_CORE_8GEN
+INTEL_CORE_9GEN
+INTEL_CORE_10GEN
+INTEL_CORE_11GEN
+INTEL_CORE_12GEN
+INTEL_CORE_13GEN
+INTEL_CORE_14GEN
+APPLE_A7
+APPLE_A8
+APPLE_A9
+APPLE_A10
+APPLE_A11
+APPLE_A12
+APPLE_A13
+APPLE_A14
+APPLE_A15
+APPLE_A16
+APPLE_A17
+APPLE_A18
+APPLE_A19
+APPLE_M1
+APPLE_M2
+APPLE_M3
+APPLE_M4
+APPLE_M5
+APPLE_M6
+RPI_1
+RPI_2
+RPI_3
+RPI_4
+RPI_5
+RPI_6
+VIA_C3
+VIA_C7
+
+
+
+
+Intel:
+486
+Pentium 1
+Pentium 1-MMX
+Pentium II
+Pentium III
+Pentium 4
+Pentium M (Centrino)
+Core 1 Duo *missing piece from my collection... the missing link between the older Pentium III / M and Core 2 Duo.
+Core 2 Duo
+---
+Core i7 870  - 1st gen 
+Core i7 2600 - 2nd gen <-- here we have a massive drop in optimized ratio. Why ? Because the base score is 
+Core i7 3770 - 3rd gen *very similar to 2nd gen; missing.
+Core i7 4770 - 4th gen
+Core i7 5600U- 5th gen *missing from the hi-end desktop lineup; mostly mobile generation for laptops.
+Core i7 6700 - 6th gen
+Core i7 7700 - 7th gen
+Core i7 8700 - 8th gen
+Core i9 9900K- 9th gen
+Core i9 10900K- 10th gen
+Core i9 11900K- 11th gen
+Core i9 12900K- 12th gen
+
+
+Curious:
+Core i7 870  - 1st gen 
+Core i7 2600 - 2nd gen <-- here we have a massive drop in optimized ratio. 
+Why ? Because the base score is so much higher. Basically it can predict
+*and* execute speculative code so much better, that it is less dependent on code optimizations.
+Meaning that
+
+Intel Xeons are based on core-i7 design, either directly or indirectly.
+
+Where is Core i7 5700 ? missing ... because 14nm factory was delayed, and so intel decided to skip
+and went to 6th gen on the desktop.
+
+
+---
+Script goals for Gemini AI Pro: (CPU architecture analysis tool)
+---
+(uploaded several txt files as examples: 486DX2, Apple M3 Max, Pentium III 1000 MHz, and Core i9-14900K.)
+
+We are building a CPU architecture analysis tool.
+
+I have a lot of benchmark results of different CPUs. About 200 models in total. Results were acquired via an App called "EvoBench", which is a multi-core version of the ancient Livermore Loops benchmark, and also compatible with modern phones, ported to Android and IOS.
+Here I have uploaded 3 results as examples, in plain text files. Take a look at those files, make sure you can understand their structure.
+Note that some files have critical keywords, such as "Clockrate" and "TDP", and some are missing this critical information. You should skip the files that are missing this information.
+Each result is devided into 24 Livermore Loops (aka kernels). And into Optimized and Non-Optimized results.
+
+Your task:
+
+Develop a python script, that reads all the result files (in *.txt format), analyzes CPU architectures, every single one of them, that have "Clockrate and TDP" values, strong points and weak points of each.
+Analysis goals are as follows:
+
+1. Python script must read all *.txt files from current directory, and skip files with missing "Clockrate and TDP" values, and output HTML files into the very same current directory, where the python script is run.
+2. Normalize every CPU, single-core performance down to 1 GHz. so a CPU with a score with single-core score of 7000 running at 3500 MHz should have a normalized score of 2000/GHz. Do this both for overall single-core score, as well as per kernel (livermore loop).
+3. Normalize every CPU, multi-core performance down to TDP levels, for every watt of TDP. For example: for a CPU X, that shows a 2000 multi-core score, and consumes 20 watts, it produces 100 multi-core score per watt. Do this both for overall score, as well as per kernel. Do this both for overall multi-core score, as well as per kernel (livermore loop).
+4. Normalizing per 1 GHz for multi-core benchmark makes no sense, because modern CPUs have floating clock-rates, not fixed clocks, and they will throttle after a while, both desktops and laptops. TDP for a single-core is meanningless, because a single-core will not utilize a whole chip's TDP anyway, except for very ancient chips, that were designed as single-core.
+5. ancient CPUs do have a fixed clock rates. Like Pentium 1/2/3/4/M. But they are typically single-core, and 32-bit. So easier to analyze those.
+6. the script must be self contained, and not use any extra python modules from pip. Only the standard python library, that is included with python 3.
+7. the script must work on both Windows, Mac and Linux systems.
+8. the script must generate four HTML files as outputs, with 24 kernels each + overall score. 
+8.1. HTML with single-core optimized results
+8.2. HTML with multi-core optimized results
+8.3. HTML with single-core non-optimized results
+8.4. HTML with multi-core non-optimized results
+9. The HTML files should build a table (spreadsheet), with color-coded columns.
+Rows must be the CPU  name. Columns must be the normalized results (single-core / 1 GHz) and (Multi-core / TDP).
+The color codes should be relative and go from red (worst case) to yellow and then to green (best case), one color per cell.
+10. The columns must be separated into 2 parts via a some kind of vertical line or an empty cell :
+Part A: overall score
+Part B: per kernel score (1...24).
+We will end up with 25 columns (overall score +24 kernels)  and about 200 rows (CPU models). Each cell must include both a human readable normalized value, black text font + background color code relative to other models, ranging from red to green. 
+11. We are building a CPU architecture analysis tool, that can quickly show off strong and weak spots of every single CPU architecture that was ever benchmarked on the planet.
+12. Color coded HTML is necessary for humans to be able to read it quickly. Humans are hardware coded to recognize color codes in a single cycle, split second, instead of reading 25 x 200 = 5000 values (or 5000 cycles or 5000 seconds).
+13. HTML format must be very simple, static HTML4 style, so it is readable offline by ancient browsers, like Internet Explorer 6 and FireFox 1.0.
+
+Do you have any major questions before you begin building the script ? Is the mission clear understood ?

@@ -1,0 +1,1290 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Waverian Evolution - Optimized</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { margin: 0 auto; min-width: 30em; max-width: 60em; text-align: center; }
+        .thin_font { font-weight: 300; margin: auto; }
+        .white_on_blue { background-color: #1e90ff; color: #f0f8ff; }
+        table.blue_border td { border: 1px solid #1e90ff; padding: 4px; }
+        th { cursor: pointer; padding: 6px; }
+        h3 { font-size: 1.8em; }
+        table { border-collapse: collapse; border-width: 0; width: 100%; text-align: left; }
+        .logo { text-align: left; padding: 10px; }
+        .sort-indicator { font-size: 0.8em; margin-left: 5px; color: #ccffff; }
+    </style>
+    <script type="text/javascript">
+        window.onload = function() {
+            var table = document.getElementById("score_table");
+            if (!table) return;
+            var headers = table.getElementsByTagName("th");
+            var tbody = table.getElementsByTagName("tbody")[0];
+            
+            // Set default sort to Name (index 0) in Ascending order
+            var currentSort = { index: 0, direction: "asc" }; 
+
+            function getText(node) {
+                return node.innerText || node.textContent || "";
+            }
+
+            // Natural sorting chunker for legacy browsers (splits into letters and numbers)
+            function chunkify(t) {
+                var tz = [];
+                var x = 0, y = -1, n = 0, i, j;
+                while (i = (j = t.charAt(x++)).charCodeAt(0)) {
+                    var m = (i >= 48 && i <= 57); // Is it a digit 0-9?
+                    if (m !== n) {
+                        tz[++y] = "";
+                        n = m;
+                    }
+                    tz[y] += j;
+                }
+                return tz;
+            }
+
+            function sortTable(index, direction, type) {
+                var rows = tbody.getElementsByTagName("tr");
+                var rowsArray = [];
+                for (var i = 0; i < rows.length; i++) {
+                    rowsArray.push(rows[i]);
+                }
+
+                rowsArray.sort(function(a, b) {
+                    var aCells = a.getElementsByTagName("td");
+                    var bCells = b.getElementsByTagName("td");
+                    if (aCells.length <= index || bCells.length <= index) return 0;
+
+                    var aText = getText(aCells[index]).replace(/^\s+|\s+$/g, '');
+                    var bText = getText(bCells[index]).replace(/^\s+|\s+$/g, '');
+
+                    var cmp = 0;
+                    if (type === "number") {
+                        var aNum = parseFloat(aText);
+                        var bNum = parseFloat(bText);
+                        if (aNum < bNum) cmp = -1;
+                        else if (aNum > bNum) cmp = 1;
+                    } else {
+                        // Execute Natural Sort for Strings
+                        var aa = chunkify(aText);
+                        var bb = chunkify(bText);
+                        for (var x = 0; aa[x] && bb[x]; x++) {
+                            if (aa[x] !== bb[x]) {
+                                var c = Number(aa[x]);
+                                var d = Number(bb[x]);
+                                if (!isNaN(c) && !isNaN(d)) {
+                                    cmp = c - d;
+                                    break;
+                                } else {
+                                    var aStr = String(aa[x]).toLowerCase();
+                                    var bStr = String(bb[x]).toLowerCase();
+                                    if (aStr < bStr) cmp = -1;
+                                    else if (aStr > bStr) cmp = 1;
+                                    break;
+                                }
+                            }
+                        }
+                        if (cmp === 0) cmp = aa.length - bb.length;
+                    }
+                    return direction === "asc" ? cmp : -cmp;
+                });
+
+                while (tbody.firstChild) {
+                    tbody.removeChild(tbody.firstChild);
+                }
+                for (var j = 0; j < rowsArray.length; j++) {
+                    tbody.appendChild(rowsArray[j]);
+                }
+            }
+
+            function updateIndicators(index, direction) {
+                for (var i = 0; i < headers.length; i++) {
+                    var spans = headers[i].getElementsByTagName("span");
+                    if (spans.length > 0) {
+                        spans[0].innerHTML = "&#9666;"; // Left pointing triangle
+                        if (i === index) {
+                            spans[0].innerHTML = direction === "asc" ? "&#9650;" : "&#9660;"; 
+                        }
+                    }
+                }
+            }
+
+            for (var i = 0; i < headers.length; i++) {
+                (function(idx) {
+                    var header = headers[idx];
+                    var type = header.getAttribute("data-type");
+                    if (!type) return;
+
+                    header.onclick = function() {
+                        var direction = (currentSort.index === idx && currentSort.direction === "asc") ? "desc" : "asc";
+                        currentSort = { index: idx, direction: direction };
+                        sortTable(idx, direction, type);
+                        updateIndicators(idx, direction);
+                    };
+                })(i);
+            }
+
+            // Trigger the default natural sort on load
+            var defaultType = headers[currentSort.index].getAttribute("data-type");
+            sortTable(currentSort.index, currentSort.direction, defaultType);
+            updateIndicators(currentSort.index, currentSort.direction);
+        };
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="logo white_on_blue">
+        <h3 class="thin_font">Waverian Evolution benchmark (Optimized)</h3>
+    </div>
+    <br />
+    <table class="blue_border" id="score_table">
+        <thead class="white_on_blue">
+            <tr>
+                <th data-type="string">Name<span class="sort-indicator">&#9666;</span></th>
+                <th data-type="number">Score ST<span class="sort-indicator">&#9666;</span></th>
+                <th data-type="number">Score MT<span class="sort-indicator">&#9666;</span></th>
+                <th>Text</th>
+                <th>Html</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Intel(R) Pentium(R) M processor 800 MHz</td>
+                <td>249.00</td>
+                <td>249.00</td>
+                <td><a href="lfk3-Intel_Pentium_M_800_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_M_800_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 9 3900 12-Core Processor</td>
+                <td>4169.00</td>
+                <td>57700.00</td>
+                <td><a href="lfk3-AMD_Ryzen_9_3900_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_9_3900_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium III 733 MHz</td>
+                <td>193.00</td>
+                <td>193.00</td>
+                <td><a href="lfk3-Intel_Pentium_III_733_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_III_733_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Athlon(tm) 64 Processor 3000+ @ 2.00GHz</td>
+                <td>663.00</td>
+                <td>663.00</td>
+                <td><a href="lfk3-AMD_Athlon_64_3000+_2.0_GHz_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Athlon_64_3000+_2.0_GHz_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Samsung Galaxy S21 / Exynos 2100</td>
+                <td>3299.00</td>
+                <td>10194.00</td>
+                <td><a href="lfk3-Samsung_Galaxy_S21_Exynos_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Samsung_Galaxy_S21_Exynos_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Athlon(tm) processor 700 MHz</td>
+                <td>229.00</td>
+                <td>229.00</td>
+                <td><a href="lfk3-AMD_Athlon_700_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Athlon_700_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 7 7700 8-Core Processor</td>
+                <td>6024.00</td>
+                <td>51080.00</td>
+                <td><a href="lfk3-AMD_Ryzen_7_7700_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_7_7700_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz</td>
+                <td>4001.00</td>
+                <td>38758.00</td>
+                <td><a href="lfk3-Intel_Core_i9_9900K_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i9_9900K_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium III 450 MHz</td>
+                <td>99.70</td>
+                <td>99.70</td>
+                <td><a href="lfk3-Intel_Pentium_III_450_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_III_450_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 9 5900X 12-Core Processor</td>
+                <td>4969.00</td>
+                <td>64468.00</td>
+                <td><a href="lfk3-AMD_Ryzen_9_5900X_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_9_5900X_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Pentium(R) M processor 1.73GHz</td>
+                <td>539.00</td>
+                <td>539.00</td>
+                <td><a href="lfk3-Intel_Pentium_M_1733_MHz_Centrino_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_M_1733_MHz_Centrino_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 5 3600 6-Core Processor</td>
+                <td>3557.00</td>
+                <td>27351.00</td>
+                <td><a href="lfk3-AMD_Ryzen_5_3600_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_5_3600_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Apple M1</td>
+                <td>4052.00</td>
+                <td>16653.00</td>
+                <td><a href="lfk3-Apple_M1_Macbook_Air_M1_MacOS.txt">Text</a></td>
+                <td><a href="lfk3-Apple_M1_Macbook_Air_M1_MacOS.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Ampere Altra Q80-30</td>
+                <td>2968.00</td>
+                <td>237309.00</td>
+                <td><a href="lfk3-Ampere_Altra_Q80-30_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Ampere_Altra_Q80-30_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 5 PRO 2400G with Radeon Vega Graphics</td>
+                <td>2876.00</td>
+                <td>13555.00</td>
+                <td><a href="lfk3-AMD_Ryzen_5_2400G_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_5_2400G_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Apple M1 / iPad Pro</td>
+                <td>4596.00</td>
+                <td>20350.00</td>
+                <td><a href="lfk3-Apple_M1_iPad_Pro_2021.txt">Text</a></td>
+                <td><a href="lfk3-Apple_M1_iPad_Pro_2021.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 9 7950X 16-Core Processor</td>
+                <td>5962.00</td>
+                <td>106943.00</td>
+                <td><a href="lfk3-AMD_Ryzen_9_7950X_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_9_7950X_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium II 333 MHz</td>
+                <td>73.20</td>
+                <td>73.20</td>
+                <td><a href="lfk3-Intel_Pentium_II_333_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_II_333_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i5-8350U CPU @ 1.70GHz</td>
+                <td>2914.00</td>
+                <td>10285.00</td>
+                <td><a href="lfk3-Intel_Core_i5_8350U_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i5_8350U_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i5-4570 CPU @ 3.20GHz</td>
+                <td>2596.00</td>
+                <td>9815.00</td>
+                <td><a href="lfk3-Intel_Core_i5_4570_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i5_4570_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz</td>
+                <td>3290.00</td>
+                <td>16318.00</td>
+                <td><a href="lfk3-Intel_Core_i7_7700_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i7_7700_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium 233 MHz MMX</td>
+                <td>26.70</td>
+                <td>26.70</td>
+                <td><a href="lfk3-Intel_Pentium_233_MHz_MMX_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_233_MHz_MMX_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) Ultra 7 265</td>
+                <td>7161.00</td>
+                <td>98146.00</td>
+                <td><a href="lfk3-Intel_Core_Ultra_7_265_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_Ultra_7_265_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i7 CPU         870  @ 2.93GHz</td>
+                <td>1973.00</td>
+                <td>9011.00</td>
+                <td><a href="lfk3-Intel_Core_i7_870_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i7_870_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Pentium(R) M processor 1.40GHz</td>
+                <td>436.00</td>
+                <td>436.00</td>
+                <td><a href="lfk3-Intel_Pentium_M_1400_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_M_1400_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Samsung Galaxy S24 / Exynos 2400</td>
+                <td>4113.00</td>
+                <td>13830.00</td>
+                <td><a href="lfk3-Samsung_Galaxy_S24_Exynos_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Samsung_Galaxy_S24_Exynos_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 7 5700X 8-Core Processor</td>
+                <td>4996.00</td>
+                <td>43052.00</td>
+                <td><a href="lfk3-AMD_Ryzen_7_5700X_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_7_5700X_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 9 3950X 16-Core Processor</td>
+                <td>3589.00</td>
+                <td>66415.00</td>
+                <td><a href="lfk3-AMD_Ryzen_9_3950X_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_9_3950X_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 5 PRO 4650U with Radeon Graphics</td>
+                <td>3624.00</td>
+                <td>22895.00</td>
+                <td><a href="lfk3-AMD_Ryzen_5_4650U_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_5_4650U_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM)2 Duo CPU     P8600  @ 2.40GHz</td>
+                <td>1097.00</td>
+                <td>2080.00</td>
+                <td><a href="lfk3-Intel_Core_2_Duo_P8600_2.40_GHz_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_2_Duo_P8600_2.40_GHz_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD E1-6010 APU with AMD Radeon R2 Graphics @ 1.35GHz</td>
+                <td>566.00</td>
+                <td>1130.00</td>
+                <td><a href="lfk3-AMD_E1_6010_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_E1_6010_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Apple M5 / iPad Pro</td>
+                <td>7496.00</td>
+                <td>29775.00</td>
+                <td><a href="lfk3-Apple_M5_iPad_Pro_2025.txt">Text</a></td>
+                <td><a href="lfk3-Apple_M5_iPad_Pro_2025.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i5-12500</td>
+                <td>5922.00</td>
+                <td>37188.00</td>
+                <td><a href="lfk3-Intel_Core_i5_12500_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i5_12500_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Samsung Galaxy S25 / Qualcomm SM8750-AC</td>
+                <td>6112.00</td>
+                <td>16949.00</td>
+                <td><a href="lfk3-Samsung_Galaxy_S25_Qualcomm_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Samsung_Galaxy_S25_Qualcomm_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM)2 Duo CPU     E8200  @ 2.66GHz</td>
+                <td>1160.00</td>
+                <td>2317.00</td>
+                <td><a href="lfk3-Intel_Core_2_Duo_E8200_2.66GHz_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_2_Duo_E8200_2.66GHz_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD EPYC 9255 24-Core Processor</td>
+                <td>5605.00</td>
+                <td>158552.00</td>
+                <td><a href="lfk3-AMD_EPYC_9255_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_EPYC_9255_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 9 3900X 12-Core Processor</td>
+                <td>3715.00</td>
+                <td>51911.00</td>
+                <td><a href="lfk3-AMD_Ryzen_9_3900X_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_9_3900X_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium III 1000 MHz</td>
+                <td>262.00</td>
+                <td>262.00</td>
+                <td><a href="lfk3-Intel_Pentium_III_1000_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_III_1000_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Samsung Galaxy S26 / Qualcomm SM8850-AC</td>
+                <td>7482.00</td>
+                <td>23911.00</td>
+                <td><a href="lfk3-Samsung_Galaxy_S26_Qualcomm_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Samsung_Galaxy_S26_Qualcomm_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 9 7900X 12-Core Processor</td>
+                <td>5774.00</td>
+                <td>82270.00</td>
+                <td><a href="lfk3-AMD_Ryzen_9_7900X_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_9_7900X_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Apple A17 Pro / T8122-64bit</td>
+                <td>4574.00</td>
+                <td>9860.00</td>
+                <td><a href="lfk3-Apple_A17_iPhone_15_Pro_Max_2023.txt">Text</a></td>
+                <td><a href="lfk3-Apple_A17_iPhone_15_Pro_Max_2023.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD K5-100 MHz (PR100)</td>
+                <td>8.98</td>
+                <td>8.98</td>
+                <td><a href="lfk3-AMD_K5_100_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-AMD_K5_100_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Phenom(tm) II X4 955 Processor</td>
+                <td>1335.00</td>
+                <td>5337.00</td>
+                <td><a href="lfk3-AMD_Phenom_II_X4_955_3.20_GHz_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Phenom_II_X4_955_3.20_GHz_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Apple M4 Max</td>
+                <td>7233.00</td>
+                <td>90359.00</td>
+                <td><a href="lfk3-Apple_M4_Max.txt">Text</a></td>
+                <td><a href="lfk3-Apple_M4_Max.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium III 600 MHz (EB)</td>
+                <td>158.00</td>
+                <td>158.00</td>
+                <td><a href="lfk3-Intel_Pentium_III_600EB_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_III_600EB_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Apple A8 / T7000-64bit</td>
+                <td>831.00</td>
+                <td>1354.00</td>
+                <td><a href="lfk3-Apple_A8_iPhone_6_2014.txt">Text</a></td>
+                <td><a href="lfk3-Apple_A8_iPhone_6_2014.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) Duo CPU      T2600  @ 2.16GHz</td>
+                <td>716.00</td>
+                <td>1431.00</td>
+                <td><a href="lfk3-Intel_Core_Duo_T2600_2.16GHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_Duo_T2600_2.16GHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium III 550 MHz</td>
+                <td>126.00</td>
+                <td>126.00</td>
+                <td><a href="lfk3-Intel_Pentium_III_550_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_III_550_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Apple A7 / 8960X-64bit</td>
+                <td>659.00</td>
+                <td>1111.00</td>
+                <td><a href="lfk3-Apple_A7_iPhone_5S_2013.txt">Text</a></td>
+                <td><a href="lfk3-Apple_A7_iPhone_5S_2013.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen Threadripper 3990X 64-Core Processor</td>
+                <td>3981.00</td>
+                <td>237249.00</td>
+                <td><a href="lfk3-AMD_Threadripper_3990X_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Threadripper_3990X_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD EPYC 7502P 32-Core Processor</td>
+                <td>3164.00</td>
+                <td>115287.00</td>
+                <td><a href="lfk3-AMD_EPYC_7502P_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_EPYC_7502P_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 3 PRO 2300U w/ Radeon Vega Mobile Gfx</td>
+                <td>2689.00</td>
+                <td>6686.00</td>
+                <td><a href="lfk3-AMD_Ryzen_3_2300U_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_3_2300U_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i5-1235U</td>
+                <td>5222.00</td>
+                <td>18964.00</td>
+                <td><a href="lfk3-Intel_Core_i5_1235U_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i5_1235U_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD PRO A4-8350B</td>
+                <td>1640.00</td>
+                <td>2735.00</td>
+                <td><a href="lfk3-AMD_A4_8350B_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_A4_8350B_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 7 3700X 8-Core Processor</td>
+                <td>3706.00</td>
+                <td>35441.00</td>
+                <td><a href="lfk3-AMD_Ryzen_7_3700X_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_7_3700X_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Apple M4 / iPad Pro</td>
+                <td>6978.00</td>
+                <td>27554.00</td>
+                <td><a href="lfk3-Apple_M4_iPad_Pro_2024.txt">Text</a></td>
+                <td><a href="lfk3-Apple_M4_iPad_Pro_2024.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 7 4700U with Radeon Graphics</td>
+                <td>3326.00</td>
+                <td>17767.00</td>
+                <td><a href="lfk3-AMD_Ryzen_7_4700U_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_7_4700U_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Pentium(R) M processor 600 MHz</td>
+                <td>186.00</td>
+                <td>186.00</td>
+                <td><a href="lfk3-Intel_Pentium_M_600_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_M_600_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i7-6700 CPU @ 3.40GHz</td>
+                <td>3037.00</td>
+                <td>15119.00</td>
+                <td><a href="lfk3-Intel_Core_i7_6700_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i7_6700_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM)2 Quad CPU    Q6600  @ 2.40GHz</td>
+                <td>982.00</td>
+                <td>3924.00</td>
+                <td><a href="lfk3-Intel_Core_2_Quad_Q6600_2.40GHz_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_2_Quad_Q6600_2.40GHz_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Raspberry Pi 5 / BCM2712 / Cortex A76 @ 2.40GHz</td>
+                <td>1989.00</td>
+                <td>6128.00</td>
+                <td><a href="lfk3-Raspberry_Pi_5_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Raspberry_Pi_5_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>2x Intel(R) Xeon(R) CPU E5-2697A v4 @ 2.60GHz</td>
+                <td>2939.00</td>
+                <td>103820.00</td>
+                <td><a href="lfk3-2x_Intel_Xeon_E5_2697Av4_Linux.txt">Text</a></td>
+                <td><a href="lfk3-2x_Intel_Xeon_E5_2697Av4_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 7 1700X Eight-Core Processor</td>
+                <td>3111.00</td>
+                <td>29827.00</td>
+                <td><a href="lfk3-AMD_Ryzen_7_1700X_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_7_1700X_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Xeon(R) CPU E5-1650 v2 @ 3.50GHz</td>
+                <td>2518.00</td>
+                <td>19060.00</td>
+                <td><a href="lfk3-Intel_Xeon_E5_1650v2_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Xeon_E5_1650v2_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium III 933 MHz</td>
+                <td>244.00</td>
+                <td>244.00</td>
+                <td><a href="lfk3-Intel_Pentium_III_933_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_III_933_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium II 400 MHz</td>
+                <td>92.60</td>
+                <td>92.60</td>
+                <td><a href="lfk3-Intel_Pentium_II_400_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_II_400_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Apple M3 Max</td>
+                <td>6108.00</td>
+                <td>72882.00</td>
+                <td><a href="lfk3-Apple_M3_Max.txt">Text</a></td>
+                <td><a href="lfk3-Apple_M3_Max.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium III 600 MHz</td>
+                <td>137.00</td>
+                <td>137.00</td>
+                <td><a href="lfk3-Intel_Pentium_III_600_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_III_600_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Xeon(R) Platinum 8480+</td>
+                <td>3279.00</td>
+                <td>399265.00</td>
+                <td><a href="lfk3-2x_Intel_Xeon_Platinum_8480_Linux.txt">Text</a></td>
+                <td><a href="lfk3-2x_Intel_Xeon_Platinum_8480_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 7 5825U with Radeon Graphics</td>
+                <td>4465.00</td>
+                <td>29587.00</td>
+                <td><a href="lfk3-AMD_Ryzen_7_5825U_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_7_5825U_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen Threadripper 2950X 16-Core Processor</td>
+                <td>3595.00</td>
+                <td>65439.00</td>
+                <td><a href="lfk3-AMD_Threadripper_2950X_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Threadripper_2950X_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium 133 MHz</td>
+                <td>16.60</td>
+                <td>16.60</td>
+                <td><a href="lfk3-Intel_Pentium_133_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_133_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 9 7950X 16-Core Processor / ECO-mode 65/88 watt TDP</td>
+                <td>6053.00</td>
+                <td>85540.00</td>
+                <td><a href="lfk3-AMD_Ryzen_9_7950X_Linux_ECO_Mode_65W.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_9_7950X_Linux_ECO_Mode_65W.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM)2 Duo CPU          E6700  @ 2.66GHz</td>
+                <td>1089.00</td>
+                <td>2174.00</td>
+                <td><a href="lfk3-Intel_Core_2_Duo_E6700_2.66GHz_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_2_Duo_E6700_2.66GHz_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM)2 Duo CPU          E6400  @ 2.13GHz</td>
+                <td>871.00</td>
+                <td>1737.00</td>
+                <td><a href="lfk3-Intel_Core_2_Duo_E6400_2.13GHz_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_2_Duo_E6400_2.13GHz_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Apple A8X / iPad Air 2</td>
+                <td>880.00</td>
+                <td>2600.00</td>
+                <td><a href="lfk3-Apple_A8X_iPad_Air_2_2014.txt">Text</a></td>
+                <td><a href="lfk3-Apple_A8X_iPad_Air_2_2014.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz</td>
+                <td>2276.00</td>
+                <td>11147.00</td>
+                <td><a href="lfk3-Intel_Core_i7_2600_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i7_2600_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM)2 Duo CPU     E8500  @ 3.16GHz</td>
+                <td>1378.00</td>
+                <td>2752.00</td>
+                <td><a href="lfk3-Intel_Core_2_Duo_E8500_3.16GHz_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_2_Duo_E8500_3.16GHz_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Pentium(R) D CPU 3.40GHz</td>
+                <td>714.00</td>
+                <td>1428.00</td>
+                <td><a href="lfk3-Intel_Pentium_D_3.40GHz_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_D_3.40GHz_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 9 9900X 12-Core Processor</td>
+                <td>7255.00</td>
+                <td>90693.00</td>
+                <td><a href="lfk3-AMD_Ryzen_9_9900X_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_9_9900X_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 9 9900X 12-Core Processor</td>
+                <td>5081.00</td>
+                <td>64934.00</td>
+                <td><a href="lfk3-AMD_Ryzen_9_9900X_Win10.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_9_9900X_Win10.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz</td>
+                <td>2961.00</td>
+                <td>14755.00</td>
+                <td><a href="lfk3-Intel_Core_i7_4790_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i7_4790_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Apple A10X / iPad Pro</td>
+                <td>2043.00</td>
+                <td>5678.00</td>
+                <td><a href="lfk3-Apple_A10X_iPad_Pro_2017.txt">Text</a></td>
+                <td><a href="lfk3-Apple_A10X_iPad_Pro_2017.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Apple A15 / T8110-64bit</td>
+                <td>3718.00</td>
+                <td>9333.00</td>
+                <td><a href="lfk3-Apple_A15_iPhone_13_Pro_2021.txt">Text</a></td>
+                <td><a href="lfk3-Apple_A15_iPhone_13_Pro_2021.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Xeon(R) CPU E3-1270 v6 @ 3.80GHz</td>
+                <td>3349.00</td>
+                <td>16528.00</td>
+                <td><a href="lfk3-Intel_Xeon_E3_1270v6_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Xeon_E3_1270v6_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Athlon(tm) processor 650 MHz</td>
+                <td>209.00</td>
+                <td>209.00</td>
+                <td><a href="lfk3-AMD_Athlon_650_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Athlon_650_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Apple A11 / iPhone X</td>
+                <td>2354.00</td>
+                <td>5399.00</td>
+                <td><a href="lfk3-Apple_A11_iPhone_X_2017.txt">Text</a></td>
+                <td><a href="lfk3-Apple_A11_iPhone_X_2017.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Apple M1 Max</td>
+                <td>4697.00</td>
+                <td>38013.00</td>
+                <td><a href="lfk3-Apple_M1_Max_Mac_Studio.txt">Text</a></td>
+                <td><a href="lfk3-Apple_M1_Max_Mac_Studio.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Samsung Galaxy S7 / Exynos 8890</td>
+                <td>671.00</td>
+                <td>3738.00</td>
+                <td><a href="lfk3-Samsung_Galaxy_S7_Exynos_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Samsung_Galaxy_S7_Exynos_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium III 500 MHz</td>
+                <td>116.00</td>
+                <td>116.00</td>
+                <td><a href="lfk3-Intel_Pentium_III_500_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_III_500_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Athlon(tm) processor 1000 MHz</td>
+                <td>326.00</td>
+                <td>326.00</td>
+                <td><a href="lfk3-AMD_Athlon_1000_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Athlon_1000_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 9 9950X 16-Core Processor</td>
+                <td>7466.00</td>
+                <td>129105.00</td>
+                <td><a href="lfk3-AMD_Ryzen_9_9950X_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_9_9950X_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM)2 Duo CPU     E8400  @ 3.00GHz</td>
+                <td>1309.00</td>
+                <td>2612.00</td>
+                <td><a href="lfk3-Intel_Core_2_Duo_E8400_3.00GHz_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_2_Duo_E8400_3.00GHz_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Raspberry Pi 2 / BCM2836 / Cortex A7 @ 900 MHz</td>
+                <td>136.00</td>
+                <td>539.00</td>
+                <td><a href="lfk3-Raspberry_Pi_2_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Raspberry_Pi_2_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium III 866 MHz</td>
+                <td>228.00</td>
+                <td>228.00</td>
+                <td><a href="lfk3-Intel_Pentium_III_866_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_III_866_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD EPYC 9254 24-Core Processor</td>
+                <td>4279.00</td>
+                <td>129616.00</td>
+                <td><a href="lfk3-AMD_EPYC_9254_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_EPYC_9254_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium III 800 MHz</td>
+                <td>210.00</td>
+                <td>210.00</td>
+                <td><a href="lfk3-Intel_Pentium_III_800_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_III_800_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Samsung Galaxy S23 / Qualcomm SM8550-AC</td>
+                <td>4441.00</td>
+                <td>14654.00</td>
+                <td><a href="lfk3-Samsung_Galaxy_S23_Qualcomm_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Samsung_Galaxy_S23_Qualcomm_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM)2 Duo CPU     E8600  @ 3.33GHz</td>
+                <td>1450.00</td>
+                <td>2896.00</td>
+                <td><a href="lfk3-Intel_Core_2_Duo_E8600_3.33GHz_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_2_Duo_E8600_3.33GHz_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>VIA C7 Processor 1500MHz</td>
+                <td>155.00</td>
+                <td>155.00</td>
+                <td><a href="lfk3-VIA_C7_1500_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-VIA_C7_1500_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Pentium(R) M processor 1.20GHz</td>
+                <td>374.00</td>
+                <td>374.00</td>
+                <td><a href="lfk3-Intel_Pentium_M_1200_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_M_1200_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Apple A9X / iPad Pro</td>
+                <td>1687.00</td>
+                <td>3153.00</td>
+                <td><a href="lfk3-Apple_A9X_iPad_Pro_2015.txt">Text</a></td>
+                <td><a href="lfk3-Apple_A9X_iPad_Pro_2015.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Xeon(R) CPU E3-1270 v3 @ 3.50GHz</td>
+                <td>2818.00</td>
+                <td>14105.00</td>
+                <td><a href="lfk3-Intel_Xeon_E3_1270v3_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Xeon_E3_1270v3_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD EPYC 7401P 24-Core Processor</td>
+                <td>2737.00</td>
+                <td>69657.00</td>
+                <td><a href="lfk3-AMD_EPYC_7401P_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_EPYC_7401P_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Celeron 266 MHz</td>
+                <td>50.80</td>
+                <td>50.80</td>
+                <td><a href="lfk3-Intel_Celeron_266_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Celeron_266_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Apple M3 / iPad Air</td>
+                <td>6098.00</td>
+                <td>18976.00</td>
+                <td><a href="lfk3-Apple_M3_iPad_Air.txt">Text</a></td>
+                <td><a href="lfk3-Apple_M3_iPad_Air.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i9-14900K</td>
+                <td>7256.00</td>
+                <td>128782.00</td>
+                <td><a href="lfk3-Intel_Core_i9_14900K_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i9_14900K_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 5 4500U with Radeon Graphics</td>
+                <td>3731.00</td>
+                <td>16533.00</td>
+                <td><a href="lfk3-AMD_Ryzen_5_4500U_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_5_4500U_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) Ultra 7 258V</td>
+                <td>4928.00</td>
+                <td>33948.00</td>
+                <td><a href="lfk3-Intel_Core_Ultra_7_258V_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_Ultra_7_258V_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium 166 MHz MMX</td>
+                <td>22.20</td>
+                <td>22.20</td>
+                <td><a href="lfk3-Intel_Pentium_166_MHz_MMX_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_166_MHz_MMX_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium II 266 MHz</td>
+                <td>61.50</td>
+                <td>61.50</td>
+                <td><a href="lfk3-Intel_Pentium_II_266_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_II_266_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz</td>
+                <td>4167.00</td>
+                <td>48467.00</td>
+                <td><a href="lfk3-Intel_Core_i9_10900K_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i9_10900K_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Pentium(R) M processor 1.80GHz</td>
+                <td>561.00</td>
+                <td>561.00</td>
+                <td><a href="lfk3-Intel_Pentium_M_1800_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_M_1800_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 5 5600U with Radeon Graphics</td>
+                <td>4064.00</td>
+                <td>17935.00</td>
+                <td><a href="lfk3-AMD_Ryzen_5_5600U_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_5_5600U_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Samsung Galaxy S6 / Exynos 7420</td>
+                <td>486.00</td>
+                <td>3097.00</td>
+                <td><a href="lfk3-Samsung_Galaxy_S6_Exynos_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Samsung_Galaxy_S6_Exynos_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i3-9100 CPU @ 3.60GHz</td>
+                <td>3026.00</td>
+                <td>11535.00</td>
+                <td><a href="lfk3-Intel_Core_i3_9100_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i3_9100_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i9-12900K</td>
+                <td>6638.00</td>
+                <td>80137.00</td>
+                <td><a href="lfk3-Intel_Core_i9_12900K_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i9_12900K_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i5-7300U CPU @ 2.60GHz</td>
+                <td>2847.00</td>
+                <td>7216.00</td>
+                <td><a href="lfk3-Intel_Core_i5_7300U_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i5_7300U_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz</td>
+                <td>2867.00</td>
+                <td>14045.00</td>
+                <td><a href="lfk3-Intel_Core_i7_4770_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i7_4770_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>2x Intel(R) Xeon(R) CPU E5-2680 v4 @ 2.40GHz</td>
+                <td>2696.00</td>
+                <td>84800.00</td>
+                <td><a href="lfk3-2x_Intel_Xeon_E5_2680v4_Linux.txt">Text</a></td>
+                <td><a href="lfk3-2x_Intel_Xeon_E5_2680v4_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz</td>
+                <td>3602.00</td>
+                <td>24552.00</td>
+                <td><a href="lfk3-Intel_Core_i7_8700_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i7_8700_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Athlon(tm) processor 800 MHz</td>
+                <td>249.00</td>
+                <td>249.00</td>
+                <td><a href="lfk3-AMD_Athlon_800_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Athlon_800_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Pentium(R) 4 CPU 2.80GHz</td>
+                <td>617.00</td>
+                <td>617.00</td>
+                <td><a href="lfk3-Intel_Pentium_4_2800_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_4_2800_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Atom(TM) CPU N280   @ 1.66GHz</td>
+                <td>192.00</td>
+                <td>316.00</td>
+                <td><a href="lfk3-Intel_Atom_N280_1.66_GHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Atom_N280_1.66_GHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i9-11900K @ 3.50GHz</td>
+                <td>4311.00</td>
+                <td>39282.00</td>
+                <td><a href="lfk3-Intel_Core_i9_11900K_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i9_11900K_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen Threadripper 2990WX 32-Core Processor</td>
+                <td>3604.00</td>
+                <td>117690.00</td>
+                <td><a href="lfk3-AMD_Threadripper_2990WX_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Threadripper_2990WX_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium 100 MHz</td>
+                <td>11.80</td>
+                <td>11.80</td>
+                <td><a href="lfk3-Intel_Pentium_100_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_100_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>NVIDIA Grace</td>
+                <td>4265.00</td>
+                <td>311082.00</td>
+                <td><a href="lfk3-NVIDIA_Grace_72_Core_Linux.txt">Text</a></td>
+                <td><a href="lfk3-NVIDIA_Grace_72_Core_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 5 PRO 5650U with Radeon Graphics</td>
+                <td>4322.00</td>
+                <td>23387.00</td>
+                <td><a href="lfk3-AMD_Ryzen_5_5650U_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_5_5650U_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Apple M2 Ultra</td>
+                <td>5188.00</td>
+                <td>93136.00</td>
+                <td><a href="lfk3-Apple_M2_Ultra_Mac_Studio.txt">Text</a></td>
+                <td><a href="lfk3-Apple_M2_Ultra_Mac_Studio.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD EPYC 9454P 48-Core Processor</td>
+                <td>4275.00</td>
+                <td>223113.00</td>
+                <td><a href="lfk3-AMD_EPYC_9454P_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_EPYC_9454P_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Raspberry Pi 4 / BCM2711 / Cortex A72 @ 1.50 GHz</td>
+                <td>1008.00</td>
+                <td>3532.00</td>
+                <td><a href="lfk3-Raspberry_Pi_4_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Raspberry_Pi_4_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel 486DX2-66 MHz</td>
+                <td>2.41</td>
+                <td>2.41</td>
+                <td><a href="lfk3-486-DX2-66_Linux.txt">Text</a></td>
+                <td><a href="lfk3-486-DX2-66_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Raspberry Pi 3 / BCM2837 / Cortex A53 @ 1.20GHz</td>
+                <td>267.00</td>
+                <td>1013.00</td>
+                <td><a href="lfk3-Raspberry_Pi_3_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Raspberry_Pi_3_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Xeon(R) CPU E5-1650 v3 @ 3.50GHz</td>
+                <td>2734.00</td>
+                <td>20515.00</td>
+                <td><a href="lfk3-Intel_Xeon_E5_1650v3_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Xeon_E5_1650v3_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium II 300 MHz</td>
+                <td>66.20</td>
+                <td>66.20</td>
+                <td><a href="lfk3-Intel_Pentium_II_300_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_II_300_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Raspberry Pi 1 / BCM2835 / ARM11(ARMv6) @ 700 MHz</td>
+                <td>61.40</td>
+                <td>61.40</td>
+                <td><a href="lfk3-Raspberry_Pi_1_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Raspberry_Pi_1_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Samsung Galaxy S9 / Exynos 9810</td>
+                <td>1081.00</td>
+                <td>7986.00</td>
+                <td><a href="lfk3-Samsung_Galaxy_S9_Exynos_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Samsung_Galaxy_S9_Exynos_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i9-13900</td>
+                <td>6821.00</td>
+                <td>70926.00</td>
+                <td><a href="lfk3-Intel_Core_i9_13900_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i9_13900_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i5-4300U CPU @ 1.90GHz</td>
+                <td>2134.00</td>
+                <td>4894.00</td>
+                <td><a href="lfk3-Intel_Core_i5_4300U_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i5_4300U_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium III 667 MHz</td>
+                <td>170.00</td>
+                <td>170.00</td>
+                <td><a href="lfk3-Intel_Pentium_III_667_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_III_667_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Pentium(R) M processor 1.00GHz</td>
+                <td>311.00</td>
+                <td>311.00</td>
+                <td><a href="lfk3-Intel_Pentium_M_1000_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_M_1000_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i3-2120 CPU @ 3.30GHz</td>
+                <td>2041.00</td>
+                <td>5273.00</td>
+                <td><a href="lfk3-Intel_Core_i3_2120_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i3_2120_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Celeron 300 MHz</td>
+                <td>54.10</td>
+                <td>54.10</td>
+                <td><a href="lfk3-Intel_Celeron_300_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Celeron_300_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM)2 Duo CPU          E6600  @ 2.40GHz</td>
+                <td>980.00</td>
+                <td>1955.00</td>
+                <td><a href="lfk3-Intel_Core_2_Duo_E6600_2.40GHz_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_2_Duo_E6600_2.40GHz_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Apple M1 / Mac Mini</td>
+                <td>4598.00</td>
+                <td>23569.00</td>
+                <td><a href="lfk3-Apple_M1_Mac_Mini.txt">Text</a></td>
+                <td><a href="lfk3-Apple_M1_Mac_Mini.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium II 350 MHz</td>
+                <td>80.90</td>
+                <td>80.90</td>
+                <td><a href="lfk3-Intel_Pentium_II_350_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_II_350_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM)2 Duo CPU     E8300  @ 2.83GHz</td>
+                <td>1236.00</td>
+                <td>2463.00</td>
+                <td><a href="lfk3-Intel_Core_2_Duo_E8300_2.83GHz_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_2_Duo_E8300_2.83GHz_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD K6-2 500 MHz</td>
+                <td>54.90</td>
+                <td>54.90</td>
+                <td><a href="lfk3-AMD_K6-2-500-MHz-Linux32.txt">Text</a></td>
+                <td><a href="lfk3-AMD_K6-2-500-MHz-Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Samsung Galaxy S21 / Qualcomm Snapdragon 888</td>
+                <td>2063.00</td>
+                <td>11691.00</td>
+                <td><a href="lfk3-Samsung_Galaxy_S21_Qualcomm_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Samsung_Galaxy_S21_Qualcomm_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM)2 Duo CPU          E6300  @ 1.86GHz</td>
+                <td>755.00</td>
+                <td>1472.00</td>
+                <td><a href="lfk3-Intel_Core_2_Duo_E6300_1.86GHz_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_2_Duo_E6300_1.86GHz_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Pentium(R) 4 CPU 3.00GHz</td>
+                <td>630.00</td>
+                <td>714.00</td>
+                <td><a href="lfk3-Intel_Pentium_4_HT_3.00GHz_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_4_HT_3.00GHz_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium 200 MHz MMX</td>
+                <td>23.80</td>
+                <td>23.80</td>
+                <td><a href="lfk3-Intel_Pentium_200_MHz_MMX_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_200_MHz_MMX_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Apple A16 / T8120-64bit</td>
+                <td>4570.00</td>
+                <td>12314.00</td>
+                <td><a href="lfk3-Apple_A16_iPhone_14_Pro_2022.txt">Text</a></td>
+                <td><a href="lfk3-Apple_A16_iPhone_14_Pro_2022.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Pentium(R) M processor 1.60GHz</td>
+                <td>499.00</td>
+                <td>499.00</td>
+                <td><a href="lfk3-Intel_Pentium_M_1600_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_M_1600_MHz_Linux32.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 9 5950X 16-Core Processor</td>
+                <td>4779.00</td>
+                <td>77758.00</td>
+                <td><a href="lfk3-AMD_Ryzen_9_5950X_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_9_5950X_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>AMD Ryzen 9 7900 12-Core Processor</td>
+                <td>5744.00</td>
+                <td>76926.00</td>
+                <td><a href="lfk3-AMD_Ryzen_9_7900_Linux.txt">Text</a></td>
+                <td><a href="lfk3-AMD_Ryzen_9_7900_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Samsung Galaxy S8 / Exynos 8895</td>
+                <td>997.00</td>
+                <td>4253.00</td>
+                <td><a href="lfk3-Samsung_Galaxy_S8_Exynos_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Samsung_Galaxy_S8_Exynos_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Apple A14 / T8101-64bit</td>
+                <td>3356.00</td>
+                <td>8974.00</td>
+                <td><a href="lfk3-Apple_A14_iPhone_12_mini_2020.txt">Text</a></td>
+                <td><a href="lfk3-Apple_A14_iPhone_12_mini_2020.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Apple A9 / iPhone 6SE</td>
+                <td>1431.00</td>
+                <td>2501.00</td>
+                <td><a href="lfk3-Apple_A9_iPhone_6SE_2016.txt">Text</a></td>
+                <td><a href="lfk3-Apple_A9_iPhone_6SE_2016.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel(R) Core(TM) i3-4150 CPU @ 3.50GHz</td>
+                <td>2589.00</td>
+                <td>6705.00</td>
+                <td><a href="lfk3-Intel_Core_i3_4150_Linux.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Core_i3_4150_Linux.html">Html</a></td>
+            </tr>
+            <tr>
+                <td>Intel Pentium II 233 MHz</td>
+                <td>53.80</td>
+                <td>53.80</td>
+                <td><a href="lfk3-Intel_Pentium_II_233_MHz_Linux32.txt">Text</a></td>
+                <td><a href="lfk3-Intel_Pentium_II_233_MHz_Linux32.html">Html</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
